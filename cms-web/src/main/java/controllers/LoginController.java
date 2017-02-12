@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView login(@RequestParam String name) {
+	public ModelAndView login() {
 
 		return new ModelAndView("loginRedirect");
 	}
