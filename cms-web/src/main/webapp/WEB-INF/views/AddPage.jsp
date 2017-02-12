@@ -14,8 +14,8 @@
 <title>Add Page</title>
 
 <!-- Bootstrap core CSS -->
-<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="../main.css" rel="stylesheet">
+<link href="../html/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../html/main.css" rel="stylesheet">
 
 <script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
 <script>
@@ -122,6 +122,6 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<script src="../html/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

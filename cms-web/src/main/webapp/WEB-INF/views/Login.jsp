@@ -14,7 +14,7 @@
 <title>Signin to CMS</title>
 
 <!-- Bootstrap core CSS -->
-<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../html/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <style type="text/css">
 .form-signin .form-signin-heading, .form-signin .checkbox {
 	margin-bottom: 10px;
@@ -77,7 +77,7 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<script src="../html/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
 

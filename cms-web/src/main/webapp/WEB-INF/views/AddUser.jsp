@@ -14,8 +14,8 @@
 <title>User management</title>
 
 <!-- Bootstrap core CSS -->
-<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="../main.css" rel="stylesheet">
+<link href="../html/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../html/main.css" rel="stylesheet">
 </head>
 
 <body>
