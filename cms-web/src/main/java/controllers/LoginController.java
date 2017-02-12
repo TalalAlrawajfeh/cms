@@ -12,7 +12,7 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login() {
 
-		return new ModelAndView("loginRedirect");
+		return new ModelAndView("Login");
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)

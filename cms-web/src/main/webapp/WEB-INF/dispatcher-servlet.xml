@@ -19,8 +19,4 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 			<value>.jsp</value>
 		</property>
 	</bean>
-
-	<bean id="loginRedirect" class="org.springframework.web.servlet.view.RedirectView">
-		<property name="url" value="Login.jsp" />
-	</bean>
 </beans>
