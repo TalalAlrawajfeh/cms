@@ -14,7 +14,9 @@
 <title>Signin to CMS</title>
 
 <!-- Bootstrap core CSS -->
-<link href="../html/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+	rel="stylesheet">
 <style type="text/css">
 .form-signin .form-signin-heading, .form-signin .checkbox {
 	margin-bottom: 10px;
@@ -58,13 +60,13 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-10 col-sm-4 col-sm-offset-4">
-				<form class="form-signin">
+				<form action="./login" method="post" class="form-signin">
 					<h2 class="form-signin-heading">Please sign in to CMS</h2>
-					<label for="inputEmail" class="sr-only">Username</label> <input
-						type="text" id="inputEmail" class="form-control"
+					<label class="sr-only">Username</label> <input type="text"
+						id="username" name="username" class="form-control"
 						placeholder="Username" required autofocus> <label
-						for="inputPassword" class="sr-only">Password</label> <input
-						type="password" id="inputPassword" class="form-control"
+						class="sr-only">Password</label> <input type="password"
+						id="password" name="password" class="form-control"
 						placeholder="Password" required>
 					<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
 						in</button>
@@ -77,7 +79,8 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="../html/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 </body>
 </html>
 

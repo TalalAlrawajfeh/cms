@@ -16,7 +16,8 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView login(@RequestParam String name, @RequestParam String password) {
-		return null;
+	public ModelAndView login(@RequestParam String username, @RequestParam String password) {
+
+		return new ModelAndView("Login");
 	}
 }
