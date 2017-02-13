@@ -6,7 +6,18 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class CopyUtil {
-	public static <D, S> void CopyFields(D destination, S source) {
+	public static <D, S> D createAndCopyFields(Class<D> destionationClass, S source) {
+		try {
+			D destination = destionationClass.newInstance();
+			copyFields(destination, source);
+			return destination;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+	public static <D, S> void copyFields(D destination, S source) {
 		Stream.of(source.getClass().getDeclaredFields()).forEach(f -> {
 			Method getter = findMethodByName(source.getClass(), getFieldGetterName(f));
 			Method setter = findMethodByName(destination.getClass(), getFieldSetterName(f));
