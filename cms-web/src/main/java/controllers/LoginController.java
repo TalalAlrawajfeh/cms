@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import beans.User;
 import entities.UserEntity;
 import persistence.UserRepository;
+import utils.CopyUtil;
+import utils.HashUtil;
 
 @Controller
 public class LoginController {
@@ -22,27 +24,25 @@ public class LoginController {
 	private UserRepository userRepository;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public ModelAndView login() {
+	public ModelAndView login(HttpServletRequest req, HttpServletResponse resp) {
+		if (Objects.nonNull(req.getSession().getAttribute("user"))) {
+			return new ModelAndView("UserManagement");
+		}
 		return new ModelAndView("Login");
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView login(HttpServletRequest req, HttpServletResponse resp, @RequestParam String username,
 			@RequestParam String password) {
-		// ApplicationContext context = new
-		// ClassPathXmlApplicationContext("spring.xml");
-		// userRepository = context.getBean(UserRepository.class);
 
 		UserEntity userEntity = userRepository.findByUsername(username);
-		if (Objects.isNull(userEntity)) {
-			System.out.println("null");
+		if (Objects.nonNull(userEntity)) {
+			if (password.equalsIgnoreCase(HashUtil.hashString(password))) {
+				User user = CopyUtil.createAndCopyFields(User.class, userEntity);
+				req.getSession(true).setAttribute("user", user);
+				return new ModelAndView("UserManagement");
+			}
 		}
-
-		User user = new User();
-		user.setUsername(username);
-		user.setHashedPassword(password);
-
-		req.getSession().setAttribute("user", user);
 		return new ModelAndView("Login");
 	}
 }

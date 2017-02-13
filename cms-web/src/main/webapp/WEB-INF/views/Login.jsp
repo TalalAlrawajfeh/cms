@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=windows-1256"
 	pageEncoding="windows-1256"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -14,8 +15,7 @@
 <title>Signin to CMS</title>
 
 <!-- Bootstrap core CSS -->
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+<link href="<c:url value="html/bootsrap/css/bootstrap.min.css"/>"
 	rel="stylesheet">
 <style type="text/css">
 .form-signin .form-signin-heading, .form-signin .checkbox {
@@ -79,8 +79,7 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+	<script src="<c:url value="/html/bootstrap/js/bootstrap.min.js"/>"></script>
 </body>
 </html>
 

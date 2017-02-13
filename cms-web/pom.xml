@@ -84,5 +84,23 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.3.4.Final</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/jstl/jstl -->
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/taglibs/standard -->
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
 	</dependencies>
 </project>
