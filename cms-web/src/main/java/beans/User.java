@@ -1,9 +1,13 @@
 package beans;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
+import utils.HashUtil;
+
+/**
+ * @author u624
+ *
+ */
 public class User implements Serializable {
 	private static final long serialVersionUID = 2561036855901068794L;
 
@@ -32,31 +36,8 @@ public class User implements Serializable {
 		this.passwordHashCode = passwordHashCode;
 	}
 
-	public void hashPassword(String password) {
-		try {
-			MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-			sha256.update(password.getBytes());
-			passwordHashCode = convertByteArrayToHexString(sha256.digest());
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-	}
-
-	private String convertByteArrayToHexString(byte[] byteArray) {
-		StringBuilder hexString = new StringBuilder();
-		for (int i = 0; i < byteArray.length; i++) {
-			hexString.append(byteToHexCode(byteArray[i]));
-		}
-		return hexString.toString();
-	}
-
-	public String byteToHexCode(byte value) {
-		String hexCode = Integer.toString(Byte.toUnsignedInt(value), 16);
-		if (hexCode.length() == 1) {
-			hexCode = "0" + hexCode;
-		}
-		return hexCode;
+	public void setHashedPassword(String password) {
+		passwordHashCode = HashUtil.hashString(password);
 	}
 
 	public String getFullName() {
@@ -77,5 +58,11 @@ public class User implements Serializable {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", passwordHashCode=" + passwordHashCode + ", fullName=" + fullName
+				+ ", enabled=" + enabled + "]";
 	}
 }

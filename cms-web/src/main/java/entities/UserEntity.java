@@ -11,7 +11,7 @@ public class UserEntity implements Serializable {
 
 	@Id
 	private String username;
-	private String password;
+	private String passwordHashCode;
 	private String fullName;
 	private Boolean enabled;
 
@@ -27,12 +27,12 @@ public class UserEntity implements Serializable {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getPasswordHashCode() {
+		return passwordHashCode;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPasswordHashCode(String passwordHashCode) {
+		this.passwordHashCode = passwordHashCode;
 	}
 
 	public String getFullName() {
@@ -51,7 +51,9 @@ public class UserEntity implements Serializable {
 		this.enabled = enabled;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	@Override
+	public String toString() {
+		return "UserEntity [username=" + username + ", password=" + passwordHashCode + ", fullName=" + fullName
+				+ ", enabled=" + enabled + "]";
 	}
 }
