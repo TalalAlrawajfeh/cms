@@ -8,14 +8,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>Signin to CMS</title>
+<title>Sign in to CMS</title>
 
-<!-- Bootstrap core CSS -->
-<link href="<c:url value="html/bootsrap/css/bootstrap.min.css"/>"
+<link
+	href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />"
 	rel="stylesheet">
 <style type="text/css">
 .form-signin .form-signin-heading, .form-signin .checkbox {
@@ -56,8 +55,14 @@
 </head>
 
 <body>
-
 	<div class="container">
+		<c:if test="${showError == true}">
+			<div class="row">
+				<div class="alert alert-danger">
+					<strong>Error!</strong> ${errorMessage}
+				</div>
+			</div>
+		</c:if>
 		<div class="row">
 			<div class="col-xs-10 col-sm-4 col-sm-offset-4">
 				<form action="./login" method="post" class="form-signin">
@@ -74,12 +79,11 @@
 			</div>
 		</div>
 	</div>
-	<!-- /container -->
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="<c:url value="/html/bootstrap/js/bootstrap.min.js"/>"></script>
+	<script
+		src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
 </body>
 </html>
 
