@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=windows-1256"
 	pageEncoding="windows-1256"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -14,8 +15,10 @@
 <title>User management</title>
 
 <!-- Bootstrap core CSS -->
-<link href="../html/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="../html/main.css" rel="stylesheet">
+<link
+	href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />"
+	rel="stylesheet">
+<link href="<c:url value="/resources/main.css" />" rel="stylesheet">
 </head>
 
 <body>
@@ -60,30 +63,41 @@
 			</div>
 			<div class="col-sm-9 col-sm-offset-2">
 				<h1 class="page-header">Edit user</h1>
-				<form class="form-horizontal">
+				<form class="form-horizontal" action="./edit-user" method="post">
+					<input type="hidden" value="" id="action" name="action">
 					<div class="col-xs-12 col-sm-8">
 						<div class="row form-group">
 							<label class="col-xs-12 col-sm-2">Name</label>
 							<div class="col-xs-12 col-sm-6">
-								<input type="text" id="name" class="form-control"
-									placeholder="Name" required autofocus>
+								<input type="text" id="name" value="${managedUser.fullName}"
+									class="form-control" placeholder="Name" required autofocus>
 							</div>
 						</div>
 						<div class="row form-group">
 							<label class="col-xs-12 col-sm-2">Username</label>
 							<div class="col-xs-12 col-sm-6">
-								<input type="text" id="username" class="form-control"
-									placeholder="Username" required autofocus>
+								<input type="text" id="username" value="${managedUser.username}"
+									class="form-control" placeholder="Username" required autofocus>
 							</div>
 						</div>
 						<div class="row form-group">
 							<div class="col-xs-12 col-sm-10 col-sm-offset-2">
-								<button type="button" class="btn btn-info">Reset</button>
+								<button type="button" class="btn btn-info"
+									onclick="document.getElementById('action').value='reset';">Reset</button>
 								&nbsp;
-								<button type="button" class="btn btn-danger">Disable</button>
+								<c:if test="${managedUser.enabled.booleanValue()}">
+									<button type="button" class="btn btn-danger"
+										onclick="document.getElementById('action').value='disable';">Disable</button>
+								</c:if>
+								<c:if test="${not managedUser.enabled.booleanValue()}">
+									<button type="button" class="btn btn-danger"
+										onclick="document.getElementById('action').value='enable';">Enable</button>
+								</c:if>
 								&nbsp;
-								<button type="button" class="btn btn-primary">Save</button>
-								&nbsp; <a href="./UserManagement.html" class="btn btn-danger">Cancel</a>&nbsp;
+								<button type="button" class="btn btn-primary"
+									onclick="document.getElementById('action').value='save';">Save</button>
+								&nbsp; <a href="./UserManagement.html" class="btn btn-danger"
+									onclick="document.getElementById('action').value='cancel';">Cancel</a>&nbsp;
 							</div>
 						</div>
 					</div>
@@ -96,7 +110,8 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="../html/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
 </body>
 </html>
 

@@ -45,6 +45,10 @@ public class UserEntity implements Serializable {
 		this.fullName = fullName;
 	}
 
+	public Boolean isEnabled() {
+		return enabled;
+	}
+
 	public Boolean getEnabled() {
 		return enabled;
 	}

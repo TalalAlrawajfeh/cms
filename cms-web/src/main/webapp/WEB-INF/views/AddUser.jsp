@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=windows-1256"
 	pageEncoding="windows-1256"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -14,8 +15,10 @@
 <title>User management</title>
 
 <!-- Bootstrap core CSS -->
-<link href="../html/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="../html/main.css" rel="stylesheet">
+<link
+	href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />"
+	rel="stylesheet">
+<link href="<c:url value="/resources/main.css" />" rel="stylesheet">
 </head>
 
 <body>
@@ -35,7 +38,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false"><i class="glyphicon glyphicon-user"></i>Admin<span
+					aria-expanded="false"><i class="glyphicon glyphicon-user"></i>${currentUser.username}<span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="#"><i class="glyphicon glyphicon-pencil"></i>Change
@@ -59,20 +62,20 @@
 			</div>
 			<div class="col-sm-9 col-sm-offset-2">
 				<h1 class="page-header">Add user</h1>
-				<form>
+				<form method="post" action="./add-user">
 					<div class="col-xs-12 col-sm-8">
 						<div class="row">
 							<div class="col-xs-12 col-sm-2">Name</div>
 							<div class="col-xs-12 col-sm-6">
-								<input type="text" id="name" class="form-control"
-									placeholder="Name" required autofocus>
+								<input type="text" id="fullName" name="fullName"
+									class="form-control" placeholder="Full Name" required autofocus>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-12 col-sm-2">Username</div>
 							<div class="col-xs-12 col-sm-6">
-								<input type="text" id="username" class="form-control"
-									placeholder="Username" required autofocus>
+								<input type="text" id="username" name="username"
+									class="form-control" placeholder="Username" required autofocus>
 							</div>
 						</div>
 						<div class="row">

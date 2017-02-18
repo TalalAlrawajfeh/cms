@@ -11,4 +11,6 @@
 
 	<bean id="loginUseCase" class="usecases.LoginUseCase" />
 	<bean id="userManagementUserCase" class="usecases.UserManagementUseCase" />
+	<bean id="editUserUseCase" class="usecases.EditUserUseCase" />
+	<bean id="addUserUseCase" class="usecases.AddUserUseCase" />
 </beans>

@@ -65,7 +65,7 @@
 				<h1 class="page-header">User management</h1>
 				<div class="col-xs-12">
 					<div class="pull-right">
-						<a class="btn btn-info" href="./AddUser.html">Add User</a>
+						<a class="btn btn-info" href="./add-user">Add User</a>
 					</div>
 				</div>
 				<div class="col-xs-12">
@@ -76,18 +76,20 @@
 							<th></th>
 						</thead>
 						<tbody>
-							<tr>
-								<td>Admin</td>
-								<td>admin</td>
-								<td><a href="./EditUser.html" class="btn btn-primary">Manage</a>
-								</td>
-							</tr>
-							<tr>
-								<td>Mohammad</td>
-								<td>mohammad</td>
-								<td><a href="./EditUser.html" class="btn btn-primary">Manage</a>
-								</td>
-							</tr>
+							<c:forEach items="${users}" var="user">
+								<tr>
+									<td>${user.fullName}</td>
+									<td>${user.username}</td>
+									<c:choose>
+										<c:when test="${user.username == 'admin'}">
+										</c:when>
+										<c:otherwise>
+											<td><a href="./edit-user?username=${user.username}"
+												class="btn btn-primary">Manage</a></td>
+										</c:otherwise>
+									</c:choose>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>
