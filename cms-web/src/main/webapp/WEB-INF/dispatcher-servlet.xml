@@ -23,6 +23,10 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 		</property>
 	</bean>
 
+	<mvc:interceptors>
+		<bean class="interceptors.LoginCheckInterceptor" />
+	</mvc:interceptors>
+
 	<mvc:resources mapping="/resources/**" location="/resources/html/" />
 	<mvc:annotation-driven />
 </beans>

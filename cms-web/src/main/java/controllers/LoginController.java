@@ -29,7 +29,7 @@ public class LoginController {
 	private static final String USER_RETURNED_TO_LOGIN_PAGE_LOG = " has returned to login page and will be redirected to user management page";
 	private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
 	private static final String USER_HAS_LOGGED_IN_LOG = " has logged in";
-	private static final String USER_MANAGEMENT_PAGE = "UserManagement";
+	private static final String USER_MANAGEMENT_PAGE = "redirect:/user-management";
 	private static final String LOGIN_CONTROLLER_URL = "/login";
 	private static final String ERROR_MESSAGE = "errorMessage";
 	private static final String USER_STRING = "User ";

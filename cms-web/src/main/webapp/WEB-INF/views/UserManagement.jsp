@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=windows-1256"
 	pageEncoding="windows-1256"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -14,8 +15,10 @@
 <title>User management</title>
 
 <!-- Bootstrap core CSS -->
-<link href="../html/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<link href="../html/main.css" rel="stylesheet">
+<link
+	href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />"
+	rel="stylesheet">
+<link href="<c:url value="/resources/main.css" />" rel="stylesheet">
 </head>
 
 <body>
@@ -35,7 +38,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false"><i class="glyphicon glyphicon-user"></i>Admin<span
+					aria-expanded="false"><i class="glyphicon glyphicon-user"></i>${currentUser.username}<span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="./ChangePassword.html"><i
@@ -96,7 +99,8 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script src="../html/bootstrap/js/bootstrap.min.js"></script>
+	<script
+		src="<c:url value="/resources/bootstrap/js/bootstrap.min.js" />"></script>
 </body>
 </html>
 

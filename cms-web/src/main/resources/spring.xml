@@ -10,4 +10,5 @@
 	<import resource="./appconfig-data.xml" />
 
 	<bean id="loginUseCase" class="usecases.LoginUseCase" />
+	<bean id="userManagementUserCase" class="usecases.UserManagementUseCase" />
 </beans>
