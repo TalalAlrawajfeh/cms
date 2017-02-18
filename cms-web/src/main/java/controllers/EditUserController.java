@@ -26,7 +26,9 @@ public class EditUserController {
 		}
 
 		// TODO: EDIT USER LOGIC & VIEW
-
+		// TODO: Check if username is not duplicate in add user or here
+		// TODO: Add password input in add user
+		
 		managedUser = editUserUserCase.getUserFromUsername(username);
 		req.setAttribute("managedUser", managedUser);
 		return new ModelAndView("EditUser");
