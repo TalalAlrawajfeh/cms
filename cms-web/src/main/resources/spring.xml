@@ -13,4 +13,6 @@
 	<bean id="userManagementUserCase" class="usecases.UserManagementUseCase" />
 	<bean id="editUserUseCase" class="usecases.EditUserUseCase" />
 	<bean id="addUserUseCase" class="usecases.AddUserUseCase" />
+	<bean id="firstTimeAdminCreator" class="initializers.FirstTimeAdminCreator"
+		init-method="createAdminIfNotExists" />
 </beans>
