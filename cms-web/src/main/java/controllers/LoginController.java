@@ -43,6 +43,7 @@ public class LoginController {
 	{
 		causeMap.put(InvalidUserCause.INVALID_PASSWORD,
 				(username) -> logger.warn(USER_STRING + username + FAILED_TO_LOGIN_INCORRECT_PASSWORD_LOG));
+		
 		causeMap.put(InvalidUserCause.USER_NOT_FOUND,
 				(username) -> logger.info(ATTEMPT_TO_LOGIN_WITH_UNKNOWN_USER_LOG + username));
 	}
@@ -69,11 +70,13 @@ public class LoginController {
 
 		try {
 			User user = loginUseCase.validateUser(username, password);
+			
 			if (user.isEnabled()) {
 				logger.info(USER_STRING + username + USER_HAS_LOGGED_IN_LOG);
 				req.getSession(true).setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
 				return new ModelAndView(USER_MANAGEMENT_PAGE);
 			}
+			
 			req.setAttribute(ERROR_MESSAGE, DISABLED_USER_MESSAGE);
 		} catch (InvalidUserException e) {
 			logger.error(e);

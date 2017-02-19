@@ -39,6 +39,7 @@ public class AddUserController {
 	@RequestMapping(value = ADD_USER_URL, method = RequestMethod.POST)
 	public ModelAndView addUser(HttpServletRequest req, HttpServletResponse resp, @RequestParam String fullName,
 			@RequestParam String username) {
+		
 		if (addUserUseCase.userExists(username)) {
 			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
 			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, DUPLICATE_USERNAME_ERROR_MESSAGE);
