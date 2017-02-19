@@ -30,12 +30,12 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object obj) throws Exception {
 		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE_NAME);
-		
+
 		if (Objects.isNull(user) && !req.getServletPath().contains(LOGIN_URL)) {
 			resp.sendRedirect(req.getContextPath() + LOGIN_URL);
 			return false;
 		}
-		
+
 		return true;
 	}
 }
