@@ -63,41 +63,46 @@
 			</div>
 			<div class="col-sm-9 col-sm-offset-2">
 				<h1 class="page-header">Edit user</h1>
-				<form class="form-horizontal" action="./edit-user" method="post">
-					<input type="hidden" value="" id="action" name="action">
+				<form class="form-horizontal" action="./edit-user" method="post"
+					id="editForm">
+					<input type="hidden" value="" id="action" name="action"> <input
+						type="hidden" value="${managedUser.username}" id="managedUsername"
+						name="managedUsername">
 					<div class="col-xs-12 col-sm-8">
 						<div class="row form-group">
 							<label class="col-xs-12 col-sm-2">Name</label>
 							<div class="col-xs-12 col-sm-6">
-								<input type="text" id="name" value="${managedUser.fullName}"
-									class="form-control" placeholder="Name" required autofocus>
+								<input type="text" id="fullName" name="fullName"
+									value="${managedUser.fullName}" class="form-control"
+									placeholder="Name" required autofocus>
 							</div>
 						</div>
 						<div class="row form-group">
 							<label class="col-xs-12 col-sm-2">Username</label>
 							<div class="col-xs-12 col-sm-6">
-								<input type="text" id="username" value="${managedUser.username}"
-									class="form-control" placeholder="Username" required autofocus>
+								<input type="text" id="username" name="username"
+									value="${managedUser.username}" class="form-control"
+									placeholder="Username" required autofocus>
 							</div>
 						</div>
 						<div class="row form-group">
 							<div class="col-xs-12 col-sm-10 col-sm-offset-2">
 								<button type="button" class="btn btn-info"
-									onclick="document.getElementById('action').value='reset';">Reset</button>
+									onclick="document.getElementById('action').value='reset';document.getElementById('editForm').submit();">Reset</button>
 								&nbsp;
 								<c:if test="${managedUser.enabled.booleanValue()}">
 									<button type="button" class="btn btn-danger"
-										onclick="document.getElementById('action').value='disable';">Disable</button>
+										onclick="document.getElementById('action').value='disable';document.getElementById('editForm').submit();">Disable</button>
 								</c:if>
 								<c:if test="${not managedUser.enabled.booleanValue()}">
 									<button type="button" class="btn btn-danger"
-										onclick="document.getElementById('action').value='enable';">Enable</button>
+										onclick="document.getElementById('action').value='enable';document.getElementById('editForm').submit();">Enable</button>
 								</c:if>
 								&nbsp;
 								<button type="button" class="btn btn-primary"
-									onclick="document.getElementById('action').value='save';">Save</button>
-								&nbsp; <a href="./UserManagement.html" class="btn btn-danger"
-									onclick="document.getElementById('action').value='cancel';">Cancel</a>&nbsp;
+									onclick="document.getElementById('action').value='save';document.getElementById('editForm').submit();">Save</button>
+								&nbsp; <a class="btn btn-danger"
+									onclick="document.getElementById('action').value='cancel';document.getElementById('editForm').submit();">Cancel</a>&nbsp;
 							</div>
 						</div>
 					</div>

@@ -1,5 +1,7 @@
 package usecases;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import beans.User;
@@ -12,7 +14,10 @@ public class AddUserUseCase {
 	private UserRepository userRepository;
 
 	public void saveUser(User user) {
-		UserEntity userEntity = CopyUtil.createAndCopyFields(UserEntity.class, user);
-		userRepository.save(userEntity);
+		userRepository.save(CopyUtil.createAndCopyFields(UserEntity.class, user));
+	}
+
+	public boolean userExists(String username) {
+		return Objects.nonNull(userRepository.findByUsername(username));
 	}
 }

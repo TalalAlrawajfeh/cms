@@ -6,10 +6,15 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 public class CopyUtil {
+	private static final String SET_PREFIX = "set";
+	private static final String GET_PREFIX = "get";
+	private static final String IS_PREFIX = "is";
+
 	public static <D, S> D createAndCopyFields(Class<D> destionationClass, S source) {
 		try {
 			D destination = destionationClass.newInstance();
 			copyFields(destination, source);
+
 			return destination;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -35,16 +40,18 @@ public class CopyUtil {
 
 	private static String getFieldGetterName(Field field) {
 		String prefix;
+
 		if (field.getType().equals(Boolean.class) || field.getType().equals(boolean.class)) {
-			prefix = "is";
+			prefix = IS_PREFIX;
 		} else {
-			prefix = "get";
+			prefix = GET_PREFIX;
 		}
+
 		return prefix + capitalizeFirstLetter(field.getName());
 	}
 
 	private static String getFieldSetterName(Field field) {
-		return "set" + capitalizeFirstLetter(field.getName());
+		return SET_PREFIX + capitalizeFirstLetter(field.getName());
 	}
 
 	private static String capitalizeFirstLetter(String string) {

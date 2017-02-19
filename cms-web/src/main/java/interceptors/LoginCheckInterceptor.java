@@ -13,6 +13,7 @@ import beans.User;
 
 public class LoginCheckInterceptor implements HandlerInterceptor {
 	private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
+	private static final String LOGIN_URL = "/login";
 
 	@Override
 	public void afterCompletion(HttpServletRequest req, HttpServletResponse resp, Object obj, Exception ex)
@@ -29,10 +30,12 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object obj) throws Exception {
 		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE_NAME);
-		if (Objects.isNull(user) && !req.getServletPath().contains("/login")) {
-			resp.sendRedirect(req.getContextPath() + "/login");
+		
+		if (Objects.isNull(user) && !req.getServletPath().contains(LOGIN_URL)) {
+			resp.sendRedirect(req.getContextPath() + LOGIN_URL);
 			return false;
 		}
+		
 		return true;
 	}
 }

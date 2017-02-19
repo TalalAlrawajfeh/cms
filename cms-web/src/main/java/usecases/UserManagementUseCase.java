@@ -18,9 +18,11 @@ public class UserManagementUseCase {
 	public List<User> getAllUsers() {
 		Iterator<UserEntity> iterator = userRepository.findAll().iterator();
 		List<User> users = new ArrayList<>();
+		
 		while (iterator.hasNext()) {
 			users.add(CopyUtil.createAndCopyFields(User.class, iterator.next()));
 		}
+		
 		return users;
 	}
 }

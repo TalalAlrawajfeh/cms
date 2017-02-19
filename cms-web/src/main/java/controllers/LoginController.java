@@ -29,6 +29,7 @@ public class LoginController {
 	private static final String USER_RETURNED_TO_LOGIN_PAGE_LOG = " has returned to login page and will be redirected to user management page";
 	private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
 	private static final String USER_HAS_LOGGED_IN_LOG = " has logged in";
+	private static final String DISABLED_USER_MESSAGE = "The user is disabled";
 	private static final String USER_MANAGEMENT_PAGE = "redirect:/user-management";
 	private static final String LOGIN_CONTROLLER_URL = "/login";
 	private static final String ERROR_MESSAGE = "errorMessage";
@@ -68,15 +69,18 @@ public class LoginController {
 
 		try {
 			User user = loginUseCase.validateUser(username, password);
-			logger.info(USER_STRING + username + USER_HAS_LOGGED_IN_LOG);
-			req.getSession(true).setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
-			return new ModelAndView(USER_MANAGEMENT_PAGE);
+			if (user.isEnabled()) {
+				logger.info(USER_STRING + username + USER_HAS_LOGGED_IN_LOG);
+				req.getSession(true).setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
+				return new ModelAndView(USER_MANAGEMENT_PAGE);
+			}
+			req.setAttribute(ERROR_MESSAGE, DISABLED_USER_MESSAGE);
 		} catch (InvalidUserException e) {
 			logger.error(e);
 			causeMap.get(e.getInvalidUserCause()).accept(username);
+			req.setAttribute(ERROR_MESSAGE, INCORRECT_USERNAME_OR_PASSWORD_MESSAGE);
 		}
 
-		req.setAttribute(ERROR_MESSAGE, INCORRECT_USERNAME_OR_PASSWORD_MESSAGE);
 		req.setAttribute(SHOW_ERROR, true);
 		return new ModelAndView(LOGIN_PAGE);
 	}
