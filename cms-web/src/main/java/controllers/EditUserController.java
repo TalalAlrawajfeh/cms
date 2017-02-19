@@ -73,7 +73,7 @@ public class EditUserController {
 	@RequestMapping(value = EDIT_USER_URL, method = RequestMethod.POST)
 	public ModelAndView editUser(HttpServletRequest req, HttpServletResponse resp, @RequestParam String action,
 			@RequestParam String managedUsername, @RequestParam String fullName, @RequestParam String username) {
-		
+
 		if (action.equals(CANCEL_ACTION)) {
 			return new ModelAndView(REDIRECT_USER_MANAGEMENT);
 		}
