@@ -4,9 +4,10 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import beans.UserBuilder;
 import entities.UserEntity;
 import persistence.UserRepository;
-import utils.HashUtil;
+import utils.CopyUtil;
 
 public class FirstTimeAdminCreator {
 	private static final String COMPLEX_PASSWORD = "P@ssw0rd";
@@ -19,13 +20,8 @@ public class FirstTimeAdminCreator {
 		UserEntity admin = userRepository.findByUsername(ADMIN_USERNAME);
 
 		if (Objects.isNull(admin)) {
-			UserEntity userEntity = new UserEntity();
-			userEntity.setEnabled(true);
-			userEntity.setFullName(ADMIN_USERNAME);
-			userEntity.setUsername(ADMIN_USERNAME);
-			userEntity.setPasswordHashCode(HashUtil.hashString(COMPLEX_PASSWORD));
-
-			userRepository.save(userEntity);
+			userRepository.save(CopyUtil.createAndCopyFields(UserEntity.class, new UserBuilder().setEnabled(true)
+					.setFullName(ADMIN_USERNAME).setUsername(ADMIN_USERNAME).setHashedPassword(COMPLEX_PASSWORD)));
 		}
 	}
 }
