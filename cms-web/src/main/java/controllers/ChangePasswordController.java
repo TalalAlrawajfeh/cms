@@ -34,15 +34,9 @@ public class ChangePasswordController {
 
 	@RequestMapping(value = CHANGE_PASSWORD_URL, method = RequestMethod.GET)
 	public ModelAndView changePassword(HttpServletRequest req, HttpServletResponse resp) {
-		setGetRequestAttributes(req);
+		setProperAttribtutes(req, false);
 
 		return new ModelAndView(BASE_JSP);
-	}
-
-	private void setGetRequestAttributes(HttpServletRequest req) {
-		setCurrentUserAttributes(req);
-		setShowErrorAttribute(req, false);
-		setIncludedPageAttribute(req);
 	}
 
 	@RequestMapping(value = CHANGE_PASSWORD_URL, method = RequestMethod.POST)
@@ -56,7 +50,8 @@ public class ChangePasswordController {
 		User oldUser = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
 
 		if (!oldUser.getPasswordHashCode().equals(HashUtil.hashString(oldPassword))) {
-			setErrorAttributes(req);
+			setProperAttribtutes(req, true);
+			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, INCORRECT_PASSWORD_MESSAGE);
 
 			return new ModelAndView(BASE_JSP);
 		}
@@ -69,21 +64,18 @@ public class ChangePasswordController {
 		return new ModelAndView(REDIRECT_USER_MANAGEMENT);
 	}
 
-	private void setErrorAttributes(HttpServletRequest req) {
-		setCurrentUserAttributes(req);
-		setShowErrorAttribute(req, true);
+	private void setProperAttribtutes(HttpServletRequest req, boolean showErrorMessage) {
+		setCurrentUserAttribute(req);
+		setShowErrorAttribute(req, showErrorMessage);
 		setIncludedPageAttribute(req);
-		req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, INCORRECT_PASSWORD_MESSAGE);
 	}
 
 	private void setIncludedPageAttribute(HttpServletRequest req) {
 		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, CHANGE_PASSWORD_JSP);
 	}
 
-	private void setCurrentUserAttributes(HttpServletRequest req) {
-		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
-
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
+	private void setCurrentUserAttribute(HttpServletRequest req) {
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 	}
 
 	private void setShowErrorAttribute(HttpServletRequest req, boolean showError) {
