@@ -22,19 +22,24 @@ import utils.CopyUtil;
 public class EditUserController {
 	private static final String REDIRECT_EDIT_USER_WITH_USERNAME_PARAMETER = "redirect:/edit-user?username=";
 	private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
-	private static final String DUPLICATE_USERNAME_MESSAGE = "errorMessage";
 	private static final String REDIRECT_USER_MANAGEMENT = "redirect:/user-management";
 	private static final String MANAGED_USER_ATTRIBUTE = "managedUser";
+	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
+	private static final String USER_SESSION_ATTRIBUTE = "user";
+	private static final String DUPLICATE_USER_MESSAGE = "A user with the same username already exists.";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
+	private static final String INCLUDED_PAGE_JSP = "includedPage";
 	private static final String COMPLEX_PASSWORD = "P@ssw0rd";
 	private static final String DISABLE_ACTION = "disable";
 	private static final String ADMIN_USERNAME = "admin";
 	private static final String ENABLE_ACTION = "enable";
 	private static final String CANCEL_ACTION = "cancel";
+	private static final String ERROR_MESSAGE = "errorMessage";
 	private static final String EDIT_USER_JSP = "EditUser";
 	private static final String EDIT_USER_URL = "/edit-user";
 	private static final String RESET_ACTION = "reset";
 	private static final String SAVE_ACTION = "save";
+	private static final String BASE_JSP = "base";
 
 	@Autowired
 	private EditUserUseCase editUserUserCase;
@@ -65,9 +70,14 @@ public class EditUserController {
 			return new ModelAndView(REDIRECT_USER_MANAGEMENT);
 		}
 
+		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
+
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
 		req.setAttribute(MANAGED_USER_ATTRIBUTE, editUserUserCase.getUserFromUsername(username));
 		req.setAttribute(SHOW_ERROR_ATTRIBUTE, false);
-		return new ModelAndView(EDIT_USER_JSP);
+		req.setAttribute(INCLUDED_PAGE_JSP, EDIT_USER_JSP);
+
+		return new ModelAndView(BASE_JSP);
 	}
 
 	@RequestMapping(value = EDIT_USER_URL, method = RequestMethod.POST)
@@ -82,8 +92,10 @@ public class EditUserController {
 		User foundUser = editUserUserCase.getUserFromUsername(username);
 		if (Objects.nonNull(foundUser) && !oldUser.equals(foundUser)) {
 			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
-			req.setAttribute(DUPLICATE_USERNAME_MESSAGE, "A user with the same username already exists.");
-			return new ModelAndView(EDIT_USER_JSP);
+			req.setAttribute(ERROR_MESSAGE, DUPLICATE_USER_MESSAGE);
+			req.setAttribute(INCLUDED_PAGE_JSP, EDIT_USER_JSP);
+
+			return new ModelAndView(BASE_JSP);
 		}
 
 		User newUser = CopyUtil.createAndCopyFields(User.class, oldUser);

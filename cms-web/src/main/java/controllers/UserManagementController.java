@@ -14,10 +14,12 @@ import usecases.UserManagementUseCase;
 
 @Controller
 public class UserManagementController {
+	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
 	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String USER_MANAGEMENT_JSP = "UserManagement";
 	private static final String USER_MANAGEMENT_URL = "/user-management";
 	private static final String USERS_ATTRIBUTE = "users";
+	private static final String BASE_JSP = "base";
 
 	@Autowired
 	private UserManagementUseCase userManagementUseCase;
@@ -25,8 +27,11 @@ public class UserManagementController {
 	@RequestMapping(path = USER_MANAGEMENT_URL, method = RequestMethod.GET)
 	public ModelAndView userManagementInit(HttpServletRequest req, HttpServletResponse resp) {
 		User user = (User) req.getSession().getAttribute("user");
+
 		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
 		req.setAttribute(USERS_ATTRIBUTE, userManagementUseCase.getAllUsers());
-		return new ModelAndView(USER_MANAGEMENT_JSP);
+		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, USER_MANAGEMENT_JSP);
+
+		return new ModelAndView(BASE_JSP);
 	}
 }
