@@ -1,0 +1,6 @@
+package usecases;
+
+public class InvalidUserException extends Exception {
+	private static final long serialVersionUID = 8106985756540152268L;
+
+}

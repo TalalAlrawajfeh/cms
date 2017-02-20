@@ -1,0 +1,17 @@
+package usecases;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import beans.User;
+import persistence.UserRepository;
+
+public class UserManagementUseCase {
+	@Autowired
+	private UserRepository userRepository;
+
+	public List<User> getAllUsers() {
+
+	}
+}

@@ -1,0 +1,13 @@
+package utils;
+
+import java.util.Objects;
+
+public class NullWrapper {
+	public static <T> T wrapObject(T t) {
+		if (Objects.isNull(t)) {
+			return null;
+		}
+
+		return t;
+	}
+}

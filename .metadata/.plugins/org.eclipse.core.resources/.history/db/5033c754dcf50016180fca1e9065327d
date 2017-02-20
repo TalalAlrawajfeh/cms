@@ -1,0 +1,12 @@
+package usecases;
+
+import beans.User;
+import persistence.UserRepository;
+
+public class AddUserUseCase {
+	private UserRepository userRepository;
+
+	public void saveUser(User user) {
+
+	}
+}

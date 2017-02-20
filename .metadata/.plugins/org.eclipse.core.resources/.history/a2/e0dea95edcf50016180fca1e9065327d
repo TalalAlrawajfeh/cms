@@ -1,0 +1,15 @@
+package usecases;
+
+import beans.User;
+import entities.UserEntity;
+import persistence.UserRepository;
+import utils.CopyUtil;
+
+public class AddUserUseCase {
+	private UserRepository userRepository;
+
+	public void saveUser(User user) {
+		UserEntity userEntity = CopyUtil.createAndCopyFields(UserEntity.class, user);
+		
+	}
+}

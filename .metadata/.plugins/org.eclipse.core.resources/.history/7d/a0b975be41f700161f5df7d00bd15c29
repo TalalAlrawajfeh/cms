@@ -1,0 +1,6 @@
+package beans;
+
+public class UserBuilder {
+	private User user = new User();
+	
+}

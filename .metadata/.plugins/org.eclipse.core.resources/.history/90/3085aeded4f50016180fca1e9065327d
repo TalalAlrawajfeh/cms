@@ -1,0 +1,11 @@
+
+package usecases;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import persistence.UserRepository;
+
+public class EditUserUseCase {
+	@Autowired
+	private UserRepository userRepository;
+}

@@ -1,0 +1,16 @@
+
+package usecases;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import beans.User;
+import persistence.UserRepository;
+
+public class EditUserUseCase {
+	@Autowired
+	private UserRepository userRepository;
+
+	public User getUserFromUsername(String username) {
+		userRepository.findByUsername(username);
+	}
+}

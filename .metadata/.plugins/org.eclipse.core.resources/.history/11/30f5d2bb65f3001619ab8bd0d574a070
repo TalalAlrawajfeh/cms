@@ -1,0 +1,15 @@
+package usecases;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import beans.User;
+import persistence.UserRepository;
+
+public class LoginUseCase {
+	@Autowired
+	private UserRepository userRepository;
+
+	public void validateUser(User user) throws InvalidUserException {
+
+	}
+}

@@ -1,0 +1,14 @@
+package initializers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import persistence.UserRepository;
+
+public class FirstTimeAdminCreator {
+	@Autowired
+	private UserRepository userRepository;
+	
+	public void createAdminIfNotExists() {
+		
+	}
+}

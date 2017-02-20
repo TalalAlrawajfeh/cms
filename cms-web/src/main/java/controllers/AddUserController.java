@@ -33,7 +33,7 @@ public class AddUserController {
 
 	@RequestMapping(value = ADD_USER_URL, method = RequestMethod.GET)
 	public ModelAndView addUser(HttpServletRequest req, HttpServletResponse resp) {
-		setGetRequestAttributes(req);
+		setProperAttribtutes(req, false);
 
 		return new ModelAndView(BASE_JSP);
 	}
@@ -43,7 +43,7 @@ public class AddUserController {
 			@RequestParam String username) {
 
 		if (addUserUseCase.userExists(username)) {
-			setErrorAttributes(req);
+			setProperAttribtutes(req, true);
 			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, DUPLICATE_USERNAME_ERROR_MESSAGE);
 
 			return new ModelAndView(BASE_JSP);
@@ -55,15 +55,9 @@ public class AddUserController {
 		return new ModelAndView(REDIRECT_USER_MANAGEMENT);
 	}
 
-	private void setGetRequestAttributes(HttpServletRequest req) {
+	private void setProperAttribtutes(HttpServletRequest req, boolean showErrorMessage) {
 		setCurrentUserAttribute(req);
-		setShowErrorAttribute(req, false);
-		setIncludedPageAttribute(req);
-	}
-
-	private void setErrorAttributes(HttpServletRequest req) {
-		setCurrentUserAttribute(req);
-		setShowErrorAttribute(req, true);
+		setShowErrorAttribute(req, showErrorMessage);
 		setIncludedPageAttribute(req);
 	}
 
@@ -72,9 +66,7 @@ public class AddUserController {
 	}
 
 	private void setCurrentUserAttribute(HttpServletRequest req) {
-		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
-
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 	}
 
 	private void setShowErrorAttribute(HttpServletRequest req, boolean showError) {

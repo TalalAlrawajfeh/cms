@@ -1,0 +1,22 @@
+package initializers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import entities.UserEntity;
+import persistence.UserRepository;
+import utils.HashUtil;
+
+public class FirstTimeAdminCreator {
+	@Autowired
+	private UserRepository userRepository;
+
+	public void createAdminIfNotExists() {
+		
+		UserEntity user = new UserEntity();
+		user.setEnabled(true);
+		user.setFullName("admin");
+		user.setUsername("user");
+		user.setPasswordHashCode(HashUtil.hashString("P@ssw0rd"));
+		userRepository.save(user);
+	}
+}

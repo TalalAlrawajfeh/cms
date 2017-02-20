@@ -1,0 +1,34 @@
+package usecases;
+
+import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.ModelAndView;
+
+import beans.User;
+import entities.UserEntity;
+import persistence.UserRepository;
+import usecases.InvalidUserException.InvalidUserCause;
+import utils.CopyUtil;
+import utils.HashUtil;
+
+public class LoginUseCase {
+	@Autowired
+	private UserRepository userRepository;
+
+	public void validateUser(String username) throws InvalidUserException {
+		UserEntity userEntity = userRepository.findByUsername(username);
+		if (Objects.nonNull(userEntity)) {
+			if (userEntity.getPasswordHashCode().equalsIgnoreCase(HashUtil.hashString(password))) {
+				logger.info(USER_STRING + username + USER_HAS_LOGGED_IN_LOG);
+				User user = CopyUtil.createAndCopyFields(User.class, userEntity);
+				req.getSession(true).setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
+				return new ModelAndView(USER_MANAGEMENT_PAGE);
+			} else {
+				throw new InvalidUserException(InvalidUserCause.INVALID_PASSWORD);
+			}
+		} else {
+			throw new InvalidUserException(InvalidUserCause.USER_NOT_FOUND);
+		}
+	}
+}
