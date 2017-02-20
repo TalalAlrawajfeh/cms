@@ -49,8 +49,9 @@ public class AddUserController {
 		if (addUserUseCase.userExists(username)) {
 			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
 			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, DUPLICATE_USERNAME_ERROR_MESSAGE);
+			req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_USER_JSP);
 
-			return new ModelAndView(ADD_USER_JSP);
+			return new ModelAndView(BASE_JSP);
 		}
 
 		addUserUseCase.saveUser(new UserBuilder().setEnabled(true).setFullName(fullName).setUsername(username)

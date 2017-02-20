@@ -13,7 +13,7 @@ public class LogoutController {
 	private static final String REDIRECT_LOGIN = "redirect:/login";
 	private static final String LOGOUT_URL = "/logout";
 
-	@RequestMapping(value = LOGOUT_URL, method = RequestMethod.POST)
+	@RequestMapping(value = LOGOUT_URL, method = RequestMethod.GET)
 	public ModelAndView logout(HttpServletRequest req, HttpServletResponse resp) {
 		req.getSession().invalidate();
 

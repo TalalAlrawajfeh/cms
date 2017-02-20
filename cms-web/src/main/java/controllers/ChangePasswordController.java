@@ -56,8 +56,9 @@ public class ChangePasswordController {
 		if (!oldUser.getPasswordHashCode().equals(HashUtil.hashString(oldPassword))) {
 			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
 			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, INCORRECT_PASSWORD_MESSAGE);
+			req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, CHANGE_PASSWORD_JSP);
 
-			return new ModelAndView(CHANGE_PASSWORD_JSP);
+			return new ModelAndView(BASE_JSP);
 		}
 
 		User newUser = CopyUtil.createAndCopyFields(User.class, oldUser);
