@@ -20,8 +20,9 @@ public class FirstTimeAdminCreator {
 		UserEntity admin = userRepository.findByUsername(ADMIN_USERNAME);
 
 		if (Objects.isNull(admin)) {
-			userRepository.save(CopyUtil.createAndCopyFields(UserEntity.class, new UserBuilder().setEnabled(true)
-					.setFullName(ADMIN_USERNAME).setUsername(ADMIN_USERNAME).setHashedPassword(COMPLEX_PASSWORD)));
+			userRepository.save(CopyUtil.createAndCopyFields(UserEntity.class,
+					new UserBuilder().setEnabled(true).setFullName(ADMIN_USERNAME).setUsername(ADMIN_USERNAME)
+							.setHashedPassword(COMPLEX_PASSWORD).build()));
 		}
 	}
 }
