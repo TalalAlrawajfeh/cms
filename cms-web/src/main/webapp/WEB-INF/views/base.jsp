@@ -14,7 +14,6 @@
 
 <title>User management</title>
 
-<!-- Bootstrap core CSS -->
 <link
 	href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />"
 	rel="stylesheet">
@@ -41,9 +40,10 @@
 					aria-expanded="false"><i class="glyphicon glyphicon-user"></i>${currentUser.username}<span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="./ChangePassword.html"><i
+						<li><a href="./change-password"><i
 								class="glyphicon glyphicon-pencil"></i>Change Password</a></li>
-						<li><a href="#"><i class="glyphicon glyphicon-log-out"></i>Logout</a></li>
+						<li><a href="./logout"><i
+								class="glyphicon glyphicon-log-out"></i>Logout</a></li>
 					</ul></li>
 			</ul>
 		</div>
@@ -55,7 +55,7 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<li><a href="./siteSettings.html">Site Settings</a></li>
-					<li><a href="./UserManagement.html">Users Management</a></li>
+					<li><a href="./user-management">Users Management</a></li>
 					<li><a href="./sites.html">Sites Management</a></li>
 					<li><a href="./PagesManagement.html">Page Management</a></li>
 				</ul>
