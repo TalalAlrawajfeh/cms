@@ -15,6 +15,10 @@ public class CopyUtil {
 
 	private static Logger logger = Logger.getLogger(CopyUtil.class);
 
+	private CopyUtil() {
+		/* static class */
+	}
+
 	public static <D, S> D createAndCopyFields(Class<D> destionationClass, S source) {
 		try {
 			D destination = destionationClass.newInstance();
@@ -22,7 +26,6 @@ public class CopyUtil {
 
 			return destination;
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error(CREATE_AND_COPY_FIELDS_ERROR, e);
 			
 			throw new UtilException(e);
@@ -39,7 +42,6 @@ public class CopyUtil {
 					setter.invoke(destination, getter.getReturnType().cast(getter.invoke(source)));
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
 				logger.error("copy Fields Error", e);
 				
 				throw new UtilException(e);
