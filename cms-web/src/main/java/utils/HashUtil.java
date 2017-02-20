@@ -12,6 +12,10 @@ public class HashUtil {
 
 	private static Logger logger = Logger.getLogger(HashUtil.class);
 
+	private HashUtil() {
+		/* static class */
+	}
+
 	public static String hashString(String password) {
 		try {
 			MessageDigest sha256 = MessageDigest.getInstance(SHA_256_ALGORITHM);
@@ -19,7 +23,6 @@ public class HashUtil {
 
 			return convertByteArrayToHexString(sha256.digest());
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
 			logger.error(HASH_STRING_ERROR, e);
 
 			throw new UtilException(e);
