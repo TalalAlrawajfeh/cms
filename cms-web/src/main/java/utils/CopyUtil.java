@@ -5,10 +5,15 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Logger;
+
 public class CopyUtil {
+	private static final String CREATE_AND_COPY_FIELDS_ERROR = "Create And Copy Fields Error";
 	private static final String SET_PREFIX = "set";
 	private static final String GET_PREFIX = "get";
 	private static final String IS_PREFIX = "is";
+
+	private static Logger logger = Logger.getLogger(CopyUtil.class);
 
 	public static <D, S> D createAndCopyFields(Class<D> destionationClass, S source) {
 		try {
@@ -18,7 +23,9 @@ public class CopyUtil {
 			return destination;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			logger.error(CREATE_AND_COPY_FIELDS_ERROR, e);
+			
+			throw new UtilException(e);
 		}
 	}
 
@@ -33,7 +40,9 @@ public class CopyUtil {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new RuntimeException(e);
+				logger.error("copy Fields Error", e);
+				
+				throw new UtilException(e);
 			}
 		});
 	}

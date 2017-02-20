@@ -21,7 +21,6 @@ import utils.CopyUtil;
 @Controller
 public class EditUserController {
 	private static final String REDIRECT_EDIT_USER_WITH_USERNAME_PARAMETER = "redirect:/edit-user?username=";
-	private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
 	private static final String REDIRECT_USER_MANAGEMENT = "redirect:/user-management";
 	private static final String MANAGED_USER_ATTRIBUTE = "managedUser";
 	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
@@ -70,12 +69,7 @@ public class EditUserController {
 			return new ModelAndView(REDIRECT_USER_MANAGEMENT);
 		}
 
-		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
-
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
-		req.setAttribute(MANAGED_USER_ATTRIBUTE, editUserUserCase.getUserFromUsername(username));
-		req.setAttribute(SHOW_ERROR_ATTRIBUTE, false);
-		req.setAttribute(INCLUDED_PAGE_JSP, EDIT_USER_JSP);
+		setGetRequestAttributes(req, username);
 
 		return new ModelAndView(BASE_JSP);
 	}
@@ -91,9 +85,7 @@ public class EditUserController {
 		User oldUser = editUserUserCase.getUserFromUsername(managedUsername);
 		User foundUser = editUserUserCase.getUserFromUsername(username);
 		if (Objects.nonNull(foundUser) && !oldUser.equals(foundUser)) {
-			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
-			req.setAttribute(ERROR_MESSAGE, DUPLICATE_USER_MESSAGE);
-			req.setAttribute(INCLUDED_PAGE_JSP, EDIT_USER_JSP);
+			setErrorAttributes(req, managedUsername);
 
 			return new ModelAndView(BASE_JSP);
 		}
@@ -101,13 +93,48 @@ public class EditUserController {
 		User newUser = CopyUtil.createAndCopyFields(User.class, oldUser);
 		actionMap.get(action).apply(username, fullName, newUser);
 		editUserUserCase.updateUser(oldUser, newUser);
-
-		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE_NAME);
-		if (managedUsername.equals(user.getUsername())) {
-			req.getSession().setAttribute(USER_SESSION_ATTRIBUTE_NAME, newUser);
-		}
+		resetSessionIfCurrentUserChanged(req, managedUsername, newUser);
 
 		return new ModelAndView(REDIRECT_EDIT_USER_WITH_USERNAME_PARAMETER + newUser.getUsername());
+	}
+
+	private void resetSessionIfCurrentUserChanged(HttpServletRequest req, String managedUsername, User newUser) {
+		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
+		if (managedUsername.equals(user.getUsername())) {
+			req.getSession().setAttribute(USER_SESSION_ATTRIBUTE, newUser);
+		}
+	}
+
+	private void setErrorAttributes(HttpServletRequest req, String username) {
+		setCurrentUserAttribute(req);
+		setManagedUserAttribute(req, username);
+		setIncludedPageAttribute(req);
+		setShowErrorAttribute(req, true);
+		req.setAttribute(ERROR_MESSAGE, DUPLICATE_USER_MESSAGE);
+	}
+
+	private void setGetRequestAttributes(HttpServletRequest req, String username) {
+		setCurrentUserAttribute(req);
+		setManagedUserAttribute(req, username);
+		setShowErrorAttribute(req, false);
+		setIncludedPageAttribute(req);
+	}
+
+	private void setManagedUserAttribute(HttpServletRequest req, String username) {
+		req.setAttribute(MANAGED_USER_ATTRIBUTE, editUserUserCase.getUserFromUsername(username));
+	}
+
+	private void setCurrentUserAttribute(HttpServletRequest req) {
+		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
+	}
+
+	private void setIncludedPageAttribute(HttpServletRequest req) {
+		req.setAttribute(INCLUDED_PAGE_JSP, EDIT_USER_JSP);
+	}
+	
+	private void setShowErrorAttribute(HttpServletRequest req, boolean showError) {
+		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showError);
 	}
 
 	@FunctionalInterface

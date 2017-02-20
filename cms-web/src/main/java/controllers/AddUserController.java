@@ -33,11 +33,7 @@ public class AddUserController {
 
 	@RequestMapping(value = ADD_USER_URL, method = RequestMethod.GET)
 	public ModelAndView addUser(HttpServletRequest req, HttpServletResponse resp) {
-		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
-
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
-		req.setAttribute(SHOW_ERROR_ATTRIBUTE, false);
-		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_USER_JSP);
+		setGetRequestAttributes(req);
 
 		return new ModelAndView(BASE_JSP);
 	}
@@ -47,9 +43,8 @@ public class AddUserController {
 			@RequestParam String username) {
 
 		if (addUserUseCase.userExists(username)) {
-			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
+			setErrorAttributes(req);
 			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, DUPLICATE_USERNAME_ERROR_MESSAGE);
-			req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_USER_JSP);
 
 			return new ModelAndView(BASE_JSP);
 		}
@@ -58,5 +53,31 @@ public class AddUserController {
 				.setHashedPassword(COMPLEX_PASSWORD).build());
 
 		return new ModelAndView(REDIRECT_USER_MANAGEMENT);
+	}
+
+	private void setGetRequestAttributes(HttpServletRequest req) {
+		setCurrentUserAttribute(req);
+		setShowErrorAttribute(req, false);
+		setIncludedPageAttribute(req);
+	}
+
+	private void setErrorAttributes(HttpServletRequest req) {
+		setCurrentUserAttribute(req);
+		setShowErrorAttribute(req, true);
+		setIncludedPageAttribute(req);
+	}
+
+	private void setIncludedPageAttribute(HttpServletRequest req) {
+		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_USER_JSP);
+	}
+
+	private void setCurrentUserAttribute(HttpServletRequest req) {
+		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
+
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
+	}
+
+	private void setShowErrorAttribute(HttpServletRequest req, boolean showError) {
+		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showError);
 	}
 }
