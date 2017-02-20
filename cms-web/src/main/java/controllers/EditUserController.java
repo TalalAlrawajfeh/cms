@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +22,10 @@ import utils.CopyUtil;
 public class EditUserController {
 	private static final String REDIRECT_EDIT_USER_WITH_USERNAME_PARAMETER = "redirect:/edit-user?username=";
 	private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
+	private static final String DUPLICATE_USERNAME_MESSAGE = "errorMessage";
 	private static final String REDIRECT_USER_MANAGEMENT = "redirect:/user-management";
 	private static final String MANAGED_USER_ATTRIBUTE = "managedUser";
+	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
 	private static final String COMPLEX_PASSWORD = "P@ssw0rd";
 	private static final String DISABLE_ACTION = "disable";
 	private static final String ADMIN_USERNAME = "admin";
@@ -67,6 +70,7 @@ public class EditUserController {
 		}
 
 		req.setAttribute(MANAGED_USER_ATTRIBUTE, editUserUserCase.getUserFromUsername(username));
+		req.setAttribute(SHOW_ERROR_ATTRIBUTE, false);
 		return new ModelAndView(EDIT_USER_JSP);
 	}
 
@@ -79,8 +83,15 @@ public class EditUserController {
 		}
 
 		User oldUser = editUserUserCase.getUserFromUsername(managedUsername);
-		User newUser = CopyUtil.createAndCopyFields(User.class, oldUser);
+		User foundUser = editUserUserCase.getUserFromUsername(username);
+		if (Objects.nonNull(foundUser) && !oldUser.equals(foundUser)) {
+			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
+			req.setAttribute(DUPLICATE_USERNAME_MESSAGE, "A user with the same username already exists.");
+			
+			return new ModelAndView(EDIT_USER_JSP);
+		}
 
+		User newUser = CopyUtil.createAndCopyFields(User.class, oldUser);
 		actionMap.get(action).apply(username, fullName, newUser);
 		editUserUserCase.updateUser(oldUser, newUser);
 
