@@ -38,28 +38,24 @@ public class EditUserController {
 
 	@Autowired
 	private EditUserUseCase editUserUserCase;
-	private Map<String, TriFunction<String, String, User, Void>> actionMap = new HashMap<>();
+	private Map<String, TriConsumer<String, String, User>> actionMap = new HashMap<>();
 
 	{
 		actionMap.put(SAVE_ACTION, (username, fullName, user) -> {
 			user.setUsername(username);
 			user.setFullName(fullName);
-			return null;
 		});
 
 		actionMap.put(DISABLE_ACTION, (username, fullName, user) -> {
 			user.setEnabled(false);
-			return null;
 		});
 
 		actionMap.put(ENABLE_ACTION, (username, fullName, user) -> {
 			user.setEnabled(true);
-			return null;
 		});
 
 		actionMap.put(RESET_ACTION, (username, fullName, user) -> {
 			user.setHashedPassword(COMPLEX_PASSWORD);
-			return null;
 		});
 	}
 
@@ -87,7 +83,6 @@ public class EditUserController {
 		if (Objects.nonNull(foundUser) && !oldUser.equals(foundUser)) {
 			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
 			req.setAttribute(DUPLICATE_USERNAME_MESSAGE, "A user with the same username already exists.");
-			
 			return new ModelAndView(EDIT_USER_JSP);
 		}
 
@@ -104,7 +99,7 @@ public class EditUserController {
 	}
 
 	@FunctionalInterface
-	private interface TriFunction<T1, T2, T3, R> {
-		public R apply(T1 t1, T2 t2, T3 t3);
+	private interface TriConsumer<T1, T2, T3> {
+		public void apply(T1 t1, T2 t2, T3 t3);
 	}
 }
