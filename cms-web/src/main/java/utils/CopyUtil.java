@@ -1,6 +1,7 @@
 package utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -27,7 +28,7 @@ public class CopyUtil {
 			return destination;
 		} catch (Exception e) {
 			logger.error(CREATE_AND_COPY_FIELDS_ERROR, e);
-			
+
 			throw new UtilException(e);
 		}
 	}
@@ -39,14 +40,23 @@ public class CopyUtil {
 
 			try {
 				if (Objects.nonNull(getter) && Objects.nonNull(setter)) {
-					setter.invoke(destination, getter.getReturnType().cast(getter.invoke(source)));
+					Object returnValue = getter.invoke(source);
+					setValue(destination, getter, setter, returnValue);
 				}
 			} catch (Exception e) {
 				logger.error("copy Fields Error", e);
-				
+
 				throw new UtilException(e);
 			}
 		});
+	}
+
+	private static <D> void setValue(D destination, Method getter, Method setter, Object value)
+			throws IllegalAccessException, InvocationTargetException {
+
+		if (Objects.nonNull(value)) {
+			setter.invoke(destination, getter.getReturnType().cast(value));
+		}
 	}
 
 	private static String getFieldGetterName(Field field) {
