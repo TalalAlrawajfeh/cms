@@ -44,7 +44,6 @@ public class AddUserController {
 
 		if (addUserUseCase.userExists(username)) {
 			setProperAttribtutes(req, true);
-			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, DUPLICATE_USERNAME_ERROR_MESSAGE);
 
 			return new ModelAndView(BASE_JSP);
 		}
@@ -59,6 +58,9 @@ public class AddUserController {
 		setCurrentUserAttribute(req);
 		setShowErrorAttribute(req, showErrorMessage);
 		setIncludedPageAttribute(req);
+		if (showErrorMessage) {
+			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, DUPLICATE_USERNAME_ERROR_MESSAGE);
+		}
 	}
 
 	private void setIncludedPageAttribute(HttpServletRequest req) {
