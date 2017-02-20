@@ -17,9 +17,7 @@ public class FirstTimeAdminCreator {
 	private UserRepository userRepository;
 
 	public void createAdminIfNotExists() {
-		UserEntity admin = userRepository.findByUsername(ADMIN_USERNAME);
-
-		if (Objects.isNull(admin)) {
+		if (Objects.isNull(userRepository.findByUsername(ADMIN_USERNAME))) {
 			userRepository.save(CopyUtil.createAndCopyFields(UserEntity.class,
 					new UserBuilder().setEnabled(true).setFullName(ADMIN_USERNAME).setUsername(ADMIN_USERNAME)
 							.setHashedPassword(COMPLEX_PASSWORD).build()));
