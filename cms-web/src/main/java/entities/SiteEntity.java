@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "sites")
-public class SiteEntity {
+public class SiteEntity implements Serializable {
+	private static final long serialVersionUID = 4899874091878151920L;
+
 	@Id
 	@Column(name = "SITE_URI")
 	private String uri;

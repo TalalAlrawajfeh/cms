@@ -1,5 +1,6 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 import javax.persistence.Column;
@@ -11,7 +12,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "pages")
-public class PageEntity {
+public class PageEntity implements Serializable {
+	private static final long serialVersionUID = 7952978163318730537L;
+
 	@Id
 	@Column(name = "PAGE_URI")
 	private String uri;
