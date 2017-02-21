@@ -1,6 +1,6 @@
 package beans;
 
-public class UserBuilder {
+public class UserBuilder extends AbstractBeanBuilder<User> {
 	private User user = new User();
 
 	public UserBuilder setEnabled(Boolean enabled) {
@@ -28,6 +28,7 @@ public class UserBuilder {
 		return this;
 	}
 
+	@Override
 	public User build() {
 		return user;
 	}
