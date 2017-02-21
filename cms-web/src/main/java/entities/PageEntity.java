@@ -7,8 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "pages")
 public class PageEntity {
 	@Id
 	@Column(name = "PAGE_URI")
