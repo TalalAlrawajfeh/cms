@@ -72,7 +72,7 @@ public class LoginController {
 		try {
 			User user = loginUseCase.validateUser(username, password);
 
-			if (user.isEnabled()) {
+			if (user.getEnabled()) {
 				logger.info(USER_STRING + username + USER_HAS_LOGGED_IN_LOG);
 				req.getSession(true).setAttribute(USER_SESSION_ATTRIBUTE_NAME, user);
 

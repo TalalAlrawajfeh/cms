@@ -12,7 +12,6 @@ public class CopyUtil {
 	private static final String CREATE_AND_COPY_FIELDS_ERROR = "Create And Copy Fields Error";
 	private static final String SET_PREFIX = "set";
 	private static final String GET_PREFIX = "get";
-	private static final String IS_PREFIX = "is";
 
 	private static Logger logger = Logger.getLogger(CopyUtil.class);
 
@@ -60,15 +59,7 @@ public class CopyUtil {
 	}
 
 	private static String getFieldGetterName(Field field) {
-		String prefix;
-
-		if (field.getType().equals(Boolean.class) || field.getType().equals(boolean.class)) {
-			prefix = IS_PREFIX;
-		} else {
-			prefix = GET_PREFIX;
-		}
-
-		return prefix + capitalizeFirstLetter(field.getName());
+		return GET_PREFIX + capitalizeFirstLetter(field.getName());
 	}
 
 	private static String getFieldSetterName(Field field) {

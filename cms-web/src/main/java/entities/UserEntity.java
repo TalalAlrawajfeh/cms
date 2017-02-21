@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,9 +13,16 @@ public class UserEntity implements Serializable {
 	private static final long serialVersionUID = -7042201838132762382L;
 
 	@Id
+	@Column(name = "USERNAME")
 	private String username;
+
+	@Column(name = "PASSWORD_HASHCODE")
 	private String passwordHashCode;
+
+	@Column(name = "FULL_NAME")
 	private String fullName;
+
+	@Column(name = "IS_ENABLED")
 	private Boolean enabled;
 
 	public UserEntity() {
