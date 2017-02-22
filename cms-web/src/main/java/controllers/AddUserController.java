@@ -58,6 +58,7 @@ public class AddUserController {
 		setCurrentUserAttribute(req);
 		setShowErrorAttribute(req, showErrorMessage);
 		setIncludedPageAttribute(req);
+		
 		if (showErrorMessage) {
 			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, DUPLICATE_USERNAME_ERROR_MESSAGE);
 		}
