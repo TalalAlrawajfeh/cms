@@ -7,11 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "users")
 public class UserEntity implements Serializable {
-	private static final long serialVersionUID = -7042201838132762382L;
-
 	@Id
 	@Column(name = "USERNAME")
 	private String username;

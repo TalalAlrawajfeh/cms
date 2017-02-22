@@ -17,11 +17,10 @@ import javax.persistence.Table;
  * @author u624
  *
  */
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "sites")
 public class SiteEntity implements Serializable {
-	private static final long serialVersionUID = 4899874091878151920L;
-
 	@Id
 	@Column(name = "SITE_URI")
 	private String uri;

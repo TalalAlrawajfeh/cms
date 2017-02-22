@@ -2,9 +2,8 @@ package beans;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Page implements Serializable {
-	private static final long serialVersionUID = -207583815701557647L;
-
 	private String uri;
 	private String title;
 	private Boolean isHtml;

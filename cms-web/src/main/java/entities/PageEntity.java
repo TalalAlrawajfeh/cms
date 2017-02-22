@@ -10,11 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "pages")
 public class PageEntity implements Serializable {
-	private static final long serialVersionUID = 7952978163318730537L;
-
 	@Id
 	@Column(name = "PAGE_URI")
 	private String uri;
@@ -86,7 +85,7 @@ public class PageEntity implements Serializable {
 	public void setSite(SiteEntity site) {
 		this.site = site;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "PageEntity [uri=" + uri + ", title=" + title + ", isHtml=" + isHtml + ", seo=" + seo + ", content="

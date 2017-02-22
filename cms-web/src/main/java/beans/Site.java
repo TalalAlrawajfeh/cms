@@ -3,9 +3,8 @@ package beans;
 import java.io.Serializable;
 import java.util.Optional;
 
+@SuppressWarnings("serial")
 public class Site implements Serializable {
-	private static final long serialVersionUID = -1667885994092905482L;
-
 	private String uri;
 	private String name;
 	private Site parentSite;
