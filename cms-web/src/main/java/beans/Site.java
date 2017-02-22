@@ -48,7 +48,8 @@ public class Site implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Site [uri=" + uri + ", name=" + name + ", parentSite=" + parentSite + ", landingPage="
+		return "Site [uri=" + uri + ", name=" + name + ", parentSite="
+				+ Optional.ofNullable(parentSite).map(s -> s.getUri()).orElse("none") + ", landingPage="
 				+ Optional.ofNullable(landingPage).map(l -> l.getUri()).orElse("none") + "]";
 	}
 }

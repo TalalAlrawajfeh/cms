@@ -10,7 +10,7 @@ import entities.PageEntity;
 import entities.SiteEntity;
 import persistence.PageRepository;
 import persistence.SiteRepository;
-import utils.CopyUtil;
+import utils.EntityCopyUtil;
 
 public class FirstTimeRootSiteCreator extends AbstractInitializer<SiteRepository> {
 	private static final String WELCOME_TITLE = "Welcome";
@@ -24,11 +24,11 @@ public class FirstTimeRootSiteCreator extends AbstractInitializer<SiteRepository
 	@Override
 	public void initialize() {
 		if (Objects.isNull(repository.findByUri(ROOT_URI))) {
-			SiteEntity root = CopyUtil.createAndCopyFields(SiteEntity.class,
+			SiteEntity root = EntityCopyUtil.createAndCopyFields(SiteEntity.class,
 					new SiteBuilder().setName(ROOT_NAME).setUri(ROOT_URI).build());
 			repository.save(root);
 
-			PageEntity welcome = CopyUtil.createAndCopyFields(PageEntity.class,
+			PageEntity welcome = EntityCopyUtil.createAndCopyFields(PageEntity.class,
 					new PageBuilder().setTitle(WELCOME_TITLE).setUri(WELCOME_URI).build());
 			pageRepository.save(welcome);
 

@@ -1,21 +1,16 @@
 package utils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 
-import beans.Page;
-import beans.Site;
-import entities.PageEntity;
-import entities.SiteEntity;
-
 public class CopyUtil {
 	private static final String CREATE_AND_COPY_FIELDS_ERROR = "Create And Copy Fields Error";
+	private static final String COPY_FIELDS_ERROR = "Copy Fields Error";
 	private static final String SET_PREFIX = "set";
 	private static final String GET_PREFIX = "get";
 
@@ -28,7 +23,7 @@ public class CopyUtil {
 	public static <D, S> D createAndCopyFields(Class<D> destionationClass, S source) {
 		try {
 			D destination = destionationClass.newInstance();
-			copyFields(destination, source);
+			copyFields(destination, source, null, null, 1);
 
 			return destination;
 		} catch (Exception e) {
@@ -38,106 +33,69 @@ public class CopyUtil {
 		}
 	}
 
-	public static <D, S> void copyFieldsWithoutRepeat(D destination, S source) {
+	public static <D, S> void copyFields(D destination, S source, CopySetting[] copySettings, Class<?>[] discardClasses,
+			int depth) {
+
+		if (depth == 0) {
+			return;
+		}
+
 		Stream.of(source.getClass().getDeclaredFields()).forEach(f -> {
-			if (f.getType().equals(SiteEntity.class) || f.getType().equals(List.class)
-					|| f.getType().equals(PageEntity.class)) {
+			if (Objects.nonNull(discardClasses)
+					&& Stream.of(discardClasses).filter(f.getType()::equals).findAny().isPresent()) {
 				return;
 			}
 
 			Method getter = findMethodByName(source.getClass(), getFieldGetterName(f));
 			Method setter = findMethodByName(destination.getClass(), getFieldSetterName(f));
 
+			if (Objects.isNull(getter) || Objects.isNull(setter)) {
+				return;
+			}
+
 			try {
-				if (Objects.nonNull(getter) && Objects.nonNull(setter)) {
-					Object returnValue = getter.invoke(source);
-					setValue(destination, getter, setter, returnValue);
+				if (checkIfFieldTypeInCopySettings(destination, source, copySettings, discardClasses, depth, f, getter,
+						setter)) {
+					return;
 				}
+
+				copyField(destination, source, getter, setter);
 			} catch (Exception e) {
-				logger.error("copy Fields Error", e);
+				logger.error(COPY_FIELDS_ERROR, e);
 
 				throw new UtilException(e);
 			}
 		});
 	}
 
-	public static <D, S> void copyFields(D destination, S source) {
-		Stream.of(source.getClass().getDeclaredFields()).forEach(f -> {
-			if (f.getType().equals(List.class)) {
-				return;
-			}
+	private static <D, S> boolean checkIfFieldTypeInCopySettings(D destination, S source, CopySetting[] copySettings,
+			Class<?>[] discardClasses, int depth, Field field, Method getter, Method setter) throws Exception {
 
-			Method getter = findMethodByName(source.getClass(), getFieldGetterName(f));
-			Method setter = findMethodByName(destination.getClass(), getFieldSetterName(f));
+		if (Objects.nonNull(copySettings)) {
+			Optional<CopySetting> copySetting = Stream.of(copySettings).filter(c -> c.getFrom().equals(field.getType()))
+					.findAny();
 
-			if (Objects.isNull(getter) || Objects.isNull(setter)
-					|| checkIfFieldTypeIsSiteEntity(destination, source, f, getter, setter)
-					|| checkIfFieldTypeIsPageEntity(destination, source, f, getter, setter)) {
-				return;
-			}
+			if (copySetting.isPresent()) {
+				Object fieldValue = getter.invoke(source);
 
-			try {
-				Object returnValue = getter.invoke(source);
-				setValue(destination, getter, setter, returnValue);
-			} catch (Exception e) {
-				logger.error("copy Fields Error", e);
-
-				throw new UtilException(e);
-			}
-		});
-	}
-
-	private static <D, S> boolean checkIfFieldTypeIsPageEntity(D destination, S source, Field f, Method getter,
-			Method setter) {
-
-		if (f.getType().equals(PageEntity.class)) {
-			try {
-				Object returnValue = getter.invoke(source);
-				if (Objects.nonNull(returnValue)) {
-					Page page = Page.class.newInstance();
-					copyFields(page, returnValue);
-					setter.invoke(destination, page);
-
-					return true;
+				if (Objects.nonNull(fieldValue)) {
+					Object instance = copySetting.get().getTo().newInstance();
+					copyFields(instance, fieldValue, copySettings, discardClasses, depth - 1);
+					setter.invoke(destination, instance);
 				}
-			} catch (Exception e) {
-				logger.error("copy Fields Error", e);
 
-				throw new UtilException(e);
+				return true;
 			}
 		}
 
 		return false;
 	}
 
-	private static <D, S> boolean checkIfFieldTypeIsSiteEntity(D destination, S source, Field f, Method getter,
-			Method setter) {
+	private static <S, D> void copyField(D destination, S source, Method getter, Method setter) throws Exception {
+		Object returnValue = getter.invoke(source);
 
-		if (f.getType().equals(SiteEntity.class)) {
-			try {
-				Object returnValue = getter.invoke(source);
-				if (Objects.nonNull(returnValue)) {
-					Site site = Site.class.newInstance();
-					copyFieldsWithoutRepeat(site, returnValue);
-					setter.invoke(destination, site);
-
-					return true;
-				}
-			} catch (Exception e) {
-				logger.error("copy Fields Error", e);
-
-				throw new UtilException(e);
-			}
-		}
-
-		return false;
-	}
-
-	private static <D> void setValue(D destination, Method getter, Method setter, Object value)
-			throws IllegalAccessException, InvocationTargetException {
-
-		if (Objects.nonNull(value)) {
-			setter.invoke(destination, getter.getReturnType().cast(value));
+		if (Objects.nonNull(returnValue)) {
+			setter.invoke(destination, getter.getReturnType().cast(returnValue));
 		}
 	}
 

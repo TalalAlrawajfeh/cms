@@ -67,7 +67,7 @@ public class ChangePasswordController {
 		setCurrentUserAttribute(req);
 		setShowErrorAttribute(req, showErrorMessage);
 		setIncludedPageAttribute(req);
-		
+
 		if (showErrorMessage) {
 			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, INCORRECT_PASSWORD_MESSAGE);
 		}

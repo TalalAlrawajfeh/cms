@@ -102,7 +102,7 @@ public class EditUserController {
 		setManagedUserAttribute(req, username);
 		setShowErrorAttribute(req, showErrorMessage);
 		setIncludedPageAttribute(req);
-		
+
 		if (showErrorMessage) {
 			req.setAttribute(ERROR_MESSAGE, DUPLICATE_USER_MESSAGE);
 		}

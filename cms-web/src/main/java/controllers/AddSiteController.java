@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import beans.SiteBuilder;
 import beans.User;
 import usecases.AddSiteUseCase;
 import usecases.SiteManagementUseCase;
@@ -34,7 +35,7 @@ public class AddSiteController {
 
 	@RequestMapping(value = ADD_SITE_URL, method = RequestMethod.GET)
 	public ModelAndView addSite(HttpServletRequest req, HttpServletResponse resp) {
-		showProperAttributes(req, false);
+		showProperAttributes(req, ADD_SITE_JSP, false);
 
 		return new ModelAndView(BASE_JSP);
 	}
@@ -44,18 +45,21 @@ public class AddSiteController {
 			@RequestParam String uri, @RequestParam String parentSite) {
 
 		if (addSiteUseCase.siteExists(uri)) {
-			showProperAttributes(req, true);
+			showProperAttributes(req, "SiteManagement", true);
 
 			return new ModelAndView(BASE_JSP);
 		}
 
+		addSiteUseCase.saveSite(new SiteBuilder().setName(name).setUri(uri)
+				.setParentSite(new SiteBuilder().setUri(parentSite).build()).build());
+
 		return new ModelAndView(BASE_JSP);
 	}
 
-	private void showProperAttributes(HttpServletRequest req, boolean showErrorMessage) {
+	private void showProperAttributes(HttpServletRequest req, String jsp, boolean showErrorMessage) {
 		setCurrentUserAttribute(req);
 		setSitesAttribute(req);
-		setIncludedPageAttribute(req);
+		setIncludedPageAttribute(req, jsp);
 		setShowErrorAttribute(req, showErrorMessage);
 
 		if (showErrorMessage) {
@@ -67,8 +71,8 @@ public class AddSiteController {
 		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showErrorMessage);
 	}
 
-	private void setIncludedPageAttribute(HttpServletRequest req) {
-		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_SITE_JSP);
+	private void setIncludedPageAttribute(HttpServletRequest req, String jsp) {
+		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, jsp);
 	}
 
 	private void setSitesAttribute(HttpServletRequest req) {
