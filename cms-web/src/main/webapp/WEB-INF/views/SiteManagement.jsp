@@ -35,6 +35,9 @@
 							<td><a class="btn btn-primary"
 								href="./edit-site?uri=${site.uri}">Edit</a></td>
 						</c:if>
+						<c:if test="${site.uri == '/root'}">
+							<td></td>
+						</c:if>
 					</tr>
 				</c:forEach>
 			</tbody>

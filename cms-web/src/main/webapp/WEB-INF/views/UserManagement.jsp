@@ -23,6 +23,7 @@
 						<td>${user.username}</td>
 						<c:choose>
 							<c:when test="${user.username == 'admin'}">
+								<td></td>
 							</c:when>
 							<c:otherwise>
 								<td><a href="./edit-user?username=${user.username}"

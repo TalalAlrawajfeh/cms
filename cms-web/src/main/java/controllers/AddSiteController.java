@@ -17,8 +17,9 @@ import usecases.SiteManagementUseCase;
 
 @Controller
 public class AddSiteController {
-	private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
+	private static final String REDIRECT_SITE_MANAGEMENT = "redirect:/site-management";
 	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
+	private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
 	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String DUPLICATE_URI_MESSAGE = "A site with the same URI exists";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
@@ -35,7 +36,7 @@ public class AddSiteController {
 
 	@RequestMapping(value = ADD_SITE_URL, method = RequestMethod.GET)
 	public ModelAndView addSite(HttpServletRequest req, HttpServletResponse resp) {
-		showProperAttributes(req, ADD_SITE_JSP, false);
+		showProperAttributes(req, false);
 
 		return new ModelAndView(BASE_JSP);
 	}
@@ -45,7 +46,7 @@ public class AddSiteController {
 			@RequestParam String uri, @RequestParam String parentSite) {
 
 		if (addSiteUseCase.siteExists(uri)) {
-			showProperAttributes(req, "SiteManagement", true);
+			showProperAttributes(req, true);
 
 			return new ModelAndView(BASE_JSP);
 		}
@@ -53,13 +54,13 @@ public class AddSiteController {
 		addSiteUseCase.saveSite(new SiteBuilder().setName(name).setUri(uri)
 				.setParentSite(new SiteBuilder().setUri(parentSite).build()).build());
 
-		return new ModelAndView(BASE_JSP);
+		return new ModelAndView(REDIRECT_SITE_MANAGEMENT);
 	}
 
-	private void showProperAttributes(HttpServletRequest req, String jsp, boolean showErrorMessage) {
+	private void showProperAttributes(HttpServletRequest req, boolean showErrorMessage) {
 		setCurrentUserAttribute(req);
 		setSitesAttribute(req);
-		setIncludedPageAttribute(req, jsp);
+		setIncludedPageAttribute(req);
 		setShowErrorAttribute(req, showErrorMessage);
 
 		if (showErrorMessage) {
@@ -71,8 +72,8 @@ public class AddSiteController {
 		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showErrorMessage);
 	}
 
-	private void setIncludedPageAttribute(HttpServletRequest req, String jsp) {
-		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, jsp);
+	private void setIncludedPageAttribute(HttpServletRequest req) {
+		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_SITE_JSP);
 	}
 
 	private void setSitesAttribute(HttpServletRequest req) {
