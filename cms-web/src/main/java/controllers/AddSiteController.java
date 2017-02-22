@@ -16,11 +16,11 @@ import usecases.SiteManagementUseCase;
 
 @Controller
 public class AddSiteController {
-	private static final String DUPLICATE_URI_MESSAGE = "A site with the same URI exists";
 	private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
-	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
 	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
 	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
+	private static final String DUPLICATE_URI_MESSAGE = "A site with the same URI exists";
+	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
 	private static final String SITES_ATTRIBUTE = "sites";
 	private static final String ADD_SITE_JSP = "AddSite";
 	private static final String ADD_SITE_URL = "/add-site";
