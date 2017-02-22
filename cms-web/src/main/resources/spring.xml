@@ -13,6 +13,8 @@
 	<bean id="userManagementUserCase" class="usecases.UserManagementUseCase" />
 	<bean id="editUserUseCase" class="usecases.EditUserUseCase" />
 	<bean id="addUserUseCase" class="usecases.AddUserUseCase" />
+	<bean id="siteManagementUseCase" class="usecases.SiteManagementUseCase" />
+
 	<bean id="firstTimeAdminCreator" class="initializers.FirstTimeAdminCreator"
 		init-method="initialize" />
 	<bean id="firstTimeRootSiteCreator" class="initializers.FirstTimeRootSiteCreator"
