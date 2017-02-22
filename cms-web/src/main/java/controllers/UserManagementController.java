@@ -15,6 +15,7 @@ import usecases.UserManagementUseCase;
 @Controller
 public class UserManagementController {
 	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
+	private static final String USER_SESSION_ATTRIBUTE = "user";
 	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String USER_MANAGEMENT_JSP = "UserManagement";
 	private static final String USER_MANAGEMENT_URL = "/user-management";
@@ -26,9 +27,7 @@ public class UserManagementController {
 
 	@RequestMapping(path = USER_MANAGEMENT_URL, method = RequestMethod.GET)
 	public ModelAndView userManagementInit(HttpServletRequest req, HttpServletResponse resp) {
-		User user = (User) req.getSession().getAttribute("user");
-
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 		req.setAttribute(USERS_ATTRIBUTE, userManagementUseCase.getAllUsers());
 		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, USER_MANAGEMENT_JSP);
 

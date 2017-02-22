@@ -5,6 +5,7 @@
 <div class="col-sm-9 col-sm-offset-2">
 	<h1 class="page-header">Edit Site</h1>
 	<form class="form-horizontal" action="./edit-site" method="post">
+		<input type="hidden" id="uri" name="uri" value="${site.uri}">
 		<div class="col-xs-12 col-sm-8">
 			<div class="row form-group">
 				<label class="col-xs-12 col-sm-3">Site Name</label>
@@ -16,7 +17,7 @@
 			<div class="row form-group">
 				<label class="col-xs-12 col-sm-3">Site URI</label>
 				<div class="col-xs-12 col-sm-6">
-					<input type="text" disabled id="uri" name="uri" value="${site.uri}"
+					<input type="text" disabled value="${site.uri}"
 						class="form-control" placeholder="Site URI" required autofocus>
 				</div>
 			</div>
@@ -40,7 +41,7 @@
 				<div class="col-xs-12 col-sm-6">
 					<select name="landingPage" class="form-control">
 						<c:forEach items="${pages}" var="page">
-							<option value="${page.uri}">${page.name}-${page.uri}</option>
+							<option value="${page.uri}">${page.title}-${page.uri}</option>
 						</c:forEach>
 					</select>
 				</div>
