@@ -57,7 +57,7 @@
 					<li><a href="./siteSettings.html">Site Settings</a></li>
 					<li><a href="./user-management">Users Management</a></li>
 					<li><a href="./site-management">Sites Management</a></li>
-					<li><a href="./PagesManagement.html">Page Management</a></li>
+					<li><a href="./page-management">Page Management</a></li>
 				</ul>
 			</div>
 
