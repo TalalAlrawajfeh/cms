@@ -6,7 +6,7 @@
 	<h1 class="page-header">Site Management</h1>
 	<div class="col-xs-12">
 		<div class="pull-right">
-			<a class="btn btn-info" href="./AddSite.html">Add Site</a>
+			<a class="btn btn-info" href="./add-site">Add Site</a>
 		</div>
 	</div>
 
