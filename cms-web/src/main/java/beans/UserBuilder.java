@@ -1,6 +1,6 @@
 package beans;
 
-public class UserBuilder extends AbstractBeanBuilder<User> {
+public class UserBuilder implements BeanBuilder<User> {
 	private User user = new User();
 
 	public UserBuilder setEnabled(Boolean enabled) {
