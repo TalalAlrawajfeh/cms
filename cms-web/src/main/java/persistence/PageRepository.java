@@ -10,6 +10,4 @@ import entities.PageEntity;
 @Repository
 public interface PageRepository extends CrudRepository<PageEntity, Serializable> {
 	PageEntity findByUri(String uri);
-
-	void deleteByUri(String uri);
 }

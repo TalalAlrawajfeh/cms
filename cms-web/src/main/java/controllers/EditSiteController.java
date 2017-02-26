@@ -61,8 +61,13 @@ public class EditSiteController {
 	public ModelAndView editSite(HttpServletRequest req, HttpServletResponse resp, @RequestParam String uri,
 			@RequestParam String name, @RequestParam String landingPage) {
 
-		Site site = editSiteUseCase.getSiteByUri(uri);
+		saveNewSite(uri, name, landingPage);
 
+		return new ModelAndView(REDIRECT_SITE_MANAGEMENT);
+	}
+
+	private void saveNewSite(String uri, String name, String landingPage) {
+		Site site = editSiteUseCase.getSiteByUri(uri);
 		Page page = pageManagementUseCase.getPageByUri(landingPage);
 		editPageUseCase.deletePage(page);
 
@@ -73,7 +78,5 @@ public class EditSiteController {
 		site.setName(name);
 		site.setLandingPage(page);
 		editSiteUseCase.updateSite(site);
-
-		return new ModelAndView(REDIRECT_SITE_MANAGEMENT);
 	}
 }

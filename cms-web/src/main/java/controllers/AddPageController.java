@@ -24,6 +24,7 @@ public class AddPageController {
 	private static final String USER_SESSION_ATTRIBUTE = "user";
 	private static final String SITES_ATTRIBUTE = "sites";
 	private static final String ADD_PAGE_JSP = "AddPage";
+	private static final String ADD_PAGE_URL = "/add-page";
 	private static final String BASE_JSP = "Base";
 
 	@Autowired
@@ -35,7 +36,7 @@ public class AddPageController {
 	@Autowired
 	private AddPageUseCase addPageUseCase;
 
-	@RequestMapping(value = "/add-page", method = RequestMethod.GET)
+	@RequestMapping(value = ADD_PAGE_URL, method = RequestMethod.GET)
 	public ModelAndView addPage(HttpServletRequest req, HttpServletResponse resp) {
 		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 		req.setAttribute(SITES_ATTRIBUTE, siteManagementUseCase.getAllSites());

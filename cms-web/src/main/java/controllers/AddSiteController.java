@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import beans.Page;
+import beans.PageBuilder;
+import beans.Site;
 import beans.SiteBuilder;
 import beans.User;
+import usecases.AddPageUseCase;
 import usecases.AddSiteUseCase;
 import usecases.SiteManagementUseCase;
 
@@ -24,8 +28,10 @@ public class AddSiteController {
 	private static final String DUPLICATE_URI_MESSAGE = "A site with the same URI exists";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
 	private static final String SITES_ATTRIBUTE = "sites";
+	private static final String WELCOME_TITLE = "Welcome";
 	private static final String ADD_SITE_JSP = "AddSite";
 	private static final String ADD_SITE_URL = "/add-site";
+	private static final String WELCOME_URI = "/welcome";
 	private static final String BASE_JSP = "Base";
 
 	@Autowired
@@ -33,6 +39,9 @@ public class AddSiteController {
 
 	@Autowired
 	private AddSiteUseCase addSiteUseCase;
+
+	@Autowired
+	private AddPageUseCase addPageUseCase;
 
 	@RequestMapping(value = ADD_SITE_URL, method = RequestMethod.GET)
 	public ModelAndView addSite(HttpServletRequest req, HttpServletResponse resp) {
@@ -51,10 +60,22 @@ public class AddSiteController {
 			return new ModelAndView(BASE_JSP);
 		}
 
-		addSiteUseCase.saveSite(new SiteBuilder().setName(name).setUri(parentSite + uri)
-				.setParentSite(new SiteBuilder().setUri(parentSite).build()).build());
+		createSite(name, uri, parentSite);
 
 		return new ModelAndView(REDIRECT_SITE_MANAGEMENT);
+	}
+
+	private void createSite(String name, String uri, String parentSite) {
+		Site site = new SiteBuilder().setName(name).setUri(parentSite + uri)
+				.setParentSite(new SiteBuilder().setUri(parentSite).build()).build();
+		addSiteUseCase.saveSite(site);
+
+		Page page = new PageBuilder().setTitle(WELCOME_TITLE).setUri(site.getUri() + WELCOME_URI).build();
+		page.setSite(site);
+		addPageUseCase.savePage(page);
+
+		site.setLandingPage(page);
+		addSiteUseCase.saveSite(site);
 	}
 
 	private void showProperAttributes(HttpServletRequest req, boolean showErrorMessage) {
