@@ -20,7 +20,7 @@ public class UserManagementController {
 	private static final String USER_MANAGEMENT_JSP = "UserManagement";
 	private static final String USER_MANAGEMENT_URL = "/user-management";
 	private static final String USERS_ATTRIBUTE = "users";
-	private static final String BASE_JSP = "base";
+	private static final String BASE_JSP = "Base";
 
 	@Autowired
 	private UserManagementUseCase userManagementUseCase;

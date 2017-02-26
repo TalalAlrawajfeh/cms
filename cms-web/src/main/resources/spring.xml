@@ -17,6 +17,7 @@
 	<bean id="addSiteUseCase" class="usecases.AddSiteUseCase" />
 	<bean id="editSiteUseCase" class="usecases.EditSiteUseCase" />
 	<bean id="pageManagementUseCase" class="usecases.PageManagementUseCase" />
+	<bean id="addPageUseCase" class="usecases.AddPageUseCase" />
 
 	<bean id="firstTimeAdminCreator" class="initializers.FirstTimeAdminCreator"
 		init-method="initialize" />

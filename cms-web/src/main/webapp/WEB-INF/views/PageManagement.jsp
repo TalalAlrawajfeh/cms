@@ -22,7 +22,7 @@
 	</div>
 	<div class="col-xs-6">
 		<div class="pull-right">
-			<a class="btn btn-info" href="./AddPage.html">Add Page</a>
+			<a class="btn btn-info" href="./add-page">Add Page</a>
 		</div>
 	</div>
 	<div class="col-xs-12">
@@ -51,7 +51,7 @@
 						</c:choose>
 						<td><a class="btn btn-primary"
 							href="./edit-page?uri=${page.uri}">Edit</a> &nbsp;<a
-							class="btn btn-danger" href="./EditPage.html">Delete</a>
+							class="btn btn-danger" onclick="deletePage('${page.uri}')">Delete</a>
 						</td>
 					</tr>
 				</c:forEach>
@@ -59,3 +59,20 @@
 		</table>
 	</div>
 </div>
+
+<script>
+	function deletePage(uri) {
+		var xmlHttpRequest = new XMLHttpRequest();
+		xmlHttpRequest.open("DELETE", "./edit-page?uri=" + uri, false);
+		
+		xmlHttpRequest.onreadystatechange = function() {
+			if(xmlHttpRequest.readyState === XMLHttpRequest.DONE && xmlHttpRequest.status === 200) {
+				
+			} else {
+				
+			}
+		};
+		
+		xmlHttpRequest.send();
+	}
+</script>

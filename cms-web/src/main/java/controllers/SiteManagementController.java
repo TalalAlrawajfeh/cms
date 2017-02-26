@@ -20,7 +20,7 @@ public class SiteManagementController {
 	private static final String SITE_MANAGEMENT_JSP = "SiteManagement";
 	private static final String SITE_MANAGEMENT_URL = "/site-management";
 	private static final String SITES_ATTRIBUTE = "sites";
-	private static final String BASE_JSP = "base";
+	private static final String BASE_JSP = "Base";
 
 	@Autowired
 	private SiteManagementUseCase siteManagementUseCase;

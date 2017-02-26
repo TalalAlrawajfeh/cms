@@ -27,7 +27,7 @@ public class ChangePasswordController {
 	private static final String CHANGE_PASSWORD_JSP = "ChangePassword";
 	private static final String CHANGE_PASSWORD_URL = "/change-password";
 	private static final String CANCEL_ACTION = "cancel";
-	private static final String BASE_JSP = "base";
+	private static final String BASE_JSP = "Base";
 
 	@Autowired
 	private EditUserUseCase editUserUseCase;
@@ -64,24 +64,12 @@ public class ChangePasswordController {
 	}
 
 	private void setProperAttribtutes(HttpServletRequest req, boolean showErrorMessage) {
-		setCurrentUserAttribute(req);
-		setShowErrorAttribute(req, showErrorMessage);
-		setIncludedPageAttribute(req);
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
+		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showErrorMessage);
+		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, CHANGE_PASSWORD_JSP);
 
 		if (showErrorMessage) {
 			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, INCORRECT_PASSWORD_MESSAGE);
 		}
-	}
-
-	private void setIncludedPageAttribute(HttpServletRequest req) {
-		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, CHANGE_PASSWORD_JSP);
-	}
-
-	private void setCurrentUserAttribute(HttpServletRequest req) {
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
-	}
-
-	private void setShowErrorAttribute(HttpServletRequest req, boolean showError) {
-		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showError);
 	}
 }

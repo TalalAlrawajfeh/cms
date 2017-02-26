@@ -26,7 +26,7 @@ public class AddSiteController {
 	private static final String SITES_ATTRIBUTE = "sites";
 	private static final String ADD_SITE_JSP = "AddSite";
 	private static final String ADD_SITE_URL = "/add-site";
-	private static final String BASE_JSP = "base";
+	private static final String BASE_JSP = "Base";
 
 	@Autowired
 	private SiteManagementUseCase siteManagementUseCase;
@@ -58,29 +58,13 @@ public class AddSiteController {
 	}
 
 	private void showProperAttributes(HttpServletRequest req, boolean showErrorMessage) {
-		setCurrentUserAttribute(req);
-		setSitesAttribute(req);
-		setIncludedPageAttribute(req);
-		setShowErrorAttribute(req, showErrorMessage);
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute("user"));
+		req.setAttribute(SITES_ATTRIBUTE, siteManagementUseCase.getAllSites());
+		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_SITE_JSP);
+		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showErrorMessage);
 
 		if (showErrorMessage) {
 			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, DUPLICATE_URI_MESSAGE);
 		}
-	}
-
-	private void setShowErrorAttribute(HttpServletRequest req, boolean showErrorMessage) {
-		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showErrorMessage);
-	}
-
-	private void setIncludedPageAttribute(HttpServletRequest req) {
-		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_SITE_JSP);
-	}
-
-	private void setSitesAttribute(HttpServletRequest req) {
-		req.setAttribute(SITES_ATTRIBUTE, siteManagementUseCase.getAllSites());
-	}
-
-	private void setCurrentUserAttribute(HttpServletRequest req) {
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute("user"));
 	}
 }

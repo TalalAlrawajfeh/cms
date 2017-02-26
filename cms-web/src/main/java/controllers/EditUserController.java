@@ -36,7 +36,7 @@ public class EditUserController {
 	private static final String EDIT_USER_URL = "/edit-user";
 	private static final String RESET_ACTION = "reset";
 	private static final String SAVE_ACTION = "save";
-	private static final String BASE_JSP = "base";
+	private static final String BASE_JSP = "Base";
 
 	@Autowired
 	private EditUserUseCase editUserUserCase;
@@ -98,31 +98,15 @@ public class EditUserController {
 	}
 
 	private void setProperAttribtutes(HttpServletRequest req, String username, boolean showErrorMessage) {
-		setCurrentUserAttribute(req);
-		setManagedUserAttribute(req, username);
-		setShowErrorAttribute(req, showErrorMessage);
-		setIncludedPageAttribute(req);
+		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
+		req.setAttribute(MANAGED_USER_ATTRIBUTE, editUserUserCase.getUserFromUsername(username));
+		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showErrorMessage);
+		req.setAttribute(INCLUDED_PAGE_JSP, EDIT_USER_JSP);
 
 		if (showErrorMessage) {
 			req.setAttribute(ERROR_MESSAGE, DUPLICATE_USER_MESSAGE);
 		}
-	}
-
-	private void setManagedUserAttribute(HttpServletRequest req, String username) {
-		req.setAttribute(MANAGED_USER_ATTRIBUTE, editUserUserCase.getUserFromUsername(username));
-	}
-
-	private void setCurrentUserAttribute(HttpServletRequest req) {
-		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
-	}
-
-	private void setIncludedPageAttribute(HttpServletRequest req) {
-		req.setAttribute(INCLUDED_PAGE_JSP, EDIT_USER_JSP);
-	}
-
-	private void setShowErrorAttribute(HttpServletRequest req, boolean showError) {
-		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showError);
 	}
 
 	@FunctionalInterface

@@ -25,7 +25,7 @@ public class EditSiteController {
 	private static final String SITE_ATTRIBUTE = "site";
 	private static final String EDIT_SITE_JSP = "EditSite";
 	private static final String EDIT_SITE_URL = "/edit-site";
-	private static final String BASE_JSP = "base";
+	private static final String BASE_JSP = "Base";
 	private static final String ROOT_URL = "/root";
 
 	@Autowired

@@ -26,7 +26,7 @@ public class AddUserController {
 	private static final String COMPLEX_PASSWORD = "P@ssw0rd";
 	private static final String ADD_USER_JSP = "AddUser";
 	private static final String ADD_USER_URL = "/add-user";
-	private static final String BASE_JSP = "base";
+	private static final String BASE_JSP = "Base";
 
 	@Autowired
 	private AddUserUseCase addUserUseCase;
@@ -55,24 +55,12 @@ public class AddUserController {
 	}
 
 	private void setProperAttribtutes(HttpServletRequest req, boolean showErrorMessage) {
-		setCurrentUserAttribute(req);
-		setShowErrorAttribute(req, showErrorMessage);
-		setIncludedPageAttribute(req);
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
+		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showErrorMessage);
+		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_USER_JSP);
 		
 		if (showErrorMessage) {
 			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, DUPLICATE_USERNAME_ERROR_MESSAGE);
 		}
-	}
-
-	private void setIncludedPageAttribute(HttpServletRequest req) {
-		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_USER_JSP);
-	}
-
-	private void setCurrentUserAttribute(HttpServletRequest req) {
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
-	}
-
-	private void setShowErrorAttribute(HttpServletRequest req, boolean showError) {
-		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showError);
 	}
 }
