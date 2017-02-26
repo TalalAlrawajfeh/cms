@@ -1,6 +1,6 @@
 package beans;
 
-public class SiteBuilder extends AbstractBeanBuilder<Site> {
+public class SiteBuilder implements BeanBuilder<Site> {
 	private Site site = new Site();
 
 	public SiteBuilder setUri(String uri) {
