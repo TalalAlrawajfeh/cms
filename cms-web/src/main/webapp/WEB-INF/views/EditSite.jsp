@@ -2,6 +2,18 @@
 <%@ page language="java" contentType="text/html; charset=windows-1256"
 	pageEncoding="windows-1256"%>
 
+<div class="row">
+	<div class="col-sm-9 col-sm-offset-2">
+		<c:if test="${showError == true}">
+			<div class="row">
+				<div class="alert alert-danger">
+					<strong>Error!</strong> ${errorMessage}
+				</div>
+			</div>
+		</c:if>
+	</div>
+</div>
+
 <div class="col-sm-9 col-sm-offset-2">
 	<h1 class="page-header">Edit Site</h1>
 	<form class="form-horizontal" action="./edit-site" method="post">
@@ -42,7 +54,7 @@
 					<select name="landingPage" class="form-control">
 						<c:forEach items="${pages}" var="page">
 							<c:if test="${page.site.uri eq site.uri}">
-								<option value="${page.uri}">${page.title} - ${page.uri}</option>
+								<option value="${page.uri}">${page.title}- ${page.uri}</option>
 							</c:if>
 						</c:forEach>
 					</select>
