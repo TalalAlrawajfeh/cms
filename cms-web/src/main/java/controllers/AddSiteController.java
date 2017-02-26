@@ -1,8 +1,13 @@
 package controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,21 +23,29 @@ import beans.User;
 import usecases.AddPageUseCase;
 import usecases.AddSiteUseCase;
 import usecases.SiteManagementUseCase;
+import usecases.exceptions.SiteValidationException;
+import usecases.exceptions.SiteValidationException.SiteValidationExceptionCause;
 
 @Controller
 public class AddSiteController {
+	private static final String INVALID_SITE_NAME_ERROR_MESSAGE = "Invalid site name";
+	private static final String INVALID_SITE_URI_ERROR_MESSAGE = "Invalid site uri";
 	private static final String REDIRECT_SITE_MANAGEMENT = "redirect:/site-management";
 	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
 	private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
 	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
+	private static final String USER_SESSION_ATTRIBUTE = "user";
 	private static final String DUPLICATE_URI_MESSAGE = "A site with the same URI exists";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
+	private static final String OTHER_ERROR_MESSAGE = "An error occured";
 	private static final String SITES_ATTRIBUTE = "sites";
 	private static final String WELCOME_TITLE = "Welcome";
 	private static final String ADD_SITE_JSP = "AddSite";
 	private static final String ADD_SITE_URL = "/add-site";
 	private static final String WELCOME_URI = "/welcome";
 	private static final String BASE_JSP = "Base";
+
+	private static Logger logger = Logger.getLogger(AddSiteUseCase.class);
 
 	@Autowired
 	private SiteManagementUseCase siteManagementUseCase;
@@ -43,9 +56,17 @@ public class AddSiteController {
 	@Autowired
 	private AddPageUseCase addPageUseCase;
 
+	private Map<SiteValidationExceptionCause, String> errorMessageMap = new HashMap<>();
+
+	public AddSiteController() {
+		errorMessageMap.put(SiteValidationExceptionCause.INVALID_NAME, INVALID_SITE_NAME_ERROR_MESSAGE);
+		errorMessageMap.put(SiteValidationExceptionCause.INVALID_URI, INVALID_SITE_URI_ERROR_MESSAGE);
+		errorMessageMap.put(SiteValidationExceptionCause.OTHER, OTHER_ERROR_MESSAGE);
+	}
+
 	@RequestMapping(value = ADD_SITE_URL, method = RequestMethod.GET)
 	public ModelAndView addSite(HttpServletRequest req, HttpServletResponse resp) {
-		showProperAttributes(req, false);
+		setProperAttributes(req, null);
 
 		return new ModelAndView(BASE_JSP);
 	}
@@ -54,20 +75,32 @@ public class AddSiteController {
 	public ModelAndView addSite(HttpServletRequest req, HttpServletResponse resp, @RequestParam String name,
 			@RequestParam String uri, @RequestParam String parentSite) {
 
-		if (addSiteUseCase.siteExists(uri)) {
-			showProperAttributes(req, true);
+		try {
+			Site site = addSiteUseCase.validateSite(name, parentSite + ensureSeperatorExistsAtBeginning(uri) + uri);
+			
+			if (addSiteUseCase.siteExists(uri)) {
+				setProperAttributes(req, DUPLICATE_URI_MESSAGE);
+				return new ModelAndView(BASE_JSP);
+			}
+			
+			saveSite(parentSite, site);
+		} catch (SiteValidationException e) {
+			String errorMessage = errorMessageMap.get(e.getSiteValidationExceptionCause());
+			logger.info(errorMessage);
 
+			setProperAttributes(req, errorMessage);
 			return new ModelAndView(BASE_JSP);
 		}
-
-		createNewSite(name, uri, parentSite);
 
 		return new ModelAndView(REDIRECT_SITE_MANAGEMENT);
 	}
 
-	private void createNewSite(String name, String uri, String parentSite) {
-		Site site = new SiteBuilder().setName(name).setUri(parentSite + uri)
-				.setParentSite(new SiteBuilder().setUri(parentSite).build()).build();
+	private String ensureSeperatorExistsAtBeginning(String uri) {
+		return uri.charAt(0) == '/' ? "" : "/";
+	}
+
+	private void saveSite(String parentSite, Site site) {
+		site.setParentSite(new SiteBuilder().setUri(parentSite).build());
 		addSiteUseCase.saveSite(site);
 
 		Page page = new PageBuilder().setTitle(WELCOME_TITLE).setUri(site.getUri() + WELCOME_URI).build();
@@ -78,14 +111,16 @@ public class AddSiteController {
 		addSiteUseCase.saveSite(site);
 	}
 
-	private void showProperAttributes(HttpServletRequest req, boolean showErrorMessage) {
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute("user"));
+	private void setProperAttributes(HttpServletRequest req, String errorMessage) {
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 		req.setAttribute(SITES_ATTRIBUTE, siteManagementUseCase.getAllSites());
 		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_SITE_JSP);
-		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showErrorMessage);
 
-		if (showErrorMessage) {
-			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, DUPLICATE_URI_MESSAGE);
+		if (Objects.nonNull(errorMessage)) {
+			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
+			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, errorMessage);
+		} else {
+			req.setAttribute(SHOW_ERROR_ATTRIBUTE, false);
 		}
 	}
 }

@@ -93,11 +93,11 @@ public class EditUserController {
 		}
 
 		try {
-			addUserUseCase.validateUser(username, fullName);
+			addUserUseCase.validateUser(fullName, username);
 		} catch (UserValidationException e) {
 			String errorMessage = errorMessageMap.get(e.getValidationExceptionCause());
 
-			logger.warn(errorMessage);
+			logger.info(errorMessage);
 			setProperAttribtutes(req, managedUsername, errorMessage);
 
 			return new ModelAndView(BASE_JSP);
@@ -111,12 +111,16 @@ public class EditUserController {
 			return new ModelAndView(BASE_JSP);
 		}
 
+		User newUser = updateUser(action, fullName, username, oldUser);
+		resetSessionIfCurrentUserChanged(req, managedUsername, newUser);
+		return new ModelAndView(REDIRECT_EDIT_USER_WITH_USERNAME_PARAMETER + newUser.getUsername());
+	}
+
+	private User updateUser(String action, String fullName, String username, User oldUser) {
 		User newUser = CopyUtil.createAndCopyFields(User.class, oldUser);
 		actionMap.get(action).apply(username, fullName, newUser);
 		editUserUserCase.updateUser(oldUser, newUser);
-		resetSessionIfCurrentUserChanged(req, managedUsername, newUser);
-
-		return new ModelAndView(REDIRECT_EDIT_USER_WITH_USERNAME_PARAMETER + newUser.getUsername());
+		return newUser;
 	}
 
 	private void resetSessionIfCurrentUserChanged(HttpServletRequest req, String managedUsername, User newUser) {
