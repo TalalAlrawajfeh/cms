@@ -17,21 +17,19 @@ public class UserValidationException extends Exception {
 
 	public UserValidationException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
+
 		super(message, cause, enableSuppression, writableStackTrace);
 		userValidationExceptionCause = UserValidationExceptionCause.OTHER;
-
 	}
 
 	public UserValidationException(String message, Throwable cause) {
 		super(message, cause);
 		userValidationExceptionCause = UserValidationExceptionCause.OTHER;
-
 	}
 
 	public UserValidationException(String message) {
 		super(message);
 		userValidationExceptionCause = UserValidationExceptionCause.OTHER;
-
 	}
 
 	public UserValidationException(Throwable cause) {

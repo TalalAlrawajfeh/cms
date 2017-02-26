@@ -2,5 +2,5 @@ package beans;
 
 @FunctionalInterface
 public interface BeanBuilder<T> {
-    T build();
+	T build();
 }

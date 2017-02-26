@@ -77,12 +77,12 @@ public class AddSiteController {
 
 		try {
 			Site site = addSiteUseCase.validateSite(name, parentSite + ensureSeperatorExistsAtBeginning(uri) + uri);
-			
+
 			if (addSiteUseCase.siteExists(uri)) {
 				setProperAttributes(req, DUPLICATE_URI_MESSAGE);
 				return new ModelAndView(BASE_JSP);
 			}
-			
+
 			saveSite(parentSite, site);
 		} catch (SiteValidationException e) {
 			String errorMessage = errorMessageMap.get(e.getSiteValidationExceptionCause());

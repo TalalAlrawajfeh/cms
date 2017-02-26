@@ -17,6 +17,7 @@ public class SiteValidationException extends Exception {
 
 	public SiteValidationException(String message, Throwable cause, boolean enableSuppression,
 			boolean writableStackTrace) {
+
 		super(message, cause, enableSuppression, writableStackTrace);
 		siteValidationExceptionCause = SiteValidationExceptionCause.OTHER;
 	}

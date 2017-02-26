@@ -8,26 +8,26 @@ import entities.SiteEntity;
 import org.apache.log4j.Logger;
 
 public class EntityCopyUtil {
-    private static final String CREATE_AND_COPY_FIELDS_ERROR = "Create And Copy Fields Error";
+	private static final String CREATE_AND_COPY_FIELDS_ERROR = "Create And Copy Fields Error";
 
-    private static Logger logger = Logger.getLogger(EntityCopyUtil.class);
+	private static Logger logger = Logger.getLogger(EntityCopyUtil.class);
 
-    private EntityCopyUtil() {
-        /* static class */
-    }
+	private EntityCopyUtil() {
+		/* static class */
+	}
 
-    public static <D, S> D createAndCopyFields(Class<D> destionationClass, S source) {
-        try {
-            D destination = destionationClass.newInstance();
-            CopyUtil.copyFields(destination, source, new CopySetting[]{new CopySetting(SiteEntity.class, Site.class),
-                    new CopySetting(PageEntity.class, Page.class), new CopySetting(Page.class, PageEntity.class),
-                    new CopySetting(Site.class, SiteEntity.class)}, new Class<?>[]{List.class}, 3);
+	public static <D, S> D createAndCopyFields(Class<D> destionationClass, S source) {
+		try {
+			D destination = destionationClass.newInstance();
+			CopyUtil.copyFields(destination, source, new CopySetting[] { new CopySetting(SiteEntity.class, Site.class),
+					new CopySetting(PageEntity.class, Page.class), new CopySetting(Page.class, PageEntity.class),
+					new CopySetting(Site.class, SiteEntity.class) }, new Class<?>[] { List.class }, 3);
 
-            return destination;
-        } catch (Exception e) {
-            logger.error(CREATE_AND_COPY_FIELDS_ERROR, e);
+			return destination;
+		} catch (Exception e) {
+			logger.error(CREATE_AND_COPY_FIELDS_ERROR, e);
 
-            throw new UtilException(e);
-        }
-    }
+			throw new UtilException(e);
+		}
+	}
 }
