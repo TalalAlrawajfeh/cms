@@ -80,7 +80,7 @@ public class EditSiteController {
 			saveNewSite(uri, name, landingPage);
 		} catch (SiteValidationException e) {
 			String errorMessage = errorMessageMap.get(e.getSiteValidationExceptionCause());
-			logger.warn(errorMessage);
+			logger.info(errorMessage, e);
 
 			setProperAttributes(req, uri, errorMessage);
 			return new ModelAndView(BASE_JSP);
