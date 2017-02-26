@@ -1,6 +1,6 @@
 package beans;
 
-public class PageBuilder extends AbstractBeanBuilder<Page> {
+public class PageBuilder implements BeanBuilder<Page> {
 	private Page page = new Page();
 
 	public PageBuilder setUri(String uri) {
