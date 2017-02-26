@@ -86,7 +86,7 @@ public class AddSiteController {
 			saveSite(parentSite, site);
 		} catch (SiteValidationException e) {
 			String errorMessage = errorMessageMap.get(e.getSiteValidationExceptionCause());
-			logger.info(errorMessage);
+			logger.info(errorMessage, e);
 
 			setProperAttributes(req, errorMessage);
 			return new ModelAndView(BASE_JSP);
