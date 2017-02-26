@@ -45,7 +45,7 @@
 								<td>No</td>
 							</c:when>
 							<c:otherwise>
-								<td>${page.site.name}-${page.site.uri}</td>
+								<td>${page.site.name} - ${page.site.uri}</td>
 								<c:choose>
 									<c:when test="${page.uri eq page.site.landingPage.uri}">
 										<td>Yes</td>

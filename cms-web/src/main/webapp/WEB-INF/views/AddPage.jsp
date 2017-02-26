@@ -32,7 +32,7 @@
 				<div class="col-xs-12 col-sm-6">
 					<select name="site" class="form-control">
 						<c:forEach items="${sites}" var="site">
-							<option value="${site.uri}">${site.name}-${site.uri}</option>
+							<option value="${site.uri}">${site.name} - ${site.uri}</option>
 						</c:forEach>
 					</select>
 				</div>

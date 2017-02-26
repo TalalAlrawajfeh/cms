@@ -60,12 +60,12 @@ public class AddSiteController {
 			return new ModelAndView(BASE_JSP);
 		}
 
-		createSite(name, uri, parentSite);
+		createNewSite(name, uri, parentSite);
 
 		return new ModelAndView(REDIRECT_SITE_MANAGEMENT);
 	}
 
-	private void createSite(String name, String uri, String parentSite) {
+	private void createNewSite(String name, String uri, String parentSite) {
 		Site site = new SiteBuilder().setName(name).setUri(parentSite + uri)
 				.setParentSite(new SiteBuilder().setUri(parentSite).build()).build();
 		addSiteUseCase.saveSite(site);
