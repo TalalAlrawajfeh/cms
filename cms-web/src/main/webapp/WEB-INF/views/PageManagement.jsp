@@ -5,15 +5,15 @@
 <div class="col-sm-9 col-sm-offset-2">
 	<h1 class="page-header">Pages Management</h1>
 	<div class="col-xs-6">
-		<form class="form-horizontal">
+		<form class="form-horizontal" action="./page-management" method="get">
 			<div class="input-group">
-				<select class="form-control">
-					<option value="all">All</option>
+				<select id="filter" name="filter" class="form-control">
+					<option <c:if test="${param.filter eq 'all'}">selected="selected"</c:if>  value="all">All</option>
 					<c:forEach items="${sites}" var="site">
-						<option value="${site.uri}">${site.name} - ${site.uri}</option>
+						<option <c:if test="${param.filter eq site.uri}">selected="selected"</c:if> value="${site.uri}">${site.name} - ${site.uri}</option>
 					</c:forEach>
 				</select> <span class="input-group-btn">
-					<button class="btn btn-default" type="button">
+					<button class="btn btn-default" type="submit">
 						<i class="glyphicon glyphicon-filter"></i>Filter
 					</button>
 				</span>
@@ -46,7 +46,14 @@
 							</c:when>
 							<c:otherwise>
 								<td>${page.site.name}-${page.site.uri}</td>
-								<td>No</td>
+								<c:choose>
+									<c:when test="${page.uri eq page.site.landingPage.uri}">
+										<td>Yes</td>
+									</c:when>
+									<c:otherwise>
+										<td>No</td>
+									</c:otherwise>
+								</c:choose>
 							</c:otherwise>
 						</c:choose>
 						<td><a class="btn btn-primary"
@@ -64,15 +71,16 @@
 	function deletePage(uri) {
 		var xmlHttpRequest = new XMLHttpRequest();
 		xmlHttpRequest.open("DELETE", "./edit-page?uri=" + uri, false);
-		
+
 		xmlHttpRequest.onreadystatechange = function() {
-			if(xmlHttpRequest.readyState === XMLHttpRequest.DONE && xmlHttpRequest.status === 200) {
-				
+			if (xmlHttpRequest.readyState === XMLHttpRequest.DONE
+					&& xmlHttpRequest.status === 200) {
+
 			} else {
-				
+
 			}
 		};
-		
+
 		xmlHttpRequest.send();
 	}
 </script>

@@ -8,7 +8,6 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
 
@@ -57,7 +56,7 @@
 					<li><a href="./siteSettings.html">Site Settings</a></li>
 					<li><a href="./user-management">Users Management</a></li>
 					<li><a href="./site-management">Sites Management</a></li>
-					<li><a href="./page-management">Page Management</a></li>
+					<li><a href="./page-management?filter=all">Page Management</a></li>
 				</ul>
 			</div>
 

@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import beans.Page;
 import beans.Site;
 import beans.User;
+import usecases.AddPageUseCase;
+import usecases.EditPageUseCase;
 import usecases.EditSiteUseCase;
 import usecases.PageManagementUseCase;
 
@@ -30,6 +33,12 @@ public class EditSiteController {
 
 	@Autowired
 	private EditSiteUseCase editSiteUseCase;
+
+	@Autowired
+	private AddPageUseCase addPageUseCase;
+
+	@Autowired
+	private EditPageUseCase editPageUseCase;
 
 	@Autowired
 	private PageManagementUseCase pageManagementUseCase;
@@ -53,8 +62,16 @@ public class EditSiteController {
 			@RequestParam String name, @RequestParam String landingPage) {
 
 		Site site = editSiteUseCase.getSiteByUri(uri);
+
+		Page page = pageManagementUseCase.getPageByUri(landingPage);
+		editPageUseCase.deletePage(page);
+
+		page.setUri(site.getUri() + editPageUseCase.getPagePureUri(page));
+		page.setSite(site);
+		addPageUseCase.savePage(page);
+
 		site.setName(name);
-		site.setLandingPage(pageManagementUseCase.getPageByUri(landingPage));
+		site.setLandingPage(page);
 		editSiteUseCase.updateSite(site);
 
 		return new ModelAndView(REDIRECT_SITE_MANAGEMENT);

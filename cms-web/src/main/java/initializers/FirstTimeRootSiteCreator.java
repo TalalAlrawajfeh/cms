@@ -14,7 +14,7 @@ import utils.EntityCopyUtil;
 
 public class FirstTimeRootSiteCreator extends AbstractInitializer<SiteRepository> {
 	private static final String WELCOME_TITLE = "Welcome";
-	private static final String WELCOME_URI = "/welcome";
+	private static final String WELCOME_URI = "/root/welcome";
 	private static final String ROOT_NAME = "Root";
 	private static final String ROOT_URI = "/root";
 

@@ -51,7 +51,7 @@ public class AddSiteController {
 			return new ModelAndView(BASE_JSP);
 		}
 
-		addSiteUseCase.saveSite(new SiteBuilder().setName(name).setUri(uri)
+		addSiteUseCase.saveSite(new SiteBuilder().setName(name).setUri(parentSite + uri)
 				.setParentSite(new SiteBuilder().setUri(parentSite).build()).build());
 
 		return new ModelAndView(REDIRECT_SITE_MANAGEMENT);

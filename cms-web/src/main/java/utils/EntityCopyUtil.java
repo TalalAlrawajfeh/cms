@@ -18,7 +18,7 @@ public class EntityCopyUtil {
 			D destination = destionationClass.newInstance();
 			CopyUtil.copyFields(destination, source, new CopySetting[] { new CopySetting(SiteEntity.class, Site.class),
 					new CopySetting(PageEntity.class, Page.class), new CopySetting(Page.class, PageEntity.class),
-					new CopySetting(Site.class, SiteEntity.class) }, new Class<?>[] { List.class }, 2);
+					new CopySetting(Site.class, SiteEntity.class) }, new Class<?>[] { List.class }, 3);
 
 			return destination;
 		} catch (Exception e) {

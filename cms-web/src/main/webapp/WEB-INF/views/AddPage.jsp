@@ -52,7 +52,7 @@
 			<div class="row form-group">
 				<div class="col-xs-12 col-sm-6 col-sm-offset-3">
 					<button type="submit" class="btn btn-primary">Save</button>
-					&nbsp; <a class="btn btn-danger" href="./page-management">Cancel</a>&nbsp;
+					&nbsp; <a class="btn btn-danger" href="./page-management?filter=all">Cancel</a>&nbsp;
 				</div>
 			</div>
 		</div>

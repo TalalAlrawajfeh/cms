@@ -18,7 +18,7 @@ import usecases.SiteManagementUseCase;
 
 @Controller
 public class AddPageController {
-	private static final String REDIRECT_PAGE_MANAGEMENT = "redirect:/page-management";
+	private static final String REDIRECT_PAGE_MANAGEMENT = "redirect:/page-management?filter=all";
 	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
 	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String USER_SESSION_ATTRIBUTE = "user";
@@ -49,7 +49,7 @@ public class AddPageController {
 			@RequestParam String uri, @RequestParam String site, @RequestParam String seo,
 			@RequestParam String content) {
 
-		addPageUseCase.savePage(new PageBuilder().setTitle(title).setUri(uri).setIsHtml(true).setSeo(seo)
+		addPageUseCase.savePage(new PageBuilder().setTitle(title).setUri(site + uri).setIsHtml(true).setSeo(seo)
 				.setContent(content).setSite(editSiteUseCase.getSiteByUri(site)).build());
 
 		return new ModelAndView(REDIRECT_PAGE_MANAGEMENT);
