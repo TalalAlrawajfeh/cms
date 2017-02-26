@@ -11,9 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import beans.User;
 import usecases.PageManagementUseCase;
+import usecases.SiteManagementUseCase;
 
 @Controller
 public class PageManagementController {
+	private static final String SITES_ATTRIBUTE = "sites";
 	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
 	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String USER_SESSION_ATTRIBUTE = "user";
@@ -25,6 +27,9 @@ public class PageManagementController {
 	@Autowired
 	private PageManagementUseCase pageManagementUseCase;
 
+	@Autowired
+	private SiteManagementUseCase siteManagementUseCase;
+
 	@RequestMapping(value = PAGE_MANAGEMENT_URL, method = RequestMethod.GET)
 	public ModelAndView manage(HttpServletRequest req, HttpServletResponse resp) {
 
@@ -32,6 +37,7 @@ public class PageManagementController {
 
 		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
 		req.setAttribute(PAGES_ATTRIBUTE, pageManagementUseCase.getAllPages());
+		req.setAttribute(SITES_ATTRIBUTE, siteManagementUseCase.getAllSites());
 		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, PAGE_MANAGEMENT_JSP);
 
 		return new ModelAndView(BASE_JSP);

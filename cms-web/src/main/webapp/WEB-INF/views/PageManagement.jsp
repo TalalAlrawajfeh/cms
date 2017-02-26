@@ -9,8 +9,9 @@
 			<div class="input-group">
 				<select class="form-control">
 					<option value="all">All</option>
-					<option value="">Root - /</option>
-					<option value="">Products - /Products</option>
+					<c:forEach items="${sites}" var="site">
+						<option value="${site.uri}">${site.name} - ${site.uri}</option>
+					</c:forEach>
 				</select> <span class="input-group-btn">
 					<button class="btn btn-default" type="button">
 						<i class="glyphicon glyphicon-filter"></i>Filter
@@ -50,7 +51,8 @@
 						</c:choose>
 						<td><a class="btn btn-primary"
 							href="./edit-page?uri=${page.uri}">Edit</a> &nbsp;<a
-							class="btn btn-danger" href="./EditPage.html">Delete</a></td>
+							class="btn btn-danger" href="./EditPage.html">Delete</a>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
