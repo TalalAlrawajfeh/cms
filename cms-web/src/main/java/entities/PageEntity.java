@@ -1,14 +1,8 @@
 package entities;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Optional;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
@@ -89,6 +83,6 @@ public class PageEntity implements Serializable {
 	@Override
 	public String toString() {
 		return "PageEntity [uri=" + uri + ", title=" + title + ", isHtml=" + isHtml + ", seo=" + seo + ", content="
-				+ content + ", site=" + Optional.ofNullable(site).map(s -> s.getUri()).orElse("none") + "]";
+				+ content + ", site=" + Optional.ofNullable(site).map(SiteEntity::getUri).orElse("none") + "]";
 	}
 }
