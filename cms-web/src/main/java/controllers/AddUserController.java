@@ -75,10 +75,9 @@ public class AddUserController {
 			addUserUseCase.saveUser(user);
 		} catch (UserValidationException e) {
 			String errorMessage = errorMessageMap.get(e.getValidationExceptionCause());
+			logger.info(errorMessage, e);
 
-			logger.info(errorMessage);
 			setProperAttribtutes(req, errorMessage);
-
 			return new ModelAndView(BASE_JSP);
 		}
 
