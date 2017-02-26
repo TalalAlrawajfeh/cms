@@ -1,25 +1,34 @@
 package controllers;
 
-import beans.User;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import usecases.EditUserUseCase;
-import utils.CopyUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import beans.User;
+import usecases.AddUserUseCase;
+import usecases.EditUserUseCase;
+import usecases.exceptions.UserValidationException;
+import usecases.exceptions.UserValidationException.UserValidationExceptionCause;
+import utils.CopyUtil;
 
 @Controller
 public class EditUserController {
 	private static final String REDIRECT_EDIT_USER_WITH_USERNAME_PARAMETER = "redirect:/edit-user?username=";
+	private static final String INVALID_USERNAME_EXCEPTION_MESSGAGE = "Invalid username";
+	private static final String INVALID_FULLNAME_EXCEPTION_MESSAGE = "Invalid full name";
 	private static final String REDIRECT_USER_MANAGEMENT = "redirect:/user-management";
+	private static final String OTHER_EXCEPTION_MESSAGE = "An error occured";
 	private static final String MANAGED_USER_ATTRIBUTE = "managedUser";
 	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String USER_SESSION_ATTRIBUTE = "user";
@@ -38,9 +47,16 @@ public class EditUserController {
 	private static final String SAVE_ACTION = "save";
 	private static final String BASE_JSP = "Base";
 
+	private static Logger logger = Logger.getLogger(EditUserController.class);
+
 	@Autowired
 	private EditUserUseCase editUserUserCase;
+
+	@Autowired
+	private AddUserUseCase addUserUseCase;
+
 	private Map<String, TriConsumer<String, String, User>> actionMap = new HashMap<>();
+	private Map<UserValidationExceptionCause, String> errorMessageMap = new HashMap<>();
 
 	public EditUserController() {
 		actionMap.put(SAVE_ACTION, (username, fullName, user) -> {
@@ -49,10 +65,12 @@ public class EditUserController {
 		});
 
 		actionMap.put(DISABLE_ACTION, (username, fullName, user) -> user.setEnabled(false));
-
 		actionMap.put(ENABLE_ACTION, (username, fullName, user) -> user.setEnabled(true));
-
 		actionMap.put(RESET_ACTION, (username, fullName, user) -> user.setHashedPassword(COMPLEX_PASSWORD));
+
+		errorMessageMap.put(UserValidationExceptionCause.INVALID_FULLNAME, INVALID_FULLNAME_EXCEPTION_MESSAGE);
+		errorMessageMap.put(UserValidationExceptionCause.INVALID_USERNAME, INVALID_USERNAME_EXCEPTION_MESSGAGE);
+		errorMessageMap.put(UserValidationExceptionCause.OTHER, OTHER_EXCEPTION_MESSAGE);
 	}
 
 	@RequestMapping(value = EDIT_USER_URL, method = RequestMethod.GET)
@@ -61,7 +79,7 @@ public class EditUserController {
 			return new ModelAndView(REDIRECT_USER_MANAGEMENT);
 		}
 
-		setProperAttribtutes(req, username, false);
+		setProperAttribtutes(req, username, null);
 
 		return new ModelAndView(BASE_JSP);
 	}
@@ -74,10 +92,21 @@ public class EditUserController {
 			return new ModelAndView(REDIRECT_USER_MANAGEMENT);
 		}
 
+		try {
+			addUserUseCase.validateUser(username, fullName);
+		} catch (UserValidationException e) {
+			String errorMessage = errorMessageMap.get(e.getValidationExceptionCause());
+
+			logger.warn(errorMessage);
+			setProperAttribtutes(req, managedUsername, errorMessage);
+
+			return new ModelAndView(BASE_JSP);
+		}
+
 		User oldUser = editUserUserCase.getUserFromUsername(managedUsername);
 		User foundUser = editUserUserCase.getUserFromUsername(username);
 		if (Objects.nonNull(foundUser) && !oldUser.equals(foundUser)) {
-			setProperAttribtutes(req, managedUsername, true);
+			setProperAttribtutes(req, managedUsername, DUPLICATE_USER_MESSAGE);
 
 			return new ModelAndView(BASE_JSP);
 		}
@@ -92,20 +121,22 @@ public class EditUserController {
 
 	private void resetSessionIfCurrentUserChanged(HttpServletRequest req, String managedUsername, User newUser) {
 		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
+
 		if (managedUsername.equals(user.getUsername())) {
 			req.getSession().setAttribute(USER_SESSION_ATTRIBUTE, newUser);
 		}
 	}
 
-	private void setProperAttribtutes(HttpServletRequest req, String username, boolean showErrorMessage) {
-		User user = (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE);
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, user);
+	private void setProperAttribtutes(HttpServletRequest req, String username, String errorMessage) {
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 		req.setAttribute(MANAGED_USER_ATTRIBUTE, editUserUserCase.getUserFromUsername(username));
-		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showErrorMessage);
 		req.setAttribute(INCLUDED_PAGE_JSP, EDIT_USER_JSP);
 
-		if (showErrorMessage) {
-			req.setAttribute(ERROR_MESSAGE, DUPLICATE_USER_MESSAGE);
+		if (Objects.nonNull(errorMessage)) {
+			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
+			req.setAttribute(ERROR_MESSAGE, errorMessage);
+		} else {
+			req.setAttribute(SHOW_ERROR_ATTRIBUTE, false);
 		}
 	}
 

@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import beans.User;
 import entities.UserEntity;
 import persistence.UserRepository;
-import usecases.InvalidUserException.InvalidUserCause;
+import usecases.exceptions.InvalidUserException;
+import usecases.exceptions.InvalidUserException.InvalidUserExceptionCause;
 import utils.CopyUtil;
 import utils.HashUtil;
 
@@ -21,10 +22,10 @@ public class LoginUseCase {
 			if (userEntity.getPasswordHashCode().equalsIgnoreCase(HashUtil.hashString(password))) {
 				return CopyUtil.createAndCopyFields(User.class, userEntity);
 			} else {
-				throw new InvalidUserException(InvalidUserCause.INVALID_PASSWORD);
+				throw new InvalidUserException(InvalidUserExceptionCause.INVALID_PASSWORD);
 			}
 		} else {
-			throw new InvalidUserException(InvalidUserCause.USER_NOT_FOUND);
+			throw new InvalidUserException(InvalidUserExceptionCause.USER_NOT_FOUND);
 		}
 	}
 }

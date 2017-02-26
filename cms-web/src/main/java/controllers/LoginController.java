@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import beans.User;
-import usecases.InvalidUserException;
-import usecases.InvalidUserException.InvalidUserCause;
 import usecases.LoginUseCase;
+import usecases.exceptions.InvalidUserException;
+import usecases.exceptions.InvalidUserException.InvalidUserExceptionCause;
 
 @Controller
 public class LoginController {
@@ -38,16 +38,16 @@ public class LoginController {
 	private static final String LOGIN_PAGE = "Login";
 
 	private static Logger logger = Logger.getLogger(LoginController.class);
-	private Map<InvalidUserCause, Consumer<String>> causeMap = new HashMap<>();
+	private Map<InvalidUserExceptionCause, Consumer<String>> causeMap = new HashMap<>();
 
 	@Autowired
 	private LoginUseCase loginUseCase;
 
 	public LoginController() {
-		causeMap.put(InvalidUserCause.INVALID_PASSWORD,
+		causeMap.put(InvalidUserExceptionCause.INVALID_PASSWORD,
 				username -> logger.warn(USER_STRING + username + FAILED_TO_LOGIN_INCORRECT_PASSWORD_LOG));
 
-		causeMap.put(InvalidUserCause.USER_NOT_FOUND,
+		causeMap.put(InvalidUserExceptionCause.USER_NOT_FOUND,
 				username -> logger.info(ATTEMPT_TO_LOGIN_WITH_UNKNOWN_USER_LOG + username));
 	}
 

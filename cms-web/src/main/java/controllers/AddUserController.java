@@ -1,8 +1,13 @@
 package controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,15 +16,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import beans.User;
-import beans.UserBuilder;
 import usecases.AddUserUseCase;
+import usecases.exceptions.UserValidationException;
+import usecases.exceptions.UserValidationException.UserValidationExceptionCause;
 
 @Controller
 public class AddUserController {
+	private static final String INVALID_USERNAME_EXCEPTION_MESSGAGE = "Invalid username";
+	private static final String INVALID_FULLNAME_EXCEPTION_MESSAGE = "Invalid full name";
 	private static final String DUPLICATE_USERNAME_ERROR_MESSAGE = "You entered a username that already exist";
 	private static final String REDIRECT_USER_MANAGEMENT = "redirect:/user-management";
 	private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
 	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
+	private static final String OTHER_EXCEPTION_MESSAGE = "An error occured";
 	private static final String USER_SESSION_ATTRIBUTE = "user";
 	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
@@ -28,12 +37,21 @@ public class AddUserController {
 	private static final String ADD_USER_URL = "/add-user";
 	private static final String BASE_JSP = "Base";
 
+	private static Logger logger = Logger.getLogger(AddUserController.class);
+	private Map<UserValidationExceptionCause, String> errorMessageMap = new HashMap<>();
+
 	@Autowired
 	private AddUserUseCase addUserUseCase;
 
+	public AddUserController() {
+		errorMessageMap.put(UserValidationExceptionCause.INVALID_FULLNAME, INVALID_FULLNAME_EXCEPTION_MESSAGE);
+		errorMessageMap.put(UserValidationExceptionCause.INVALID_USERNAME, INVALID_USERNAME_EXCEPTION_MESSGAGE);
+		errorMessageMap.put(UserValidationExceptionCause.OTHER, OTHER_EXCEPTION_MESSAGE);
+	}
+
 	@RequestMapping(value = ADD_USER_URL, method = RequestMethod.GET)
 	public ModelAndView addUser(HttpServletRequest req, HttpServletResponse resp) {
-		setProperAttribtutes(req, false);
+		setProperAttribtutes(req, null);
 
 		return new ModelAndView(BASE_JSP);
 	}
@@ -42,25 +60,40 @@ public class AddUserController {
 	public ModelAndView addUser(HttpServletRequest req, HttpServletResponse resp, @RequestParam String fullName,
 			@RequestParam String username) {
 
-		if (addUserUseCase.userExists(username)) {
-			setProperAttribtutes(req, true);
+		try {
+			User user = addUserUseCase.validateUser(fullName, username);
+
+			user.setEnabled(true);
+			user.setHashedPassword(COMPLEX_PASSWORD);
+
+			if (addUserUseCase.userExists(username)) {
+				setProperAttribtutes(req, DUPLICATE_USERNAME_ERROR_MESSAGE);
+
+				return new ModelAndView(BASE_JSP);
+			}
+
+			addUserUseCase.saveUser(user);
+		} catch (UserValidationException e) {
+			String errorMessage = errorMessageMap.get(e.getValidationExceptionCause());
+
+			logger.warn(errorMessage);
+			setProperAttribtutes(req, errorMessage);
 
 			return new ModelAndView(BASE_JSP);
 		}
 
-		addUserUseCase.saveUser(new UserBuilder().setEnabled(true).setFullName(fullName).setUsername(username)
-				.setHashedPassword(COMPLEX_PASSWORD).build());
-
 		return new ModelAndView(REDIRECT_USER_MANAGEMENT);
 	}
 
-	private void setProperAttribtutes(HttpServletRequest req, boolean showErrorMessage) {
+	private void setProperAttribtutes(HttpServletRequest req, String errorMessage) {
 		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
-		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showErrorMessage);
 		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_USER_JSP);
-		
-		if (showErrorMessage) {
-			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, DUPLICATE_USERNAME_ERROR_MESSAGE);
+
+		if (Objects.nonNull(errorMessage)) {
+			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
+			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, errorMessage);
+		} else {
+			req.setAttribute(SHOW_ERROR_ATTRIBUTE, false);
 		}
 	}
 }

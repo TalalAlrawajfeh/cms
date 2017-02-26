@@ -1,46 +1,46 @@
-package usecases;
+package usecases.exceptions;
 
 public class InvalidUserException extends Exception {
     private static final long serialVersionUID = 8106985756540152268L;
 
-    private final InvalidUserCause invalidUserCause;
+    private final InvalidUserExceptionCause invalidUserCause;
 
-    public InvalidUserException(InvalidUserCause invalidUserCause) {
+    public InvalidUserException(InvalidUserExceptionCause invalidUserCause) {
         super();
         this.invalidUserCause = invalidUserCause;
     }
 
     public InvalidUserException() {
         super();
-        invalidUserCause = InvalidUserCause.OTHER;
+        invalidUserCause = InvalidUserExceptionCause.OTHER;
     }
 
     public InvalidUserException(String message, Throwable cause, boolean enableSuppression,
                                 boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
-        invalidUserCause = InvalidUserCause.OTHER;
+        invalidUserCause = InvalidUserExceptionCause.OTHER;
     }
 
     public InvalidUserException(String message, Throwable cause) {
         super(message, cause);
-        invalidUserCause = InvalidUserCause.OTHER;
+        invalidUserCause = InvalidUserExceptionCause.OTHER;
     }
 
     public InvalidUserException(String message) {
         super(message);
-        invalidUserCause = InvalidUserCause.OTHER;
+        invalidUserCause = InvalidUserExceptionCause.OTHER;
     }
 
     public InvalidUserException(Throwable cause) {
         super(cause);
-        invalidUserCause = InvalidUserCause.OTHER;
+        invalidUserCause = InvalidUserExceptionCause.OTHER;
     }
 
-    public InvalidUserCause getInvalidUserCause() {
+    public InvalidUserExceptionCause getInvalidUserCause() {
         return invalidUserCause;
     }
 
-    public enum InvalidUserCause {
+    public enum InvalidUserExceptionCause {
         USER_NOT_FOUND, INVALID_PASSWORD, OTHER;
     }
 }
