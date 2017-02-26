@@ -86,7 +86,7 @@ public class SiteEntity implements Serializable {
 	@Override
 	public String toString() {
 		return "SiteEntity [uri=" + uri + ", name=" + name + ", parentSite="
-				+ Optional.ofNullable(parentSite).map(s -> s.getUri()).orElse("none") + ", landingPage="
-				+ Optional.ofNullable(landingPage).map(l -> l.getUri()).orElse("none") + ", subSites=" + subSites + "]";
+				+ Optional.ofNullable(parentSite).map(SiteEntity::getUri).orElse("none") + ", landingPage="
+				+ Optional.ofNullable(landingPage).map(PageEntity::getUri).orElse("none") + ", subSites=" + subSites + "]";
 	}
 }
