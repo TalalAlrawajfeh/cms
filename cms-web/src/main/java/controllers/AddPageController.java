@@ -49,7 +49,7 @@ public class AddPageController {
 		return new ModelAndView(BASE_JSP);
 	}
 
-	@RequestMapping
+	@RequestMapping(value = ADD_PAGE_URL, method = RequestMethod.POST)
 	public ModelAndView addPage(HttpServletRequest req, HttpServletResponse resp, @RequestParam String title,
 			@RequestParam String uri, @RequestParam String site, @RequestParam String seo,
 			@RequestParam String content) {
