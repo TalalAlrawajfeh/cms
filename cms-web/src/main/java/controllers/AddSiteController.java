@@ -28,7 +28,7 @@ import usecases.exceptions.SiteValidationException.SiteValidationExceptionCause;
 @Controller
 public class AddSiteController {
 	private static final String INVALID_SITE_NAME_ERROR_MESSAGE = "Invalid site name";
-	private static final String INVALID_SITE_URI_ERROR_MESSAGE = "Invalid site uri";
+	private static final String INVALID_SITE_URI_ERROR_MESSAGE = "Invalid site URI";
 	private static final String REDIRECT_SITE_MANAGEMENT = "redirect:/site-management";
 	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
 	private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
