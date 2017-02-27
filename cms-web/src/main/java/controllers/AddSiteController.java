@@ -76,9 +76,10 @@ public class AddSiteController {
 			@RequestParam String uri, @RequestParam String parentSite) {
 
 		try {
-			Site site = addSiteUseCase.validateSite(name, parentSite + ensureSeperatorExistsAtBeginning(uri) + uri);
+			String siteUri = parentSite + ensureSeperatorExistsAtBeginning(uri) + uri;
+			Site site = addSiteUseCase.validateSite(name, siteUri);
 
-			if (addSiteUseCase.siteExists(parentSite + ensureSeperatorExistsAtBeginning(uri) + uri)) {
+			if (addSiteUseCase.siteExists(siteUri)) {
 				setProperAttributes(req, DUPLICATE_URI_MESSAGE);
 				return new ModelAndView(BASE_JSP);
 			}
