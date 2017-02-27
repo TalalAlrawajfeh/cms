@@ -55,8 +55,6 @@ public class AddSiteController {
 	@Autowired
 	private AddPageUseCase addPageUseCase;
 
-	// private Map<SiteValidationExceptionCause, String> errorMessageMap = new
-	// HashMap<>();
 	private EnumMap<SiteValidationExceptionCause, String> errorMessageMap = new EnumMap<>(
 			SiteValidationExceptionCause.class);
 
