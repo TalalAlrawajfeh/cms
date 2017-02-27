@@ -95,7 +95,6 @@ public class EditPageController {
 
 	@RequestMapping(value = EDIT_PAGE_URL, method = RequestMethod.DELETE)
 	public void deletePage(HttpServletRequest req, HttpServletResponse resp, @RequestParam String uri) {
-		System.out.println(uri);
 		if (isLandingPage(pageManagementUseCase.getPageByUri(uri).getSite(), uri)) {
 			resp.setStatus(400);
 			return;
