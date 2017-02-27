@@ -1,7 +1,6 @@
 package controllers;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,13 +31,14 @@ public class AddUserController {
 	private static final String USER_SESSION_ATTRIBUTE = "user";
 	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
-	private static final String COMPLEX_PASSWORD = "P@ssw0rd";
 	private static final String ADD_USER_JSP = "AddUser";
 	private static final String ADD_USER_URL = "/add-user";
 	private static final String BASE_JSP = "Base";
+	private static final String COMPLEX = "P@ssw0rd";
 
 	private static Logger logger = Logger.getLogger(AddUserController.class);
-	private Map<UserValidationExceptionCause, String> errorMessageMap = new HashMap<>();
+	private EnumMap<UserValidationExceptionCause, String> errorMessageMap = new EnumMap<>(
+			UserValidationExceptionCause.class);
 
 	@Autowired
 	private AddUserUseCase addUserUseCase;
@@ -64,7 +64,7 @@ public class AddUserController {
 			User user = addUserUseCase.validateUser(fullName, username);
 
 			user.setEnabled(true);
-			user.setHashedPassword(COMPLEX_PASSWORD);
+			user.setHashedPassword(COMPLEX);
 
 			if (addUserUseCase.userExists(username)) {
 				setProperAttribtutes(req, DUPLICATE_USERNAME_ERROR_MESSAGE);
