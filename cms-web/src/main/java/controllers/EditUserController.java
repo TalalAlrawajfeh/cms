@@ -1,6 +1,13 @@
 package controllers;
 
-import beans.User;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,17 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import beans.User;
 import usecases.AddUserUseCase;
 import usecases.EditUserUseCase;
 import usecases.exceptions.UserValidationException;
 import usecases.exceptions.UserValidationException.UserValidationExceptionCause;
 import utils.CopyUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 @Controller
 public class EditUserController {
@@ -33,7 +36,6 @@ public class EditUserController {
 	private static final String DUPLICATE_USER_MESSAGE = "A user with the same username already exists.";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
 	private static final String INCLUDED_PAGE_JSP = "includedPage";
-	private static final String COMPLEX_PASSWORD = "P@ssw0rd";
 	private static final String DISABLE_ACTION = "disable";
 	private static final String ADMIN_USERNAME = "admin";
 	private static final String ENABLE_ACTION = "enable";
@@ -44,6 +46,7 @@ public class EditUserController {
 	private static final String RESET_ACTION = "reset";
 	private static final String SAVE_ACTION = "save";
 	private static final String BASE_JSP = "Base";
+	private static final String COMPLEX = "P@ssw0rd";
 
 	private static Logger logger = Logger.getLogger(EditUserController.class);
 
@@ -54,7 +57,8 @@ public class EditUserController {
 	private AddUserUseCase addUserUseCase;
 
 	private Map<String, TriConsumer<String, String, User>> actionMap = new HashMap<>();
-	private Map<UserValidationExceptionCause, String> errorMessageMap = new HashMap<>();
+	private EnumMap<UserValidationExceptionCause, String> errorMessageMap = new EnumMap<>(
+			UserValidationExceptionCause.class);
 
 	public EditUserController() {
 		actionMap.put(SAVE_ACTION, (username, fullName, user) -> {
@@ -64,7 +68,7 @@ public class EditUserController {
 
 		actionMap.put(DISABLE_ACTION, (username, fullName, user) -> user.setEnabled(false));
 		actionMap.put(ENABLE_ACTION, (username, fullName, user) -> user.setEnabled(true));
-		actionMap.put(RESET_ACTION, (username, fullName, user) -> user.setHashedPassword(COMPLEX_PASSWORD));
+		actionMap.put(RESET_ACTION, (username, fullName, user) -> user.setHashedPassword(COMPLEX));
 
 		errorMessageMap.put(UserValidationExceptionCause.INVALID_FULLNAME, INVALID_FULLNAME_EXCEPTION_MESSAGE);
 		errorMessageMap.put(UserValidationExceptionCause.INVALID_USERNAME, INVALID_USERNAME_EXCEPTION_MESSGAGE);
