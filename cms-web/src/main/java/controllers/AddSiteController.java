@@ -78,7 +78,7 @@ public class AddSiteController {
 		try {
 			Site site = addSiteUseCase.validateSite(name, parentSite + ensureSeperatorExistsAtBeginning(uri) + uri);
 
-			if (addSiteUseCase.siteExists(uri)) {
+			if (addSiteUseCase.siteExists(parentSite + ensureSeperatorExistsAtBeginning(uri) + uri)) {
 				setProperAttributes(req, DUPLICATE_URI_MESSAGE);
 				return new ModelAndView(BASE_JSP);
 			}
