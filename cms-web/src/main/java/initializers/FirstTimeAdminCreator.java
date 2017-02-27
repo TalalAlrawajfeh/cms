@@ -2,6 +2,7 @@ package initializers;
 
 import java.util.Objects;
 
+import beans.User;
 import beans.UserBuilder;
 import entities.UserEntity;
 import persistence.UserRepository;
@@ -14,9 +15,12 @@ public class FirstTimeAdminCreator extends AbstractInitializer<UserRepository> {
 	@Override
 	public void initialize() {
 		if (Objects.isNull(repository.findByUsername(ADMIN_USERNAME))) {
-			repository.save(CopyUtil.createAndCopyFields(UserEntity.class,
-					new UserBuilder().setEnabled(true).setFullName(ADMIN_USERNAME).setUsername(ADMIN_USERNAME)
-							.setHashedPassword(COMPLEX).build()));
+			repository.save(CopyUtil.createAndCopyFields(UserEntity.class, buildAdmin()));
 		}
+	}
+
+	private User buildAdmin() {
+		return new UserBuilder().setEnabled(true).setFullName(ADMIN_USERNAME).setUsername(ADMIN_USERNAME)
+				.setHashedPassword(COMPLEX).build();
 	}
 }

@@ -20,7 +20,6 @@ public class HashUtil {
 		try {
 			MessageDigest sha256 = MessageDigest.getInstance(SHA_256_ALGORITHM);
 			sha256.update(password.getBytes());
-
 			return convertByteArrayToHexString(sha256.digest());
 		} catch (NoSuchAlgorithmException e) {
 			logger.error(HASH_STRING_ERROR, e);

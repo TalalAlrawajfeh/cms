@@ -82,7 +82,6 @@ public class EditUserController {
 		}
 
 		setProperAttribtutes(req, username, null);
-
 		return new ModelAndView(BASE_JSP);
 	}
 
@@ -106,9 +105,9 @@ public class EditUserController {
 
 		User oldUser = editUserUserCase.getUserFromUsername(managedUsername);
 		User foundUser = editUserUserCase.getUserFromUsername(username);
+		
 		if (Objects.nonNull(foundUser) && !oldUser.equals(foundUser)) {
 			setProperAttribtutes(req, managedUsername, DUPLICATE_USER_MESSAGE);
-
 			return new ModelAndView(BASE_JSP);
 		}
 

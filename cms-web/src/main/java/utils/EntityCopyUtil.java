@@ -19,6 +19,7 @@ public class EntityCopyUtil {
 	public static <D, S> D createAndCopyFields(Class<D> destionationClass, S source) {
 		try {
 			D destination = destionationClass.newInstance();
+			
 			CopyUtil.copyFields(destination, source, new CopySetting[] { new CopySetting(SiteEntity.class, Site.class),
 					new CopySetting(PageEntity.class, Page.class), new CopySetting(Page.class, PageEntity.class),
 					new CopySetting(Site.class, SiteEntity.class) }, new Class<?>[] { List.class }, 3);

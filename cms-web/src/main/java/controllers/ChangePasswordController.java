@@ -35,7 +35,6 @@ public class ChangePasswordController {
 	@RequestMapping(value = CHANGE_PASS_URL, method = RequestMethod.GET)
 	public ModelAndView changePassword(HttpServletRequest req, HttpServletResponse resp) {
 		setProperAttribtutes(req, false);
-
 		return new ModelAndView(BASE_JSP);
 	}
 
@@ -51,16 +50,18 @@ public class ChangePasswordController {
 
 		if (!oldUser.getPasswordHashCode().equals(HashUtil.hashString(oldPassword))) {
 			setProperAttribtutes(req, true);
-
 			return new ModelAndView(BASE_JSP);
 		}
 
-		User newUser = CopyUtil.createAndCopyFields(User.class, oldUser);
-		newUser.setHashedPassword(newPassword);
-		editUserUseCase.updateUser(oldUser, newUser);
-		req.getSession().setAttribute(USER_SESSION_ATTRIBUTE, newUser);
-
+		updateUser(req, oldUser, newPassword);
 		return new ModelAndView(REDIRECT_USER_MANAGEMENT);
+	}
+
+	private void updateUser(HttpServletRequest req, User user, String password) {
+		User newUser = CopyUtil.createAndCopyFields(User.class, user);
+		newUser.setHashedPassword(password);
+		editUserUseCase.updateUser(user, newUser);
+		req.getSession().setAttribute(USER_SESSION_ATTRIBUTE, newUser);
 	}
 
 	private void setProperAttribtutes(HttpServletRequest req, boolean showErrorMessage) {

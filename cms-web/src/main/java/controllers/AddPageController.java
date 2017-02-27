@@ -45,7 +45,6 @@ public class AddPageController {
 	@RequestMapping(value = ADD_PAGE_URL, method = RequestMethod.GET)
 	public ModelAndView addPage(HttpServletRequest req, HttpServletResponse resp) {
 		setProperAttributes(req, null);
-
 		return new ModelAndView(BASE_JSP);
 	}
 
@@ -58,13 +57,11 @@ public class AddPageController {
 
 		if (!addPageUseCase.isPageUriValid(pageUri)) {
 			setProperAttributes(req, INVALID_PAGE_URI_ERROR_MESSAGE);
-
 			return new ModelAndView(BASE_JSP);
 		}
 
 		if (addPageUseCase.pageExists(pageUri)) {
 			setProperAttributes(req, DUPLICATE_PAGE_URI_ERROR_MESSAGE);
-
 			return new ModelAndView(BASE_JSP);
 		}
 

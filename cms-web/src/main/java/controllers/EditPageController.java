@@ -36,6 +36,7 @@ public class EditPageController {
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
 	private static final String SITES_ATTRIBUTE = "sites";
 	private static final String EDIT_SITE_JSP = "EditPage";
+	private static final String EDIT_PAGE_URL = "/edit-page";
 	private static final String BASE_JSP = "Base";
 
 	@Autowired
@@ -53,13 +54,13 @@ public class EditPageController {
 	@Autowired
 	private EditPageUseCase editPageUseCase;
 
-	@RequestMapping(value = "/edit-page", method = RequestMethod.GET)
+	@RequestMapping(value = EDIT_PAGE_URL, method = RequestMethod.GET)
 	public ModelAndView editPage(HttpServletRequest req, HttpServletResponse resp, @RequestParam String uri) {
 		setProperAttributes(req, uri, null);
 		return new ModelAndView(BASE_JSP);
 	}
 
-	@RequestMapping(value = "/edit-page", method = RequestMethod.POST)
+	@RequestMapping(value = EDIT_PAGE_URL, method = RequestMethod.POST)
 	public ModelAndView editPage(HttpServletRequest req, HttpServletResponse resp, @RequestParam String editedPage,
 			@RequestParam String title, @RequestParam String uri, @RequestParam String seo,
 			@RequestParam String content) {
@@ -92,7 +93,7 @@ public class EditPageController {
 		return new ModelAndView(REDIRECT_PAGE_MANAGEMENT);
 	}
 
-	@RequestMapping(value = "/edit-page", method = RequestMethod.DELETE)
+	@RequestMapping(value = EDIT_PAGE_URL, method = RequestMethod.DELETE)
 	public void deletePage(HttpServletRequest req, HttpServletResponse resp, @RequestParam String uri) {
 		System.out.println(uri);
 		if (isLandingPage(pageManagementUseCase.getPageByUri(uri).getSite(), uri)) {
@@ -110,6 +111,7 @@ public class EditPageController {
 			editSiteUseCase.updateSite(siteOfPage);
 
 			addPageUseCase.savePage(newPage);
+			
 			siteOfPage.setLandingPage(newPage);
 			editSiteUseCase.updateSite(siteOfPage);
 		} else {

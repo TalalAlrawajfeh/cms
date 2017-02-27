@@ -52,7 +52,6 @@ public class AddUserController {
 	@RequestMapping(value = ADD_USER_URL, method = RequestMethod.GET)
 	public ModelAndView addUser(HttpServletRequest req, HttpServletResponse resp) {
 		setProperAttribtutes(req, null);
-
 		return new ModelAndView(BASE_JSP);
 	}
 
@@ -62,13 +61,11 @@ public class AddUserController {
 
 		try {
 			User user = addUserUseCase.validateUser(fullName, username);
-
 			user.setEnabled(true);
 			user.setHashedPassword(COMPLEX);
 
 			if (addUserUseCase.userExists(username)) {
 				setProperAttribtutes(req, DUPLICATE_USERNAME_ERROR_MESSAGE);
-
 				return new ModelAndView(BASE_JSP);
 			}
 

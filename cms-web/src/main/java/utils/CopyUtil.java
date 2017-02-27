@@ -47,6 +47,7 @@ public class CopyUtil {
 
 	private static <D, S> void handleField(D destination, S source, CopySetting[] copySettings,
 			Class<?>[] discardClasses, int depth, Field f) {
+		
 		if (Objects.nonNull(discardClasses)
 				&& Stream.of(discardClasses).filter(f.getType()::equals).findAny().isPresent()) {
 			return;

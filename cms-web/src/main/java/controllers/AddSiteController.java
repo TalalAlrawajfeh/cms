@@ -67,7 +67,6 @@ public class AddSiteController {
 	@RequestMapping(value = ADD_SITE_URL, method = RequestMethod.GET)
 	public ModelAndView addSite(HttpServletRequest req, HttpServletResponse resp) {
 		setProperAttributes(req, null);
-
 		return new ModelAndView(BASE_JSP);
 	}
 
