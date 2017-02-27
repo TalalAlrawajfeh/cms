@@ -54,7 +54,7 @@
 					<select name="landingPage" class="form-control">
 						<c:forEach items="${pages}" var="page">
 							<c:if test="${page.site.uri eq site.uri}">
-								<option value="${page.uri}">${page.title}- ${page.uri}</option>
+								<option <c:if test="${site.landingPage.uri eq page.uri}">selected="selected"</c:if> value="${page.uri}">${page.title} - ${page.uri}</option>
 							</c:if>
 						</c:forEach>
 					</select>
