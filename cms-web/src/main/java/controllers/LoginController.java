@@ -1,7 +1,6 @@
 package controllers;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -23,9 +22,9 @@ import usecases.exceptions.InvalidUserException.InvalidUserExceptionCause;
 
 @Controller
 public class LoginController {
-	private static final String INCORRECT_USERNAME_OR_PASSWORD_MESSAGE = "Incorrect username or password";
 	private static final String ATTEMPT_TO_LOGIN_WITH_UNKNOWN_USER_LOG = "An attempt to login with unknown user ";
-	private static final String FAILED_TO_LOGIN_INCORRECT_PASSWORD_LOG = " has failed to log in due to incorrect password";
+	private static final String FAILED_TO_LOGIN_INCORRECT_PASS_LOG = " has failed to log in due to incorrect password";
+	private static final String INCORRECT_USERNAME_OR_PASS_MESSAGE = "Incorrect username or password";
 	private static final String USER_RETURNED_TO_LOGIN_PAGE_LOG = " has returned to login page and will be redirected to user management page";
 	private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
 	private static final String USER_HAS_LOGGED_IN_LOG = " has logged in";
@@ -38,14 +37,15 @@ public class LoginController {
 	private static final String LOGIN_PAGE = "Login";
 
 	private static Logger logger = Logger.getLogger(LoginController.class);
-	private Map<InvalidUserExceptionCause, Consumer<String>> causeMap = new HashMap<>();
+	private EnumMap<InvalidUserExceptionCause, Consumer<String>> causeMap = new EnumMap<>(
+			InvalidUserExceptionCause.class);
 
 	@Autowired
 	private LoginUseCase loginUseCase;
 
 	public LoginController() {
 		causeMap.put(InvalidUserExceptionCause.INVALID_PASSWORD,
-				username -> logger.warn(USER_STRING + username + FAILED_TO_LOGIN_INCORRECT_PASSWORD_LOG));
+				username -> logger.warn(USER_STRING + username + FAILED_TO_LOGIN_INCORRECT_PASS_LOG));
 
 		causeMap.put(InvalidUserExceptionCause.USER_NOT_FOUND,
 				username -> logger.info(ATTEMPT_TO_LOGIN_WITH_UNKNOWN_USER_LOG + username));
@@ -83,7 +83,7 @@ public class LoginController {
 		} catch (InvalidUserException e) {
 			logger.error(e);
 			causeMap.get(e.getInvalidUserCause()).accept(username);
-			req.setAttribute(ERROR_MESSAGE, INCORRECT_USERNAME_OR_PASSWORD_MESSAGE);
+			req.setAttribute(ERROR_MESSAGE, INCORRECT_USERNAME_OR_PASS_MESSAGE);
 		}
 
 		req.setAttribute(SHOW_ERROR, true);
