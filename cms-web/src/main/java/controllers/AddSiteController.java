@@ -1,7 +1,6 @@
 package controllers;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +55,10 @@ public class AddSiteController {
 	@Autowired
 	private AddPageUseCase addPageUseCase;
 
-	private Map<SiteValidationExceptionCause, String> errorMessageMap = new HashMap<>();
+	// private Map<SiteValidationExceptionCause, String> errorMessageMap = new
+	// HashMap<>();
+	private EnumMap<SiteValidationExceptionCause, String> errorMessageMap = new EnumMap<>(
+			SiteValidationExceptionCause.class);
 
 	public AddSiteController() {
 		errorMessageMap.put(SiteValidationExceptionCause.INVALID_NAME, INVALID_SITE_NAME_ERROR_MESSAGE);
