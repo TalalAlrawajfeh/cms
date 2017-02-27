@@ -9,10 +9,22 @@
 	});
 </script>
 
+<div class="row">
+	<div class="col-sm-9 col-sm-offset-2">
+		<c:if test="${showError == true}">
+			<div class="row">
+				<div class="alert alert-danger">
+					<strong>Error!</strong> ${errorMessage}
+				</div>
+			</div>
+		</c:if>
+	</div>
+</div>
+
 <div class="col-sm-9 col-sm-offset-2">
 	<h1 class="page-header">Edit Page</h1>
 	<form class="form-horizontal" action="./edit-page" method="post">
-		<input type="hidden" id="managedPage" name="managedPage"
+		<input type="hidden" id="editedPage" name="editedPage"
 			value="${editedPage.uri}">
 		<div class="col-xs-12 col-sm-12">
 			<div class="row form-group">
@@ -26,16 +38,19 @@
 			<div class="row form-group">
 				<label class="col-xs-12 col-sm-3">Page URI</label>
 				<div class="col-xs-12 col-sm-6">
-					<input type="text" id="uri" name="uri" value="${editedPage.uri}"
+					<input type="text" id="uri" name="uri"
+						value="${editedPage.uri.substring(editedPage.uri.lastIndexOf('/'))}"
 						class="form-control" placeholder="URI" required autofocus>
 				</div>
 			</div>
 			<div class="row form-group">
 				<label class="col-xs-12 col-sm-3">Site</label>
 				<div class="col-xs-12 col-sm-6">
-					<select name="site" class="form-control">
+					<select name="site" class="form-control" disabled>
 						<c:forEach items="${sites}" var="site">
-							<option <c:if test="${editedPage.site.uri eq site.uri}">selected="selected"</c:if> value="${site.uri}">${site.name} - ${site.uri}</option>
+							<option
+								<c:if test="${editedPage.site.uri eq site.uri}">selected="selected"</c:if>
+								value="${site.uri}">${site.name} - ${site.uri}</option>
 						</c:forEach>
 					</select>
 				</div>
@@ -57,7 +72,7 @@
 					<button type="submit" class="btn btn-primary">Save</button>
 					&nbsp;
 					<button type="button" class="btn btn-info">Publish</button>
-					&nbsp; <a class="btn btn-danger" href="./page-management">Cancel</a>&nbsp;
+					&nbsp; <a class="btn btn-danger" href="./page-management?filter=all">Cancel</a>&nbsp;
 				</div>
 			</div>
 		</div>

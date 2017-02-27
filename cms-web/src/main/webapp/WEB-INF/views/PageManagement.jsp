@@ -8,9 +8,13 @@
 		<form class="form-horizontal" action="./page-management" method="get">
 			<div class="input-group">
 				<select id="filter" name="filter" class="form-control">
-					<option <c:if test="${param.filter eq 'all'}">selected="selected"</c:if>  value="all">All</option>
+					<option
+						<c:if test="${param.filter eq 'all'}">selected="selected"</c:if>
+						value="all">All</option>
 					<c:forEach items="${sites}" var="site">
-						<option <c:if test="${param.filter eq site.uri}">selected="selected"</c:if> value="${site.uri}">${site.name} - ${site.uri}</option>
+						<option
+							<c:if test="${param.filter eq site.uri}">selected="selected"</c:if>
+							value="${site.uri}">${site.name} - ${site.uri}</option>
 					</c:forEach>
 				</select> <span class="input-group-btn">
 					<button class="btn btn-default" type="submit">
@@ -73,11 +77,18 @@
 		xmlHttpRequest.open("DELETE", "./edit-page?uri=" + uri, false);
 
 		xmlHttpRequest.onreadystatechange = function() {
-			if (xmlHttpRequest.readyState === XMLHttpRequest.DONE
-					&& xmlHttpRequest.status === 200) {
+			if (xmlHttpRequest.readyState === XMLHttpRequest.DONE) {
+				if (xmlHttpRequest.status === 200) {
+					window.location.reload();
+					return;
+				}
 
-			} else {
+				if (xmlHttpRequest.status === 400) {
+					window.alert("Error! A site has this page as its landing page.");
+					return;
+				}
 
+				window.alert("An error occured while processing request");
 			}
 		};
 
