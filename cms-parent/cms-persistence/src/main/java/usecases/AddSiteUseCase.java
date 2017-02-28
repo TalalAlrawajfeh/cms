@@ -5,7 +5,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import beans.Site;
-import beans.SiteBuilder;
+import beans.builders.SiteBuilder;
 import entities.SiteEntity;
 import persistence.SiteRepository;
 import usecases.exceptions.SiteValidationException;

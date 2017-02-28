@@ -5,7 +5,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import beans.User;
-import beans.UserBuilder;
+import beans.builders.UserBuilder;
 import entities.UserEntity;
 import persistence.UserRepository;
 import usecases.exceptions.UserValidationException;

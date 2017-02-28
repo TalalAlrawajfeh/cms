@@ -4,8 +4,8 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import beans.PageBuilder;
-import beans.SiteBuilder;
+import beans.builders.PageBuilder;
+import beans.builders.SiteBuilder;
 import entities.PageEntity;
 import entities.SiteEntity;
 import persistence.PageRepository;

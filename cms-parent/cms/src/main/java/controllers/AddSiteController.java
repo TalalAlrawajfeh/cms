@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import beans.Page;
-import beans.PageBuilder;
 import beans.Site;
-import beans.SiteBuilder;
+import beans.builders.PageBuilder;
+import beans.builders.SiteBuilder;
 import usecases.AddPageUseCase;
 import usecases.AddSiteUseCase;
 import usecases.SiteManagementUseCase;

@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import beans.Page;
-import beans.PageBuilder;
 import beans.Site;
+import beans.builders.PageBuilder;
 import usecases.AddPageUseCase;
 import usecases.EditPageUseCase;
 import usecases.EditSiteUseCase;

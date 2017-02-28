@@ -1,4 +1,6 @@
-package beans;
+package beans.builders;
+
+import beans.User;
 
 public class UserBuilder implements BeanBuilder<User> {
 	private User user = new User();

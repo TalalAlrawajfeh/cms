@@ -1,4 +1,7 @@
-package beans;
+package beans.builders;
+
+import beans.Page;
+import beans.Site;
 
 public class SiteBuilder implements BeanBuilder<Site> {
 	private Site site = new Site();
