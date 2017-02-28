@@ -6,6 +6,7 @@ import java.util.Arrays;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -23,6 +24,7 @@ public class SiteSettingsEntity implements Serializable {
 	@Column(name = "SITE_NAME")
 	private String name;
 
+	@Lob
 	@Column(name = "SITE_LOGO")
 	private byte[] logo;
 

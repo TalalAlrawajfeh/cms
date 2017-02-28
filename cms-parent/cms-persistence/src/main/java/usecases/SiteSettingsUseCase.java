@@ -51,6 +51,20 @@ public class SiteSettingsUseCase {
 		}
 	}
 
+	public SiteSettings validateSiteSettings(String deliveryUrl, String name, byte[] logo)
+			throws SiteSettingsValidationException {
+
+		if (!deliveryUrl.matches(DELIVERY_URL_VALIDATION_REGEX)) {
+			throw new SiteSettingsValidationException(SiteSettingsValidationExceptionCause.INVALID_DELIVERY_URL);
+		}
+
+		if (!name.matches(NAME_VALIDATION_REGEX)) {
+			throw new SiteSettingsValidationException(SiteSettingsValidationExceptionCause.INVALID_NAME);
+		}
+
+		return new SiteSettingsBuilder().setDeliveryUrl(deliveryUrl).setName(name).setLogo(logo).build();
+	}
+
 	public void saveSiteSettings(SiteSettings siteSettings) {
 		siteSettingsRepository.save(CopyUtil.createAndCopyFields(SiteSettingsEntity.class, siteSettings));
 	}

@@ -54,7 +54,7 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li><a href="./siteSettings.html">Site Settings</a></li>
+					<li><a href="./site-settings">Site Settings</a></li>
 					<li><a href="./user-management">Users Management</a></li>
 					<li><a href="./site-management">Sites Management</a></li>
 					<li><a href="./page-management?filter=all">Page Management</a></li>

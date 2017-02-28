@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-	<import resource="classpath:/appconfig-data.xml"/>
+	<import resource="classpath:/appconfig-data.xml" />
 	<context:annotation-config></context:annotation-config>
 
 	<bean id="loginUseCase" class="usecases.LoginUseCase" />
@@ -20,6 +20,7 @@
 	<bean id="pageManagementUseCase" class="usecases.PageManagementUseCase" />
 	<bean id="addPageUseCase" class="usecases.AddPageUseCase" />
 	<bean id="editPageUseCase" class="usecases.EditPageUseCase" />
+	<bean id="siteSettingsUseCase" class="usecases.SiteSettingsUseCase" />
 
 	<bean id="firstTimeAdminCreator" class="initializers.FirstTimeAdminCreator"
 		init-method="initialize" />
