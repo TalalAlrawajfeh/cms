@@ -13,7 +13,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>${page.title}</title>
+<title>Content Management System</title>
 
 <link
 	href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />"
@@ -26,7 +26,8 @@
 	<div class="container">
 		<div class="navbar-header">
 			<div class="navbar-header">
-				<a class="navbar-brand"
+				<a class="navbar-brand" style="color: blue;">${websiteName}</a> <a
+					class="navbar-brand"
 					<c:if test="${not empty site.parentSite}">href="./delivery?site_uri=${site.parentSite.uri}"</c:if>>${site.name}</a>
 			</div>
 			<ul class="nav navbar-nav">
@@ -47,7 +48,15 @@
 					</c:forEach>
 				</ul>
 			</div>
-			${selectedPage.content}
+
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-sm-offset-2">
+				<img class="img-responsive" src="data:image/jpg;base64, ${image}" />
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-9 col-sm-offset-2">${selectedPage.content}</div>
 		</div>
 	</div>
 
