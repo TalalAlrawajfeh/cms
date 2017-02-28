@@ -22,4 +22,9 @@ public class PageManagementUseCase {
 	public Page getPageByUri(String uri) {
 		return EntityCopyUtil.createAndCopyFields(Page.class, pageRepository.findByUri(uri));
 	}
+
+	public List<Page> getPagesOfSite(String uri) {
+		return StreamSupport.stream(getAllPages().spliterator(), true).filter(p -> p.getSite().getUri().equals(uri))
+				.collect(Collectors.toList());
+	}
 }

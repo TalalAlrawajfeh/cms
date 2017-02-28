@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -36,7 +37,7 @@ public class SiteEntity implements Serializable {
 	@JoinColumn(name = "LANDING_PAGE")
 	private PageEntity landingPage;
 
-	@OneToMany(mappedBy = "parentSite")
+	@OneToMany(mappedBy = "parentSite", fetch = FetchType.EAGER)
 	private List<SiteEntity> subSites;
 
 	public SiteEntity() {
@@ -87,6 +88,7 @@ public class SiteEntity implements Serializable {
 	public String toString() {
 		return "SiteEntity [uri=" + uri + ", name=" + name + ", parentSite="
 				+ Optional.ofNullable(parentSite).map(SiteEntity::getUri).orElse("none") + ", landingPage="
-				+ Optional.ofNullable(landingPage).map(PageEntity::getUri).orElse("none") + ", subSites=" + subSites + "]";
+				+ Optional.ofNullable(landingPage).map(PageEntity::getUri).orElse("none") + ", subSites=" + subSites
+				+ "]";
 	}
 }

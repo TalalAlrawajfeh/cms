@@ -26,11 +26,12 @@
 	<div class="container">
 		<div class="navbar-header">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="./content?site_uri=${site.uri}">${site.name}</a>
+				<a class="navbar-brand"
+					<c:if test="${not empty site.parentSite}">href="./delivery?site_uri=${site.parentSite.uri}"</c:if>>${site.name}</a>
 			</div>
 			<ul class="nav navbar-nav">
 				<c:forEach items="${subSites}" var="subSite">
-					<li><a href="./content?site_uri=${subSite.uri}">${subSite.name}</a></li>
+					<li><a href="./delivery?site_uri=${subSite.uri}">${subSite.name}</a></li>
 				</c:forEach>
 			</ul>
 		</div>
@@ -42,7 +43,7 @@
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
 					<c:forEach items="${pages}" var="page">
-						<li><a href="./content?page_uri=${page.uri}">${page.title}</a></li>
+						<li><a href="./delivery?page_uri=${page.uri}">${page.title}</a></li>
 					</c:forEach>
 				</ul>
 			</div>

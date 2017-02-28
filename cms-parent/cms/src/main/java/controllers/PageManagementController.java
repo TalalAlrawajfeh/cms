@@ -1,8 +1,5 @@
 package controllers;
 
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,8 +38,7 @@ public class PageManagementController {
 		if (filter.equals(ALL_FILTER)) {
 			setPagesAttribute(req, pageManagementUseCase.getAllPages());
 		} else {
-			setPagesAttribute(req, StreamSupport.stream(pageManagementUseCase.getAllPages().spliterator(), true)
-					.filter(p -> p.getSite().getUri().equals(filter)).collect(Collectors.toList()));
+			setPagesAttribute(req, pageManagementUseCase.getPagesOfSite(filter));
 		}
 
 		return new ModelAndView(BASE_JSP);
