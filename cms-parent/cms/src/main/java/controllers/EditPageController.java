@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import beans.Page;
 import beans.PageBuilder;
 import beans.Site;
-import beans.User;
 import usecases.AddPageUseCase;
 import usecases.EditPageUseCase;
 import usecases.EditSiteUseCase;
@@ -30,8 +29,6 @@ public class EditPageController {
 	private static final String REDIRECT_PAGE_MANAGEMENT = "redirect:/page-management?filter=all";
 	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
 	private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
-	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
-	private static final String USER_SESSION_ATTRIBUTE = "user";
 	private static final String EDITED_PAGE_ATTRIBUTE = "editedPage";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
 	private static final String SITES_ATTRIBUTE = "sites";
@@ -110,7 +107,7 @@ public class EditPageController {
 			editSiteUseCase.updateSite(siteOfPage);
 
 			addPageUseCase.savePage(newPage);
-			
+
 			siteOfPage.setLandingPage(newPage);
 			editSiteUseCase.updateSite(siteOfPage);
 		} else {
@@ -127,7 +124,6 @@ public class EditPageController {
 	}
 
 	private void setProperAttributes(HttpServletRequest req, String uri, String errorMessage) {
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 		req.setAttribute(SITES_ATTRIBUTE, siteManagementUseCase.getAllSites());
 		req.setAttribute(EDITED_PAGE_ATTRIBUTE, pageManagementUseCase.getPageByUri(uri));
 		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, EDIT_SITE_JSP);

@@ -18,7 +18,6 @@ import beans.Page;
 import beans.PageBuilder;
 import beans.Site;
 import beans.SiteBuilder;
-import beans.User;
 import usecases.AddPageUseCase;
 import usecases.AddSiteUseCase;
 import usecases.SiteManagementUseCase;
@@ -32,8 +31,6 @@ public class AddSiteController {
 	private static final String REDIRECT_SITE_MANAGEMENT = "redirect:/site-management";
 	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
 	private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
-	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
-	private static final String USER_SESSION_ATTRIBUTE = "user";
 	private static final String DUPLICATE_URI_MESSAGE = "A site with the same URI exists";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
 	private static final String OTHER_ERROR_MESSAGE = "An error occured";
@@ -112,7 +109,6 @@ public class AddSiteController {
 	}
 
 	private void setProperAttributes(HttpServletRequest req, String errorMessage) {
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 		req.setAttribute(SITES_ATTRIBUTE, siteManagementUseCase.getAllSites());
 		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_SITE_JSP);
 

@@ -22,7 +22,6 @@ public class ChangePasswordController {
 	private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
 	private static final String INCORRECT_PASS_MESSAGE = "The old password is incorrect";
 	private static final String USER_SESSION_ATTRIBUTE = "user";
-	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
 	private static final String CHANGE_PASS_JSP = "ChangePassword";
 	private static final String CHANGE_PASS_URL = "/change-password";
@@ -65,7 +64,6 @@ public class ChangePasswordController {
 	}
 
 	private void setProperAttribtutes(HttpServletRequest req, boolean showErrorMessage) {
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 		req.setAttribute(SHOW_ERROR_ATTRIBUTE, showErrorMessage);
 		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, CHANGE_PASS_JSP);
 

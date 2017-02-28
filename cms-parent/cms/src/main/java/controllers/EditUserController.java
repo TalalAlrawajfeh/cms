@@ -31,7 +31,6 @@ public class EditUserController {
 	private static final String REDIRECT_USER_MANAGEMENT = "redirect:/user-management";
 	private static final String OTHER_EXCEPTION_MESSAGE = "An error occured";
 	private static final String MANAGED_USER_ATTRIBUTE = "managedUser";
-	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String USER_SESSION_ATTRIBUTE = "user";
 	private static final String DUPLICATE_USER_MESSAGE = "A user with the same username already exists.";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
@@ -105,7 +104,7 @@ public class EditUserController {
 
 		User oldUser = editUserUserCase.getUserFromUsername(managedUsername);
 		User foundUser = editUserUserCase.getUserFromUsername(username);
-		
+
 		if (Objects.nonNull(foundUser) && !oldUser.equals(foundUser)) {
 			setProperAttribtutes(req, managedUsername, DUPLICATE_USER_MESSAGE);
 			return new ModelAndView(BASE_JSP);
@@ -132,7 +131,6 @@ public class EditUserController {
 	}
 
 	private void setProperAttribtutes(HttpServletRequest req, String username, String errorMessage) {
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 		req.setAttribute(MANAGED_USER_ATTRIBUTE, editUserUserCase.getUserFromUsername(username));
 		req.setAttribute(INCLUDED_PAGE_JSP, EDIT_USER_JSP);
 

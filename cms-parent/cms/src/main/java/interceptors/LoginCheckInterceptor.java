@@ -13,6 +13,8 @@ import beans.User;
 
 public class LoginCheckInterceptor implements HandlerInterceptor {
 	private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
+	private static final String USER_SESSION_ATTRIBUTE = "user";
+	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String LOGIN_URL = "/login";
 
 	@Override
@@ -34,6 +36,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 			return false;
 		}
 
+		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 		return true;
 	}
 }

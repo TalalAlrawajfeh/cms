@@ -28,8 +28,6 @@ public class AddUserController {
 	private static final String ERROR_MESSAGE_ATTRIBUTE = "errorMessage";
 	private static final String INCLUDED_PAGE_ATTRIBUTE = "includedPage";
 	private static final String OTHER_EXCEPTION_MESSAGE = "An error occured";
-	private static final String USER_SESSION_ATTRIBUTE = "user";
-	private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
 	private static final String SHOW_ERROR_ATTRIBUTE = "showError";
 	private static final String ADD_USER_JSP = "AddUser";
 	private static final String ADD_USER_URL = "/add-user";
@@ -82,7 +80,6 @@ public class AddUserController {
 	}
 
 	private void setProperAttribtutes(HttpServletRequest req, String errorMessage) {
-		req.setAttribute(CURRENT_USER_ATTRIBUTE, (User) req.getSession().getAttribute(USER_SESSION_ATTRIBUTE));
 		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, ADD_USER_JSP);
 
 		if (Objects.nonNull(errorMessage)) {
