@@ -2,20 +2,25 @@ package initializers;
 
 import java.util.Objects;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import beans.User;
 import beans.UserBuilder;
 import entities.UserEntity;
 import persistence.UserRepository;
 import utils.CopyUtil;
 
-public class FirstTimeAdminCreator extends AbstractInitializer<UserRepository> {
+public class FirstTimeAdminCreator implements Initializer {
 	private static final String ADMIN_USERNAME = "admin";
 	private static final String COMPLEX = "P@ssw0rd";
 
+	@Autowired
+	private UserRepository userRepository;
+
 	@Override
 	public void initialize() {
-		if (Objects.isNull(repository.findByUsername(ADMIN_USERNAME))) {
-			repository.save(CopyUtil.createAndCopyFields(UserEntity.class, buildAdmin()));
+		if (Objects.isNull(userRepository.findByUsername(ADMIN_USERNAME))) {
+			userRepository.save(CopyUtil.createAndCopyFields(UserEntity.class, buildAdmin()));
 		}
 	}
 
