@@ -10,22 +10,10 @@
 	<import resource="classpath:/appconfig-data.xml" />
 	<context:annotation-config></context:annotation-config>
 
-	<!-- <bean id="loginUseCase" class="usecases.LoginUseCase" /> -->
-	<!-- <bean id="userManagementUserCase" class="usecases.UserManagementUseCase" 
-		/> -->
-	<!-- <bean id="editUserUseCase" class="usecases.EditUserUseCase" /> -->
-	<!-- <bean id="addUserUseCase" class="usecases.AddUserUseCase" /> -->
-	<!-- <bean id="siteManagementUseCase" class="usecases.SiteManagementUseCase" 
-		/> -->
-	<!-- <bean id="addSiteUseCase" class="usecases.AddSiteUseCase" /> -->
-	<!-- <bean id="editSiteUseCase" class="usecases.EditSiteUseCase" /> -->
-	<!-- <bean id="pageManagementUseCase" class="usecases.PageManagementUseCase" 
-		/> -->
-	<!-- <bean id="addPageUseCase" class="usecases.AddPageUseCase" /> -->
-	<!-- <bean id="editPageUseCase" class="usecases.EditPageUseCase" /> -->
-
-	<!-- <bean id="firstTimeAdminCreator" class="initializers.FirstTimeAdminCreator" -->
-	<!-- init-method="initialize" /> -->
-	<!-- <bean id="firstTimeRootSiteCreator" class="initializers.FirstTimeRootSiteCreator" -->
-	<!-- init-method="initialize" /> -->
+	<bean id="siteManagementUseCase" class="usecases.SiteManagementUseCase" />
+	<bean id="pageManagementUseCase" class="usecases.PageManagementUseCase" />
+	<bean id="editSiteUseCase" class="usecases.EditSiteUseCase" />
+	<bean id="addSiteUseCase" class="usecases.AddSiteUseCase" />
+	<bean id="addPageUseCase" class="usecases.AddPageUseCase" />
+	<bean id="editPageUseCase" class="usecases.EditPageUseCase" />
 </beans>
