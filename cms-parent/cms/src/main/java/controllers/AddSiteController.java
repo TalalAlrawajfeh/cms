@@ -41,7 +41,7 @@ public class AddSiteController {
 	private static final String WELCOME_URI = "/welcome";
 	private static final String BASE_JSP = "Base";
 
-	private static Logger logger = Logger.getLogger(AddSiteUseCase.class);
+	private static Logger logger = Logger.getLogger(AddSiteController.class);
 
 	@Autowired
 	private SiteManagementUseCase siteManagementUseCase;
