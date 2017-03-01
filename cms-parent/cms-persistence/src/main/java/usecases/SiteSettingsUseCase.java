@@ -21,8 +21,6 @@ public class SiteSettingsUseCase {
 	private static final String LOGO_IMAGE_VALIDATION_REGEX = "([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)";
 	private static final String NAME_VALIDATION_REGEX = "[a-zA-Z\\s]{3,50}";
 
-	private static Logger logger = Logger.getLogger(SiteSettingsUseCase.class);
-
 	@Autowired
 	private SiteSettingsRepository siteSettingsRepository;
 
@@ -46,6 +44,7 @@ public class SiteSettingsUseCase {
 		try {
 			return new SiteSettingsBuilder().setDeliveryUrl(deliveryUrl).setName(name).setLogo(imagePath).build();
 		} catch (SiteSettingsBuilderException e) {
+			Logger logger = Logger.getLogger(SiteSettingsUseCase.class);
 			logger.warn(e.getMessage(), e);
 			throw new SiteSettingsValidationException(SiteSettingsValidationExceptionCause.INVALID_LOGO);
 		}
