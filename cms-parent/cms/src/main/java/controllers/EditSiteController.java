@@ -38,8 +38,6 @@ public class EditSiteController {
 	private static final String BASE_JSP = "Base";
 	private static final String ROOT_URL = "/root";
 
-	private static Logger logger = Logger.getLogger(EditSiteController.class);
-
 	@Autowired
 	private AddSiteUseCase addSiteUseCase;
 
@@ -77,6 +75,7 @@ public class EditSiteController {
 			saveNewSite(uri, name, landingPage);
 		} catch (SiteValidationException e) {
 			String errorMessage = errorMessageMap.get(e.getSiteValidationExceptionCause());
+			Logger logger = Logger.getLogger(EditSiteController.class);
 			logger.info(errorMessage, e);
 
 			setProperAttributes(req, uri, errorMessage);
