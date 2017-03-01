@@ -41,8 +41,6 @@ public class AddSiteController {
 	private static final String WELCOME_URI = "/welcome";
 	private static final String BASE_JSP = "Base";
 
-	private static Logger logger = Logger.getLogger(AddSiteController.class);
-
 	@Autowired
 	private SiteManagementUseCase siteManagementUseCase;
 
@@ -83,6 +81,7 @@ public class AddSiteController {
 			saveSite(parentSite, site);
 		} catch (SiteValidationException e) {
 			String errorMessage = errorMessageMap.get(e.getSiteValidationExceptionCause());
+			Logger logger = Logger.getLogger(AddSiteController.class);
 			logger.info(errorMessage, e);
 
 			setProperAttributes(req, errorMessage);
@@ -100,7 +99,8 @@ public class AddSiteController {
 		site.setParentSite(new SiteBuilder().setUri(parentSite).build());
 		addSiteUseCase.saveSite(site);
 
-		Page page = new PageBuilder().setTitle(WELCOME_TITLE).setUri(site.getUri() + WELCOME_URI).setIsPublished(false).build();
+		Page page = new PageBuilder().setTitle(WELCOME_TITLE).setUri(site.getUri() + WELCOME_URI).setIsPublished(false)
+				.build();
 		page.setSite(site);
 		addPageUseCase.savePage(page);
 
