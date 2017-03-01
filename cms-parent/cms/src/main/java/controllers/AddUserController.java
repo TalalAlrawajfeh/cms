@@ -34,8 +34,6 @@ public class AddUserController {
 	private static final String BASE_JSP = "Base";
 	private static final String COMPLEX = "P@ssw0rd";
 
-	private static Logger logger = Logger.getLogger(AddUserController.class);
-	
 	private EnumMap<UserValidationExceptionCause, String> errorMessageMap = new EnumMap<>(
 			UserValidationExceptionCause.class);
 
@@ -71,6 +69,7 @@ public class AddUserController {
 			addUserUseCase.saveUser(user);
 		} catch (UserValidationException e) {
 			String errorMessage = errorMessageMap.get(e.getValidationExceptionCause());
+			Logger logger = Logger.getLogger(AddUserController.class);
 			logger.info(errorMessage, e);
 
 			setProperAttribtutes(req, errorMessage);
