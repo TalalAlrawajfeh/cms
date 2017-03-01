@@ -14,6 +14,9 @@ import utils.CopySetting;
 import utils.EntityCopyUtil;
 
 public class EditPageUseCase {
+	private static final CopySetting[] COPY_SETTINGS = new CopySetting[] {
+			new CopySetting(SiteEntity.class, SiteEntity.class), new CopySetting(PageEntity.class, PageEntity.class) };
+
 	@Autowired
 	private PageRepository pageRepository;
 
@@ -33,8 +36,7 @@ public class EditPageUseCase {
 		}
 
 		PublishedPageEntity publishedPage = EntityCopyUtil.createAndCopyFields(PublishedPageEntity.class, pageEntity,
-				new CopySetting[] { new CopySetting(SiteEntity.class, SiteEntity.class),
-						new CopySetting(PageEntity.class, PageEntity.class) });
+				COPY_SETTINGS);
 
 		publishedPage.setCorrespondingPage(pageEntity);
 		publishedPageRepository.save(publishedPage);
@@ -44,15 +46,18 @@ public class EditPageUseCase {
 	}
 
 	public boolean wasPublished(String uri) {
-		return Objects.nonNull(publishedPageRepository.findByCorrespondingPage(pageRepository.findByUri(uri)));
+		return Objects.nonNull(getCorrespondingPublishedPage(uri));
 	}
 
 	public Page getCorrespondingPublishedPage(Page page) {
-		return EntityCopyUtil.createAndCopyFields(Page.class,
-				publishedPageRepository.findByCorrespondingPage(pageRepository.findByUri(page.getUri())));
+		return EntityCopyUtil.createAndCopyFields(Page.class, getCorrespondingPublishedPage(page.getUri()));
 	}
 
 	public void deleteCorrespondingPublishedPage(String uri) {
-		publishedPageRepository.delete(publishedPageRepository.findByCorrespondingPage(pageRepository.findByUri(uri)));
+		publishedPageRepository.delete(getCorrespondingPublishedPage(uri));
+	}
+
+	private PublishedPageEntity getCorrespondingPublishedPage(String uri) {
+		return publishedPageRepository.findByCorrespondingPage(pageRepository.findByUri(uri));
 	}
 }

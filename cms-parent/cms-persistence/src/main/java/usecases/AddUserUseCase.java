@@ -13,7 +13,7 @@ import usecases.exceptions.UserValidationException.UserValidationExceptionCause;
 import utils.CopyUtil;
 
 public class AddUserUseCase {
-	private static final String USER_FULLNAME_VALIDATION_REGEX = "[a-zA-Z\\s]{3,50}";
+	private static final String USER_FULLNAME_VALIDATION_REGEX = "[a-zA-Z0-9\\s]{3,50}";
 	private static final String USER_USERNAME_VALIDATION_REGEX = "[a-zA-Z0-9\\.\\-_]{3,50}";
 
 	@Autowired

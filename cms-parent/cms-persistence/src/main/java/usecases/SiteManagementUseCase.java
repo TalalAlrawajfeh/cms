@@ -22,8 +22,10 @@ public class SiteManagementUseCase {
 
 	public List<Site> getSubSites(String uri) {
 		List<Site> subSites = new ArrayList<>();
+		
 		siteRepository.findByUri(uri).getSubSites().stream()
 				.forEach(s -> subSites.add(EntityCopyUtil.createAndCopyFields(Site.class, s)));
+		
 		return subSites;
 	}
 }

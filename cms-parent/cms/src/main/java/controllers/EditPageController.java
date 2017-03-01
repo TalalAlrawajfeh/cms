@@ -84,9 +84,7 @@ public class EditPageController {
 			editPageUseCase.deletePageByUri(editedPage);
 		}
 
-		savePage(editedPage, site, new PageBuilder().setTitle(title).setUri(pageUri).setIsHtml(true).setContent(content)
-				.setSeo(seo).setIsPublished(false).setSite(site).build());
-
+		savePage(editedPage, title, seo, content, site, pageUri);
 		return new ModelAndView(REDIRECT_PAGE_MANAGEMENT);
 	}
 
@@ -100,11 +98,18 @@ public class EditPageController {
 		if (editPageUseCase.wasPublished(uri)) {
 			editPageUseCase.deleteCorrespondingPublishedPage(uri);
 		}
+
 		editPageUseCase.deletePageByUri(uri);
+
 		resp.setStatus(200);
 	}
 
-	private void savePage(String editedPageUri, Site siteOfPage, Page newPage) {
+	private void savePage(String editedPage, String title, String seo, String content, Site site, String pageUri) {
+		updatePage(editedPage, site, new PageBuilder().setTitle(title).setUri(pageUri).setIsHtml(true)
+				.setContent(content).setSeo(seo).setIsPublished(false).setSite(site).build());
+	}
+
+	private void updatePage(String editedPageUri, Site siteOfPage, Page newPage) {
 		if (isLandingPage(siteOfPage, editedPageUri)) {
 			siteOfPage.setLandingPage(null);
 			editSiteUseCase.updateSite(siteOfPage);

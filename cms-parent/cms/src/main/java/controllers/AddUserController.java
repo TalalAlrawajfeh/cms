@@ -35,6 +35,7 @@ public class AddUserController {
 	private static final String COMPLEX = "P@ssw0rd";
 
 	private static Logger logger = Logger.getLogger(AddUserController.class);
+	
 	private EnumMap<UserValidationExceptionCause, String> errorMessageMap = new EnumMap<>(
 			UserValidationExceptionCause.class);
 

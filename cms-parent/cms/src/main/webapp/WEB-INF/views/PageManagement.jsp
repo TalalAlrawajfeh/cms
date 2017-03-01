@@ -14,7 +14,7 @@
 					<c:forEach items="${sites}" var="site">
 						<option
 							<c:if test="${param.filter eq site.uri}">selected="selected"</c:if>
-							value="${site.uri}">${site.name}- ${site.uri}</option>
+							value="${site.uri}">${site.name} - ${site.uri}</option>
 					</c:forEach>
 				</select> <span class="input-group-btn">
 					<button class="btn btn-default" type="submit">

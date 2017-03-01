@@ -37,6 +37,7 @@ public class LoginController {
 	private static final String LOGIN_PAGE = "Login";
 
 	private static Logger logger = Logger.getLogger(LoginController.class);
+	
 	private EnumMap<InvalidUserExceptionCause, Consumer<String>> causeMap = new EnumMap<>(
 			InvalidUserExceptionCause.class);
 

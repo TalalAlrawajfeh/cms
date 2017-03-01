@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -73,23 +74,28 @@ public class ContentController {
 
 	private void setProperAttributes(HttpServletRequest req, String siteUri, Page selectedPage) {
 		Site site = editSiteUseCase.getSiteByUri(siteUri);
+		
 		req.setAttribute(SITE_ATTRIBUTE, site);
 		req.setAttribute(SUB_SITES_ATTRIBUTE, siteManagementUseCase.getSubSites(siteUri));
-		req.setAttribute(PAGES_ATTRIBUTE,
-				pageManagementUseCase.getPagesOfSite(siteUri).stream()
-						.filter(p -> editPageUseCase.wasPublished(p.getUri()))
-						.map(editPageUseCase::getCorrespondingPublishedPage).collect(Collectors.toList()));
+		req.setAttribute(PAGES_ATTRIBUTE, getAllPublishedPagesOfSite(siteUri));
 
 		SiteSettings siteSettings = siteSettingsUseCase.getSiteSettings();
+		
 		if (Objects.nonNull(siteSettings)) {
 			req.setAttribute(IMAGE_ATTRIBUTE, DatatypeConverter.printBase64Binary(siteSettings.getLogo()));
 			req.setAttribute(WEBSITE_NAME_ATTRIBUTE, siteSettings.getName());
 		}
-		
+
 		if (Objects.nonNull(selectedPage)) {
 			req.setAttribute(SELECTED_PAGE_ATTRIBUTE, selectedPage);
 		} else {
 			req.setAttribute(SELECTED_PAGE_ATTRIBUTE, site.getLandingPage());
 		}
+	}
+
+	private List<Page> getAllPublishedPagesOfSite(String siteUri) {
+		return pageManagementUseCase.getPagesOfSite(siteUri).stream()
+				.filter(p -> editPageUseCase.wasPublished(p.getUri()))
+				.map(editPageUseCase::getCorrespondingPublishedPage).collect(Collectors.toList());
 	}
 }

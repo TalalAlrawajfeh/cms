@@ -79,6 +79,7 @@ public class SiteSettingsUseCase {
 		if (Objects.isNull(siteSettings) || !siteSettings.iterator().hasNext()) {
 			return null;
 		}
+		
 		return CopyUtil.createAndCopyFields(SiteSettings.class, siteSettings.iterator().next());
 	}
 }

@@ -66,7 +66,8 @@ public class SiteSettingsController {
 			@RequestPart MultipartFile logo) {
 
 		try {
-			SiteSettings siteSettings = siteSettingsUseCase.validateSiteSettings(deliveryUrl, name, logo.getBytes());
+			SiteSettings siteSettings = siteSettingsUseCase.validateSiteSettings(
+					ensureSeperatorExistsAtBeginning(deliveryUrl) + deliveryUrl, name, logo.getBytes());
 
 			if (!"".equals(oldSiteSettings)) {
 				siteSettingsUseCase.deleteSiteSettings(oldSiteSettings);
@@ -92,6 +93,7 @@ public class SiteSettingsController {
 	private void setProperAttributes(HttpServletRequest req, String errorMessage) {
 		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, SITE_SETTINGS_JSP);
 		SiteSettings siteSettings = siteSettingsUseCase.getSiteSettings();
+
 		if (Objects.nonNull(siteSettings)) {
 			req.setAttribute(SITE_SETTINGS_ATTRIBUTE, siteSettings);
 			req.setAttribute(IMAGE_ATTRIBUTE, DatatypeConverter.printBase64Binary(siteSettings.getLogo()));
@@ -103,5 +105,9 @@ public class SiteSettingsController {
 		} else {
 			req.setAttribute(SHOW_ERROR_ATTRIBUTE, false);
 		}
+	}
+
+	private String ensureSeperatorExistsAtBeginning(String uri) {
+		return uri.charAt(0) == '/' ? "" : "/";
 	}
 }

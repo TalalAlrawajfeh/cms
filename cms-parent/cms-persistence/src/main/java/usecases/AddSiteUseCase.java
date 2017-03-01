@@ -13,7 +13,7 @@ import usecases.exceptions.SiteValidationException.SiteValidationExceptionCause;
 import utils.EntityCopyUtil;
 
 public class AddSiteUseCase {
-	private static final String SITE_NAME_VALIDATION_REGEX = "[a-zA-Z\\s]{3,50}";
+	private static final String SITE_NAME_VALIDATION_REGEX = "[a-zA-Z0-9\\s]{3,50}";
 	private static final String SITE_URI_VALIDATION_REGEX = "/[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
 	@Autowired
