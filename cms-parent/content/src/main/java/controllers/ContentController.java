@@ -74,13 +74,13 @@ public class ContentController {
 
 	private void setProperAttributes(HttpServletRequest req, String siteUri, Page selectedPage) {
 		Site site = editSiteUseCase.getSiteByUri(siteUri);
-		
+
 		req.setAttribute(SITE_ATTRIBUTE, site);
 		req.setAttribute(SUB_SITES_ATTRIBUTE, siteManagementUseCase.getSubSites(siteUri));
 		req.setAttribute(PAGES_ATTRIBUTE, getAllPublishedPagesOfSite(siteUri));
 
 		SiteSettings siteSettings = siteSettingsUseCase.getSiteSettings();
-		
+
 		if (Objects.nonNull(siteSettings)) {
 			req.setAttribute(IMAGE_ATTRIBUTE, DatatypeConverter.printBase64Binary(siteSettings.getLogo()));
 			req.setAttribute(WEBSITE_NAME_ATTRIBUTE, siteSettings.getName());
@@ -89,7 +89,10 @@ public class ContentController {
 		if (Objects.nonNull(selectedPage)) {
 			req.setAttribute(SELECTED_PAGE_ATTRIBUTE, selectedPage);
 		} else {
-			req.setAttribute(SELECTED_PAGE_ATTRIBUTE, site.getLandingPage());
+			if (editPageUseCase.wasPublished(site.getLandingPage().getUri())) {
+				req.setAttribute(SELECTED_PAGE_ATTRIBUTE,
+						editPageUseCase.getCorrespondingPublishedPage(site.getLandingPage()));
+			}
 		}
 	}
 

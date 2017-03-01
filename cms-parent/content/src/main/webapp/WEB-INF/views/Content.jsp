@@ -27,7 +27,9 @@
 	<div class="container">
 
 		<div class="navbar-header">
-			<img src="data:image/jpg;base64, ${image}" width="50" height="50" />
+			<c:if test="${not empty image}">
+				<img src="data:image/jpg;base64, ${image}" width="50" height="50" />
+			</c:if>
 		</div>
 		<div class="navbar-header">
 			<a class="navbar-brand"></a> <a class="navbar-brand"
