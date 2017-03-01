@@ -97,10 +97,10 @@ public class EditPageController {
 			return;
 		}
 
-		editPageUseCase.deletePageByUri(uri);
 		if (editPageUseCase.wasPublished(uri)) {
 			editPageUseCase.deleteCorrespondingPublishedPage(uri);
 		}
+		editPageUseCase.deletePageByUri(uri);
 		resp.setStatus(200);
 	}
 

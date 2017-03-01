@@ -52,6 +52,8 @@
 			</div>
 		</div>
 	</form>
-	<img class="img-responsive" src="data:image/jpg;base64, ${image}" />
+	<c:if test="${not empty image}">
+		<img class="img-responsive" src="data:image/jpg;base64, ${image}" />
+	</c:if>
 </div>
 

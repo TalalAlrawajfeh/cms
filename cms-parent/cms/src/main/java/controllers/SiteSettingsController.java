@@ -92,9 +92,11 @@ public class SiteSettingsController {
 	private void setProperAttributes(HttpServletRequest req, String errorMessage) {
 		req.setAttribute(INCLUDED_PAGE_ATTRIBUTE, SITE_SETTINGS_JSP);
 		SiteSettings siteSettings = siteSettingsUseCase.getSiteSettings();
-		req.setAttribute(SITE_SETTINGS_ATTRIBUTE, siteSettings);
-		req.setAttribute(IMAGE_ATTRIBUTE, DatatypeConverter.printBase64Binary(siteSettings.getLogo()));
-		
+		if (Objects.nonNull(siteSettings)) {
+			req.setAttribute(SITE_SETTINGS_ATTRIBUTE, siteSettings);
+			req.setAttribute(IMAGE_ATTRIBUTE, DatatypeConverter.printBase64Binary(siteSettings.getLogo()));
+		}
+
 		if (Objects.nonNull(errorMessage)) {
 			req.setAttribute(SHOW_ERROR_ATTRIBUTE, true);
 			req.setAttribute(ERROR_MESSAGE_ATTRIBUTE, errorMessage);
