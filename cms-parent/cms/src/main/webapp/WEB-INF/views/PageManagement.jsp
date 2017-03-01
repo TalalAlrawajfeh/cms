@@ -14,7 +14,7 @@
 					<c:forEach items="${sites}" var="site">
 						<option
 							<c:if test="${param.filter eq site.uri}">selected="selected"</c:if>
-							value="${site.uri}">${site.name} - ${site.uri}</option>
+							value="${site.uri}">${site.name}- ${site.uri}</option>
 					</c:forEach>
 				</select> <span class="input-group-btn">
 					<button class="btn btn-default" type="submit">
@@ -36,6 +36,7 @@
 				<th>Page URI</th>
 				<th>Site</th>
 				<th>Is Landing</th>
+				<th>Is Published</th>
 				<th></th>
 			</thead>
 			<tbody>
@@ -49,7 +50,7 @@
 								<td>No</td>
 							</c:when>
 							<c:otherwise>
-								<td>${page.site.name} - ${page.site.uri}</td>
+								<td>${page.site.name}- ${page.site.uri}</td>
 								<c:choose>
 									<c:when test="${page.uri eq page.site.landingPage.uri}">
 										<td>Yes</td>
@@ -58,6 +59,14 @@
 										<td>No</td>
 									</c:otherwise>
 								</c:choose>
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${page.isPublished.booleanValue() eq true}">
+								<td>Yes</td>
+							</c:when>
+							<c:otherwise>
+								<td>No</td>
 							</c:otherwise>
 						</c:choose>
 						<td><a class="btn btn-primary"
@@ -84,7 +93,8 @@
 				}
 
 				if (xmlHttpRequest.status === 400) {
-					window.alert("Error! A site has this page as its landing page.");
+					window
+							.alert("Error! A site has this page as its landing page.");
 					return;
 				}
 

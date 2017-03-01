@@ -1,8 +1,8 @@
 package beans;
 
-import utils.HashUtil;
-
 import java.io.Serializable;
+
+import utils.HashUtil;
 
 /**
  * @author u624
@@ -52,12 +52,6 @@ public class User implements Serializable {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
-	}
-
-	@Override
-	public String toString() {
-		return "User [username=" + username + ", passwordHashCode=" + passwordHashCode + ", fullName=" + fullName
-				+ ", enabled=" + enabled + "]";
 	}
 
 	@Override

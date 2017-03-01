@@ -1,6 +1,7 @@
 package controllers;
 
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import beans.Page;
 import beans.Site;
 import beans.SiteSettings;
+import usecases.EditPageUseCase;
 import usecases.EditSiteUseCase;
 import usecases.PageManagementUseCase;
 import usecases.SiteManagementUseCase;
@@ -46,6 +48,9 @@ public class ContentController {
 	@Autowired
 	SiteSettingsUseCase siteSettingsUseCase;
 
+	@Autowired
+	EditPageUseCase editPageUseCase;
+
 	@RequestMapping(value = DELIVERY_URL, method = RequestMethod.GET)
 	public ModelAndView getContent(HttpServletRequest req, HttpServletResponse resp) {
 		String pageUriParameter = req.getParameter(PAGE_URI_PARAMETER);
@@ -60,7 +65,7 @@ public class ContentController {
 		} else if (Objects.nonNull(pageUriParameter)) {
 			Page selectedPage = pageManagementUseCase.getPageByUri(pageUriParameter);
 			String siteUri = selectedPage.getSite().getUri();
-			setProperAttributes(req, siteUri, selectedPage);
+			setProperAttributes(req, siteUri, editPageUseCase.getCorrespondingPublishedPage(selectedPage));
 		}
 
 		return new ModelAndView(CONTENT_JSP);
@@ -70,12 +75,17 @@ public class ContentController {
 		Site site = editSiteUseCase.getSiteByUri(siteUri);
 		req.setAttribute(SITE_ATTRIBUTE, site);
 		req.setAttribute(SUB_SITES_ATTRIBUTE, siteManagementUseCase.getSubSites(siteUri));
-		req.setAttribute(PAGES_ATTRIBUTE, pageManagementUseCase.getPagesOfSite(siteUri));
+		req.setAttribute(PAGES_ATTRIBUTE,
+				pageManagementUseCase.getPagesOfSite(siteUri).stream()
+						.filter(p -> editPageUseCase.wasPublished(p.getUri()))
+						.map(editPageUseCase::getCorrespondingPublishedPage).collect(Collectors.toList()));
 
 		SiteSettings siteSettings = siteSettingsUseCase.getSiteSettings();
-		req.setAttribute(IMAGE_ATTRIBUTE, DatatypeConverter.printBase64Binary(siteSettings.getLogo()));
-		req.setAttribute(WEBSITE_NAME_ATTRIBUTE, siteSettings.getName());
-
+		if (Objects.nonNull(siteSettings)) {
+			req.setAttribute(IMAGE_ATTRIBUTE, DatatypeConverter.printBase64Binary(siteSettings.getLogo()));
+			req.setAttribute(WEBSITE_NAME_ATTRIBUTE, siteSettings.getName());
+		}
+		
 		if (Objects.nonNull(selectedPage)) {
 			req.setAttribute(SELECTED_PAGE_ATTRIBUTE, selectedPage);
 		} else {

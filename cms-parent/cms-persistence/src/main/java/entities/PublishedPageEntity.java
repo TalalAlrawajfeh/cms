@@ -4,40 +4,59 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ * @author u624
+ *
+ */
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "pages")
-public class PageEntity implements Serializable {
+@Table(name = "published_pages")
+public class PublishedPageEntity implements Serializable {
 	@Id
-	@Column(name = "PAGE_URI")
+	@Column(name = "PUBLISHED_PAGE_ID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	@Column(name = "PUBLISHED_PAGE_URI")
 	private String uri;
 
-	@Column(name = "PAGE_TITLE")
+	@Column(name = "PUBLISHED_PAGE_TITLE")
 	private String title;
 
-	@Column(name = "IS_HTML")
+	@Column(name = "PUBLISHED_IS_HTML")
 	private Boolean isHtml;
 
-	@Column(name = "PAGE_SEO")
+	@Column(name = "PUBLISHED_PAGE_SEO")
 	private String seo;
 
-	@Column(name = "PAGE_CONTENT")
+	@Column(name = "PUBLISHED_PAGE_CONTENT")
 	private String content;
 
-	@Column(name = "PAGE_IS_PUBLISHED")
-	private Boolean isPublished;
-
 	@OneToOne
-	@JoinColumn(name = "PAGE_SITE")
+	@JoinColumn(name = "PUBLISHED_PAGE_SITE")
 	private SiteEntity site;
 
-	public PageEntity() {
+	@OneToOne
+	@JoinColumn(name = "CORRESPONDING_PAGE")
+	private PageEntity correspondingPage;
+
+	public PublishedPageEntity() {
 		/* default constructor */
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getUri() {
@@ -88,11 +107,11 @@ public class PageEntity implements Serializable {
 		this.site = site;
 	}
 
-	public Boolean getIsPublished() {
-		return isPublished;
+	public PageEntity getCorrespondingPage() {
+		return correspondingPage;
 	}
 
-	public void setIsPublished(Boolean isPublished) {
-		this.isPublished = isPublished;
+	public void setCorrespondingPage(PageEntity correspondingPage) {
+		this.correspondingPage = correspondingPage;
 	}
 }

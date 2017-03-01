@@ -1,7 +1,6 @@
 package beans;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 @SuppressWarnings("serial")
 public class Page implements Serializable {
@@ -10,6 +9,7 @@ public class Page implements Serializable {
 	private Boolean isHtml;
 	private String seo;
 	private String content;
+	private Boolean isPublished;
 	private Site site;
 
 	public Page() {
@@ -64,9 +64,11 @@ public class Page implements Serializable {
 		this.site = site;
 	}
 
-	@Override
-	public String toString() {
-		return "Page [uri=" + uri + ", title=" + title + ", isHtml=" + isHtml + ", seo=" + seo + ", content=" + content
-				+ ", site=" + Optional.ofNullable(site).map(Site::getUri).orElse("none") + "]";
+	public Boolean getIsPublished() {
+		return isPublished;
+	}
+
+	public void setIsPublished(Boolean isPublished) {
+		this.isPublished = isPublished;
 	}
 }

@@ -36,6 +36,11 @@ public class PageBuilder implements BeanBuilder<Page> {
 		return this;
 	}
 
+	public PageBuilder setIsPublished(Boolean isPublished) {
+		page.setIsPublished(isPublished);
+		return this;
+	}
+
 	@Override
 	public Page build() {
 		return page;

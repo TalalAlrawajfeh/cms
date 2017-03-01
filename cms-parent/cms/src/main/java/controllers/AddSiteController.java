@@ -100,7 +100,7 @@ public class AddSiteController {
 		site.setParentSite(new SiteBuilder().setUri(parentSite).build());
 		addSiteUseCase.saveSite(site);
 
-		Page page = new PageBuilder().setTitle(WELCOME_TITLE).setUri(site.getUri() + WELCOME_URI).build();
+		Page page = new PageBuilder().setTitle(WELCOME_TITLE).setUri(site.getUri() + WELCOME_URI).setIsPublished(false).build();
 		page.setSite(site);
 		addPageUseCase.savePage(page);
 

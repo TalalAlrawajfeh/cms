@@ -1,7 +1,6 @@
 package beans;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 @SuppressWarnings("serial")
 public class Site implements Serializable {
@@ -44,12 +43,5 @@ public class Site implements Serializable {
 
 	public void setLandingPage(Page landingPage) {
 		this.landingPage = landingPage;
-	}
-
-	@Override
-	public String toString() {
-		return "Site [uri=" + uri + ", name=" + name + ", parentSite="
-				+ Optional.ofNullable(parentSite).map(Site::getUri).orElse("none") + ", landingPage="
-				+ Optional.ofNullable(landingPage).map(Page::getUri).orElse("none") + "]";
 	}
 }

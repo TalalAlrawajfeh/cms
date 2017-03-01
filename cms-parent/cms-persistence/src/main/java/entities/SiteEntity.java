@@ -2,7 +2,6 @@ package entities;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -82,13 +81,5 @@ public class SiteEntity implements Serializable {
 
 	public void setSubSites(List<SiteEntity> subSites) {
 		this.subSites = subSites;
-	}
-
-	@Override
-	public String toString() {
-		return "SiteEntity [uri=" + uri + ", name=" + name + ", parentSite="
-				+ Optional.ofNullable(parentSite).map(SiteEntity::getUri).orElse("none") + ", landingPage="
-				+ Optional.ofNullable(landingPage).map(PageEntity::getUri).orElse("none") + ", subSites=" + subSites
-				+ "]";
 	}
 }

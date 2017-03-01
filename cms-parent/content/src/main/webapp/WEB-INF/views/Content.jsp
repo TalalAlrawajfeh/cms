@@ -36,6 +36,9 @@
 				<a class="navbar-brand"
 					href="./delivery?site_uri=${site.parentSite.uri}">${site.parentSite.name}</a>
 			</c:if>
+			<c:if test="${empty site.parentSite}">
+				<a class="navbar-brand">${site.name}</a>
+			</c:if>
 		</div>
 		<ul class="nav navbar-nav">
 			<c:forEach items="${subSites}" var="subSite">

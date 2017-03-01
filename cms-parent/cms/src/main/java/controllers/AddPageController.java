@@ -69,7 +69,7 @@ public class AddPageController {
 
 	private void savePage(String title, String site, String seo, String content, String pageUri) {
 		addPageUseCase.savePage(new PageBuilder().setTitle(title).setUri(pageUri).setIsHtml(true).setSeo(seo)
-				.setContent(content).setSite(editSiteUseCase.getSiteByUri(site)).build());
+				.setContent(content).setIsPublished(false).setSite(editSiteUseCase.getSiteByUri(site)).build());
 	}
 
 	private String ensureSeperatorExistsAtBeginning(String uri) {

@@ -71,8 +71,10 @@
 				<div class="col-xs-12 col-sm-6 col-sm-offset-3">
 					<button type="submit" class="btn btn-primary">Save</button>
 					&nbsp;
-					<button type="button" class="btn btn-info">Publish</button>
-					&nbsp; <a class="btn btn-danger" href="./page-management?filter=all">Cancel</a>&nbsp;
+					<a class="btn btn-info"
+							href="./publish-page?uri=${editedPage.uri}">Publish</a>
+					&nbsp; <a class="btn btn-danger"
+						href="./page-management?filter=all">Cancel</a>&nbsp;
 				</div>
 			</div>
 		</div>

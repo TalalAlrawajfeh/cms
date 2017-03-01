@@ -1,7 +1,6 @@
 package beans;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 @SuppressWarnings("serial")
 public class SiteSettings implements Serializable {
@@ -35,10 +34,5 @@ public class SiteSettings implements Serializable {
 
 	public void setLogo(byte[] logo) {
 		this.logo = logo;
-	}
-
-	@Override
-	public String toString() {
-		return "SiteSettings [deliveryUrl=" + deliveryUrl + ", name=" + name + ", logo=" + Arrays.toString(logo) + "]";
 	}
 }

@@ -32,7 +32,7 @@ public class FirstTimeRootSiteCreator implements Initializer {
 			siteRepository.save(root);
 
 			PageEntity welcome = EntityCopyUtil.createAndCopyFields(PageEntity.class,
-					new PageBuilder().setTitle(WELCOME_TITLE).setUri(WELCOME_URI).build());
+					new PageBuilder().setTitle(WELCOME_TITLE).setUri(WELCOME_URI).setIsPublished(false).build());
 			pageRepository.save(welcome);
 
 			root.setLandingPage(welcome);

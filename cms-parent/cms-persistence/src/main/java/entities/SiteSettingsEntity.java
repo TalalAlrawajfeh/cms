@@ -1,7 +1,6 @@
 package entities;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -54,11 +53,5 @@ public class SiteSettingsEntity implements Serializable {
 
 	public void setLogo(byte[] logo) {
 		this.logo = logo;
-	}
-
-	@Override
-	public String toString() {
-		return "SiteSettingsEntity [deliveryUrl=" + deliveryUrl + ", name=" + name + ", logo=" + Arrays.toString(logo)
-				+ "]";
 	}
 }

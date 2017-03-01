@@ -85,7 +85,7 @@ public class EditPageController {
 		}
 
 		savePage(editedPage, site, new PageBuilder().setTitle(title).setUri(pageUri).setIsHtml(true).setContent(content)
-				.setSeo(seo).setSite(site).build());
+				.setSeo(seo).setIsPublished(false).setSite(site).build());
 
 		return new ModelAndView(REDIRECT_PAGE_MANAGEMENT);
 	}
@@ -98,6 +98,9 @@ public class EditPageController {
 		}
 
 		editPageUseCase.deletePageByUri(uri);
+		if (editPageUseCase.wasPublished(uri)) {
+			editPageUseCase.deleteCorrespondingPublishedPage(uri);
+		}
 		resp.setStatus(200);
 	}
 
