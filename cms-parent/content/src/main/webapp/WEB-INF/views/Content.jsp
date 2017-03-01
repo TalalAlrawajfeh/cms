@@ -19,24 +19,32 @@
 	href="<c:url value="/resources/bootstrap/css/bootstrap.min.css" />"
 	rel="stylesheet">
 <link href="<c:url value="/resources/main.css" />" rel="stylesheet">
+
 </head>
 
 <body>
 	<nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
+
 		<div class="navbar-header">
-			<div class="navbar-header">
-				<a class="navbar-brand" style="color: blue;">${websiteName}</a> <a
-					class="navbar-brand"
-					<c:if test="${not empty site.parentSite}">href="./delivery?site_uri=${site.parentSite.uri}"</c:if>>${site.name}</a>
-			</div>
-			<ul class="nav navbar-nav">
-				<c:forEach items="${subSites}" var="subSite">
-					<li><a href="./delivery?site_uri=${subSite.uri}">${subSite.name}</a></li>
-				</c:forEach>
-			</ul>
+			<img src="data:image/jpg;base64, ${image}" width="50" height="50" />
 		</div>
+		<div class="navbar-header">
+			<a class="navbar-brand"></a> <a class="navbar-brand"
+				style="color: blue;">${websiteName}</a>
+			<c:if test="${not empty site.parentSite}">
+				<a class="navbar-brand"
+					href="./delivery?site_uri=${site.parentSite.uri}">${site.parentSite.name}</a>
+			</c:if>
+		</div>
+		<ul class="nav navbar-nav">
+			<c:forEach items="${subSites}" var="subSite">
+				<li><a href="./delivery?site_uri=${subSite.uri}">${subSite.name}</a></li>
+			</c:forEach>
+		</ul>
+
 	</div>
+
 	</nav>
 
 	<div class="container">
@@ -48,15 +56,23 @@
 					</c:forEach>
 				</ul>
 			</div>
-
-		</div>
-		<div class="row">
 			<div class="col-sm-9 col-sm-offset-2">
-				<img class="img-responsive" src="data:image/jpg;base64, ${image}" />
+				<div class="row">
+					<center>
+						<p></p>
+						<p>
+						<h2>
+							<strong>${selectedPage.title}</strong>
+						</h2>
+						</p>
+					</center>
+				</div>
+				<div class="row">
+					<c:if test="${not empty selectedPage.content}">
+						<div class="well">${selectedPage.content}</div>
+					</c:if>
+				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-9 col-sm-offset-2">${selectedPage.content}</div>
 		</div>
 	</div>
 

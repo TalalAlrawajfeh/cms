@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import beans.Page;
+import beans.Site;
 import beans.SiteSettings;
 import usecases.EditSiteUseCase;
 import usecases.PageManagementUseCase;
@@ -66,7 +67,8 @@ public class ContentController {
 	}
 
 	private void setProperAttributes(HttpServletRequest req, String siteUri, Page selectedPage) {
-		req.setAttribute(SITE_ATTRIBUTE, editSiteUseCase.getSiteByUri(siteUri));
+		Site site = editSiteUseCase.getSiteByUri(siteUri);
+		req.setAttribute(SITE_ATTRIBUTE, site);
 		req.setAttribute(SUB_SITES_ATTRIBUTE, siteManagementUseCase.getSubSites(siteUri));
 		req.setAttribute(PAGES_ATTRIBUTE, pageManagementUseCase.getPagesOfSite(siteUri));
 
@@ -76,6 +78,8 @@ public class ContentController {
 
 		if (Objects.nonNull(selectedPage)) {
 			req.setAttribute(SELECTED_PAGE_ATTRIBUTE, selectedPage);
+		} else {
+			req.setAttribute(SELECTED_PAGE_ATTRIBUTE, site.getLandingPage());
 		}
 	}
 }
