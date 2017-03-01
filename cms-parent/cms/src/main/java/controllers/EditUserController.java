@@ -47,8 +47,6 @@ public class EditUserController {
 	private static final String BASE_JSP = "Base";
 	private static final String COMPLEX = "P@ssw0rd";
 
-	private static Logger logger = Logger.getLogger(EditUserController.class);
-
 	@Autowired
 	private EditUserUseCase editUserUserCase;
 
@@ -96,6 +94,7 @@ public class EditUserController {
 			addUserUseCase.validateUser(fullName, username);
 		} catch (UserValidationException e) {
 			String errorMessage = errorMessageMap.get(e.getValidationExceptionCause());
+			Logger logger = Logger.getLogger(EditUserController.class);
 			logger.info(errorMessage, e);
 
 			setProperAttribtutes(req, managedUsername, errorMessage);
