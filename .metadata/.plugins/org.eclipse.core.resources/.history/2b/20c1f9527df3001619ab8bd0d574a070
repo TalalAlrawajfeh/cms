@@ -1,6 +1,0 @@
-package usecases;
-
-public interface Void {
-	public static final Void VOID = new Void() {
-	};
-}

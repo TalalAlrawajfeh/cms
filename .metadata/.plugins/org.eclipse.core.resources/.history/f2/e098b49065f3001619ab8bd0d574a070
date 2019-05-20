@@ -1,9 +1,0 @@
-package usecases;
-
-import beans.User;
-
-public class LoginUseCase {
-	public void validateUser(User user) {
-
-	}
-}

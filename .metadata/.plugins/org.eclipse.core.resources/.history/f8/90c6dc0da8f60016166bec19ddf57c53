@@ -1,7 +1,0 @@
-package initializers;
-
-public class FirstTimeAdminCreator {
-	public void createAdminIfNotExists() {
-
-	}
-}

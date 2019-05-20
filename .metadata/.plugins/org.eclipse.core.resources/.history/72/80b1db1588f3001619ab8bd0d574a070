@@ -1,9 +1,0 @@
-package usecases;
-
-import antlr.collections.List;
-
-public class UserManagementUseCase {
-	public List<User> getAllUsers() {
-
-	}
-}

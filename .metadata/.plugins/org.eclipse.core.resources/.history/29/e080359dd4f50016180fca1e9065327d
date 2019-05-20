@@ -1,6 +1,0 @@
-
-package usecases;
-
-public class EditUserUseCase {
-	private EditUserUseCase editUserUseCase;
-}
