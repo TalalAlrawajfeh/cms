@@ -41,7 +41,7 @@
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="generateDdl" value="true" />
 				<property name="showSql" value="false" />
-				<property name="databasePlatform">org.hibernate.dialect.MySQLDialecteg</property>
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
 			</bean>
 		</property>
 	</bean>
